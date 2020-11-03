@@ -119,7 +119,6 @@ public class SeConnecterView {
 
         c.add(fieldPanel, "Center");
 
-
         radioBtn1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
@@ -127,44 +126,25 @@ public class SeConnecterView {
                         inscription.setVisible(true);
                         identifiant = 0;
                         break;
-                    case "ResponsableTP":
-                        inscription.setVisible(false);
-                        identifiant = 1;
-                        break;
-                    case "Administrateur":
-                        inscription.setVisible(false);
-                        identifiant = 2;
-                        break;
+
                 }
             }
         });
         radioBtn2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
-                    case "Etudient":
-                        identifiant = 0;
-                        break;
+
                     case "ResponsableTP":
                         inscription.setVisible(false);
                         identifiant = 1;
                         break;
-                    case "Administrateur":
-                        inscription.setVisible(false);
-                        identifiant = 2;
-                        break;
+
                 }
             }
         });
         radioBtn3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
-                    case "Etudient":
-                        identifiant = 0;
-                        break;
-                    case "ResponsableTP":
-                        inscription.setVisible(false);
-                        identifiant = 1;
-                        break;
                     case "Administrateur":
                         inscription.setVisible(false);
                         identifiant = 2;
