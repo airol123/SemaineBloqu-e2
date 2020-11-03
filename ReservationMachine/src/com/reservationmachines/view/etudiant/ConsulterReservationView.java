@@ -35,6 +35,7 @@ public class ConsulterReservationView {
     private JButton btnRetour = new JButton("Retourner");
     private JButton btnGuacamole = new JButton("Acceder Guacamole");
     private JButton btnSupprimer = new JButton("Supprimer reservation");
+    private JButton btnReclamer = new JButton("Reclamer");
 
     // background && font
     private JLabel lblBackground = new JLabel();
@@ -125,7 +126,8 @@ public class ConsulterReservationView {
         lbNom.setBounds(750, 80, 100, 20);
 
         btnSupprimer.setBounds(360, 400, 180, 30);
-        btnGuacamole.setBounds(610, 400, 180, 30);
+        btnGuacamole.setBounds(540, 400, 180, 30);
+        btnReclamer.setBounds(720, 400, 180, 30);
         btnRetour.setBounds(800, 470, 100, 20);
         btnRetour.setBackground(Color.LIGHT_GRAY);
 
@@ -144,6 +146,7 @@ public class ConsulterReservationView {
         fieldPanel.add(btnGuacamole);
         fieldPanel.add(btnRetour);
         fieldPanel.add(btnSupprimer);
+        fieldPanel.add(btnReclamer);
 
         fieldPanel.add(lblBackground);
 
@@ -180,7 +183,16 @@ public class ConsulterReservationView {
 
             }
         });
+        btnReclamer.addActionListener(new ActionListener() {
 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.setVisible(false);
+                FaireReclamationView re = new FaireReclamationView(etudiant,rm[courrent]);
+                re.getjFrame().setVisible(true);
+
+            }
+        });
     }
 
     public void geneterNomReservation() {

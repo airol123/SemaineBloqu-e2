@@ -1,9 +1,6 @@
 package com.reservationmachines.view.main;
 
-import com.reservationmachines.view.etudiant.ConsulterMonProfil;
-import com.reservationmachines.view.etudiant.ConsulterReservationView;
-import com.reservationmachines.view.etudiant.ModifierProfilView;
-import com.reservationmachines.view.etudiant.PageGuacamole;
+import com.reservationmachines.view.etudiant.*;
 
 public class TestMain {
     // il consiste a tester les interfaces
@@ -12,6 +9,7 @@ public class TestMain {
        ConsulterReservationView con=new ConsulterReservationView();
         // ConsulterMonProfil c =new ConsulterMonProfil();
         //PageGuacamole pg=new PageGuacamole();
+
     }
 
 
