@@ -9,7 +9,7 @@ public class Model extends AbstractModel {
 
 	@Override
 	public String[] getEnteteReservationMachine() {
-		return new String[] {"Machine", "État de la machine", "Nom Étudiant", "Prénom Étudiant"};
+		return new String[] {"Machine", "Ã©tat de la machine", "Nom Ã©tudiant", "PrÃ©nom Ã©tudiant"};
 	}
 	
 	@Override
@@ -17,7 +17,7 @@ public class Model extends AbstractModel {
 		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
 		
 		/*
-		 * Remplir la liste avec toutes les réservations de la salle 'idSalle' en paramètre
+		 * Remplir la liste avec toutes les rï¿½servations de la salle 'idSalle' en paramï¿½tre
 		 */
 		
 		/* Ceci est un test pour l'affichage
@@ -39,5 +39,13 @@ public class Model extends AbstractModel {
 		
 		return reservations;
 	}
+
+	@Override
+	public void creerCompteEtudiant(Etudiant etudiant) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 
 }
