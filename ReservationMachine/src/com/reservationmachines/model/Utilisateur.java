@@ -1,8 +1,9 @@
 package com.reservationmachines.model;
 
-public class Utilisateur {
-	private String identifiant;
-	private String mdp;
-	private String nom;
-	private String prenom;
+public abstract class Utilisateur {
+	protected String identifiant;
+	protected String mdp;
+	protected String email;
+	protected String nom;
+	protected String prenom;
 }
