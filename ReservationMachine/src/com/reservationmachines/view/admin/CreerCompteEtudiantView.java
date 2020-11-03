@@ -26,12 +26,12 @@ public class CreerCompteEtudiantView extends JFrame implements ActionListener {
 	private JLabel lblMotDePasse;
 	private JLabel lblEmail;
 	private JLabel lblNom;
-	private JLabel prenom;
+	private JLabel lblPrenom;
 	private JButton btnAnnuler;
 	private JButton btnValider;
 	private JTextField email;
 	private JTextField nom;
-	private JTextField textField_2;
+	private JTextField prenom;
 
 	private AdminControler controler;
 	
@@ -42,7 +42,7 @@ public class CreerCompteEtudiantView extends JFrame implements ActionListener {
 		this.controler = controler;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 637, 421);
+		setBounds(100, 100, 391, 273);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -54,58 +54,58 @@ public class CreerCompteEtudiantView extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel);
 		
 		identifiant = new JTextField();
-		identifiant.setBounds(147, 93, 147, 21);
+		identifiant.setBounds(147, 53, 147, 21);
 		contentPane.add(identifiant);
 		identifiant.setColumns(10);
 		
 		mdp = new JTextField();
-		mdp.setBounds(147, 118, 147, 21);
+		mdp.setBounds(147, 78, 147, 21);
 		contentPane.add(mdp);
 		mdp.setColumns(10);
 		
 		btnValider = new JButton("Valider");
-		btnValider.setBounds(15, 347, 97, 23);
+		btnValider.setBounds(20, 200, 97, 23);
 		contentPane.add(btnValider);
 		btnValider.addActionListener(this);
 		
 		lblNumroEtudient = new JLabel("Num\u00E9ro etudient");
-		lblNumroEtudient.setBounds(20, 96, 173, 15);
+		lblNumroEtudient.setBounds(20, 56, 173, 15);
 		contentPane.add(lblNumroEtudient);
 		
 		lblMotDePasse = new JLabel("Mot de passe");
-		lblMotDePasse.setBounds(20, 121, 173, 15);
+		lblMotDePasse.setBounds(20, 81, 173, 15);
 		contentPane.add(lblMotDePasse);
 		
 		lblEmail = new JLabel("Email");
-		lblEmail.setBounds(20, 146, 173, 15);
+		lblEmail.setBounds(20, 106, 173, 15);
 		contentPane.add(lblEmail);
 		
 		lblNom = new JLabel("Nom");
-		lblNom.setBounds(20, 171, 173, 15);
+		lblNom.setBounds(20, 131, 173, 15);
 		contentPane.add(lblNom);
 		
-		prenom = new JLabel("Pr\u00E9nom");
-		prenom.setBounds(20, 196, 173, 15);
-		contentPane.add(prenom);
+		lblPrenom = new JLabel("Pr\u00E9nom");
+		lblPrenom.setBounds(20, 156, 173, 15);
+		contentPane.add(lblPrenom);
 		
 		btnAnnuler = new JButton("Annuler");
-		btnAnnuler.setBounds(122, 347, 97, 23);
+		btnAnnuler.setBounds(127, 200, 97, 23);
 		contentPane.add(btnAnnuler);
 		
 		email = new JTextField();
 		email.setColumns(10);
-		email.setBounds(147, 143, 147, 21);
+		email.setBounds(147, 103, 147, 21);
 		contentPane.add(email);
 		
 		nom = new JTextField();
 		nom.setColumns(10);
-		nom.setBounds(147, 168, 147, 21);
+		nom.setBounds(147, 128, 147, 21);
 		contentPane.add(nom);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(147, 193, 147, 21);
-		contentPane.add(textField_2);
+		prenom = new JTextField();
+		prenom.setColumns(10);
+		prenom.setBounds(147, 153, 147, 21);
+		contentPane.add(prenom);
 	}
 
 	@Override
@@ -116,8 +116,11 @@ public class CreerCompteEtudiantView extends JFrame implements ActionListener {
 				mdp.getText(),
 				email.getText(),
 				nom.getText(),
-				textField_2.getText()
+				prenom.getText()
 			);
+		}
+		if(e.getSource().equals(btnAnnuler)) {
+			this.dispose();
 		}
 	}
 }
