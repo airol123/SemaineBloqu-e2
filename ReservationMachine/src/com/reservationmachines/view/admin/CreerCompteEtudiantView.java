@@ -1,8 +1,5 @@
 package com.reservationmachines.view.admin;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +9,6 @@ import com.reservationmachines.controler.AdminControler;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,7 +45,7 @@ public class CreerCompteEtudiantView extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Cr\u00E9ation de compte \u00E9tudiant");
-		lblNewLabel.setFont(new Font("ËÎÌå", Font.PLAIN, 24));
+		lblNewLabel.setFont(new Font("ï¿½ï¿½ï¿½ï¿½", Font.PLAIN, 24));
 		lblNewLabel.setBounds(20, 15, 330, 28);
 		contentPane.add(lblNewLabel);
 		
