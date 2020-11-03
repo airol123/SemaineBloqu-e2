@@ -9,9 +9,13 @@ import java.net.URL;
 import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.controler.ResponsableTPControler;
+import com.reservationmachines.model.Admin;
 import com.reservationmachines.model.Etudiant;
+import com.reservationmachines.model.ResponsableTP;
+import com.reservationmachines.view.admin.PageAdmin;
 import com.reservationmachines.view.etudiant.Inscription;
 import com.reservationmachines.view.etudiant.PageEtudiant;
+import com.reservationmachines.view.responsabletp.PageResp;
 
 public class SeConnecterView {
 
@@ -178,20 +182,22 @@ public class SeConnecterView {
 
                             break;
                         case 1:
-                            /* if (contoler.checkPasswordI(contoler.seekIntervenant(strE), strPwd)) {*/
+                           // ResponsableTP responsableTP= new ResponsableTP(strE,strPwd);
+                            //if (ResponsableTPControler.checkPasswordR(responsableTP,strPwd)) {
                             jFrame.setVisible(false);
-                           // RecommanderTache re = new RecommanderTache();//contoler.seekIntervenant(strE)
-                           // re.getjFrame().setVisible(true);
+                            PageResp pr = new PageResp();//contoler.seekIntervenant(strE)
+                            pr.getjFrame().setVisible(true);
                        /* } else {
                             lbIMsgI.setText("password is wrong");
                         }*/
 
                             break;
                         case 2:
-                            /*if (contoler.checkPasswordC(contoler.seekClient(strE), strPwd)) {*/
+                            // Admin admin= new Admin(strE,strPwd);
+                            //if (AdminControler.checkPasswordA(admin,strPwd)) {
                             jFrame.setVisible(false);
-                           // ClientInterface pa = new ClientInterface();//contoler.seekClient(strE)
-                           // pa.getjFrame().setVisible(true);
+                            PageAdmin pa = new PageAdmin();//contoler.seekIntervenant(strE)
+                            pa.getjFrame().setVisible(true);
                    /*     } else {
                             lbIMsgI.setText("password is wrong");
                         }*/
@@ -220,20 +226,11 @@ public class SeConnecterView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == inscription) {
-                    switch (identifiant) {
-                        case 0:
+
                             jFrame.setVisible(false);
                             Inscription ins = new Inscription();
                             ins.getjFrame().setVisible(true);
-                            break;
-                        case 1:
 
-                            break;
-                        case 2:
-
-
-                            break;
-                    }
                 }
             }
         });
