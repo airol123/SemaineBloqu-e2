@@ -6,13 +6,18 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.reservationmachines.controler.AdminControler;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class CreerCompteEtudiantView extends JFrame {
+public class CreerCompteEtudiantView extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField identifiant;
@@ -23,30 +28,19 @@ public class CreerCompteEtudiantView extends JFrame {
 	private JLabel lblNom;
 	private JLabel prenom;
 	private JButton btnAnnuler;
+	private JButton btnValider;
 	private JTextField email;
 	private JTextField nom;
 	private JTextField textField_2;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreerCompteEtudiantView frame = new CreerCompteEtudiantView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private AdminControler controler;
+	
 	/**
 	 * Create the frame.
 	 */
-	public CreerCompteEtudiantView() {
+	public CreerCompteEtudiantView(AdminControler controler) {
+		this.controler = controler;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 637, 421);
 		contentPane = new JPanel();
@@ -69,9 +63,10 @@ public class CreerCompteEtudiantView extends JFrame {
 		contentPane.add(mdp);
 		mdp.setColumns(10);
 		
-		JButton btnValider = new JButton("Valider");
+		btnValider = new JButton("Valider");
 		btnValider.setBounds(15, 347, 97, 23);
 		contentPane.add(btnValider);
+		btnValider.addActionListener(this);
 		
 		lblNumroEtudient = new JLabel("Num\u00E9ro etudient");
 		lblNumroEtudient.setBounds(20, 96, 173, 15);
@@ -111,5 +106,18 @@ public class CreerCompteEtudiantView extends JFrame {
 		textField_2.setColumns(10);
 		textField_2.setBounds(147, 193, 147, 21);
 		contentPane.add(textField_2);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(btnValider)) {
+			controler.creerCompteEtudiant(
+				identifiant.getText(),
+				mdp.getText(),
+				email.getText(),
+				nom.getText(),
+				textField_2.getText()
+			);
+		}
 	}
 }
