@@ -173,7 +173,7 @@ public class SeConnecterView {
                             //Etudiant etudiant= new Etudiant(strE,strPwd);
                             //if (EtudiantControler.checkPasswordE(etudiant,strPwd)) {
                             jFrame.setVisible(false);
-                            PageEtudiant pe = new PageEtudiant();//contoler.seekClient(strE)
+                            PageEtudiant pe = new PageEtudiant();//pe
                             pe.getjFrame().setVisible(true);
                        //}
                             /*  else {
