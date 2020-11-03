@@ -7,11 +7,6 @@ import java.util.ArrayList;
 
 public class Model extends AbstractModel {
 
-	
-	public void creerCompteResponsableTP(ResponsableTP responsableTP) {
-		
-	}
-
 	@Override
 	public String[] getEnteteReservationMachine() {
 		return new String[] {"Machine", "état de la machine", "Nom étudiant", "Prénom étudiant"};
@@ -49,6 +44,11 @@ public class Model extends AbstractModel {
 	@Override
 	public void creerCompteEtudiant(Etudiant etudiant) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void creerCompteResponsableTP(ResponsableTP responsableTP) {
 		
 	}
 	
