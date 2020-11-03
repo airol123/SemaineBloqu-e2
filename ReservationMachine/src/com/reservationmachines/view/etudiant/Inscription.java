@@ -183,7 +183,7 @@ public class Inscription {
                 }
 
                 Etudiant etudiant =new Etudiant(strident,strPwd,strNom,strprenom,stremail);
-                EtudiantControler.putEntrepInBD(etudiant);
+                EtudiantControler.putEtudiantInBD(etudiant);
 
                 lbIMsgC.setText("Successful");
 

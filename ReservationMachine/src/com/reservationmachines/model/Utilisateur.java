@@ -23,4 +23,20 @@ public class Utilisateur {
 		this.prenom = prenom;
 
 	}
+
+	public void setIdentifiant(String identifiant) {
+		this.identifiant = identifiant;
+	}
+
+	public void setMdp(String mdp) {
+		this.mdp = mdp;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
 }
