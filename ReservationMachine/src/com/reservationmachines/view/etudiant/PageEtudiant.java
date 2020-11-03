@@ -30,7 +30,8 @@ public class PageEtudiant {
     private Font font=new Font("Arial",Font.BOLD,36);
     private Etudiant etudiant=new Etudiant();
 
-    public PageEtudiant() { //Etudiant etu    this.etudiant=etu;
+    public PageEtudiant(Etudiant etu ) { //
+         this.etudiant=etu;
 
         titre.setFont(font);
         titre.setBounds(390,20,300,40);

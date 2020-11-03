@@ -171,9 +171,11 @@ public class SeConnecterView {
                     switch (identifiant) {
                         case 0:
                             //Etudiant etudiant= new Etudiant(strE,strPwd);
+                            Etudiant etudiant= new Etudiant("21809059","rrh","REN","Ruohan","@123");
                             //if (EtudiantControler.checkPasswordE(etudiant,strPwd)) {
                             jFrame.setVisible(false);
-                            PageEtudiant pe = new PageEtudiant();//pe
+                            //etudiant=EtudiantControler.trouverEtudiant(etudiant);
+                            PageEtudiant pe = new PageEtudiant(etudiant);//
                             pe.getjFrame().setVisible(true);
                        //}
                             /*  else {
@@ -183,9 +185,11 @@ public class SeConnecterView {
                             break;
                         case 1:
                            // ResponsableTP responsableTP= new ResponsableTP(strE,strPwd);
+                            ResponsableTP responsableTP= new ResponsableTP("110","respo","REN","Ruohan1","@456");
                             //if (ResponsableTPControler.checkPasswordR(responsableTP,strPwd)) {
                             jFrame.setVisible(false);
-                            PageResp pr = new PageResp();//contoler.seekIntervenant(strE)
+                            //responsableTP=ResponsableTPControler.trouverResponsableTP(responsableTP);
+                            PageResp pr = new PageResp();//responsableTP
                             pr.getjFrame().setVisible(true);
                        /* } else {
                             lbIMsgI.setText("password is wrong");
@@ -194,9 +198,10 @@ public class SeConnecterView {
                             break;
                         case 2:
                             // Admin admin= new Admin(strE,strPwd);
+                             Admin admin= new Admin("001","admin","REN","Ruohan2");
                             //if (AdminControler.checkPasswordA(admin,strPwd)) {
                             jFrame.setVisible(false);
-                            PageAdmin pa = new PageAdmin();//contoler.seekIntervenant(strE)
+                            PageAdmin pa = new PageAdmin();// admin
                             pa.getjFrame().setVisible(true);
                    /*     } else {
                             lbIMsgI.setText("password is wrong");
