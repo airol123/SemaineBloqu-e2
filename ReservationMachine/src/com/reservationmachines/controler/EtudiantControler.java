@@ -18,7 +18,10 @@ public class EtudiantControler extends Controler {
     }
 
 
-    public static void putEntrepInBD(Etudiant en) {
 
+    public static void misAjourInBD(Etudiant etudiant) {
+    }
+
+    public static void putEtudiantInBD(Etudiant etudiant) {
     }
 }

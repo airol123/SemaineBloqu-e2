@@ -14,4 +14,8 @@ public class Etudiant extends Utilisateur {
         super(identifiant, mdp, nom, prenom);
         this.email = email;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
