@@ -25,4 +25,10 @@ public class EtudiantControler extends Controler {
 
     public static void putEtudiantInBD(Etudiant etudiant) {
     }
+
+    public static Etudiant trouverEtudiant(Etudiant etu ) {
+        Etudiant etudiant = new Etudiant();
+
+        return etudiant;
+    }
 }

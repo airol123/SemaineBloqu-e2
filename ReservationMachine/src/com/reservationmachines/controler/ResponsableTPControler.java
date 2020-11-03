@@ -12,7 +12,12 @@ public class ResponsableTPControler extends Controler {
 		super(model);
 	}
 
-	// Renvoie l'ent�te correspondante aux r�servation des machines
+    public static ResponsableTP trouverResponsableTP(ResponsableTP responsableTP) {
+		ResponsableTP responsableTP1=new ResponsableTP();
+		return responsableTP1;
+    }
+
+    // Renvoie l'ent�te correspondante aux r�servation des machines
 	public String[] getEnteteReservationMachine() {
 		return model.getEnteteReservationMachine();
 	}
