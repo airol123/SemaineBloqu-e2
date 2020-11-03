@@ -12,6 +12,13 @@ public abstract class Utilisateur {
 		this.mdp = mdp;
 	}
 
+	public Utilisateur(String identifiant, String mdp, String nom, String prenom) {
+		this.identifiant = identifiant;
+		this.mdp = mdp;
+		this.nom = nom;
+		this.prenom = prenom;
+	}
+
 	public Utilisateur(String identifiant, String mdp, String nom, String prenom, String email) {
 		this.identifiant = identifiant;
 		this.mdp = mdp;

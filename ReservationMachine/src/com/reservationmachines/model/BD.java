@@ -1,5 +1,7 @@
+package com.reservationmachines.model;
 
 import java.sql.*;
+
 public class BD {
 
     static final String DB_URL = "jdbc:mysql://localhost:3307/dolt?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";

@@ -1,9 +1,6 @@
 package com.reservationmachines.model;
 
 public class ResponsableTP extends Utilisateur {
-    public ResponsableTP() {
-    }
-
     public ResponsableTP(String identifiant, String mdp) {
         super(identifiant, mdp);
     }
