@@ -37,8 +37,8 @@ public class ModifierProfilView {
 
     private Etudiant etudiant=new Etudiant();
 
-    public ModifierProfilView() {//Etudiant e
-       // this.etudiant=e;
+    public ModifierProfilView(Etudiant e) {//
+        this.etudiant=e;
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
         jFrame.setBounds(600, 200, 1010, 550);
@@ -115,7 +115,7 @@ public class ModifierProfilView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                ConsulterMonProfil cp = new ConsulterMonProfil();
+                ConsulterMonProfil cp = new ConsulterMonProfil(etudiant);
                 cp.getjFrame().setVisible(true);
 
             }
