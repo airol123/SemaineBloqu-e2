@@ -14,7 +14,7 @@ public class AppMain {
 		EtudiantControler c1 = new EtudiantControler(model);
 		ResponsableTPControler c2 = new ResponsableTPControler(model);
 		AdminControler c3 = new AdminControler(model);
-		new SeConnecterView(c1, c2, c3);
+		new SeConnecterView();//c1, c2, c3
 	}
 	
 	public static void main(String[] args) {
