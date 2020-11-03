@@ -20,10 +20,10 @@ public class ConsulterMonProfil {
     private JLabel lbnumero=new JLabel("Numéro d'étudiant");
     private JLabel lbnom=new JLabel("Nom");
     private JLabel lbprenom=new JLabel("Prenom");
-    private JLabel lbemailR=new JLabel("...");
-    private JLabel lbnumeroR=new JLabel("...");
-    private JLabel lbnomR=new JLabel("...");
-    private JLabel lbprenomR=new JLabel("...");
+    private JLabel lbemailR=new JLabel();
+    private JLabel lbnumeroR=new JLabel();
+    private JLabel lbnomR=new JLabel();
+    private JLabel lbprenomR=new JLabel();
 
     private JButton btnmodifier = new JButton("Modifier");
     private JButton btnreturn = new JButton("retourner");
@@ -86,6 +86,11 @@ public class ConsulterMonProfil {
         fieldPanel.add(btnmodifier);
         fieldPanel.add(btnreturn);
         fieldPanel.add(lblBackground);
+
+          lbemailR.setText(etudiant.getEmail());
+          lbnumeroR.setText(etudiant.getIdentifiant());
+          lbnomR.setText(etudiant.getNom());
+          lbprenomR.setText(etudiant.getNom());
 
         lbNom.setText(etudiant.getPrenom());
 
