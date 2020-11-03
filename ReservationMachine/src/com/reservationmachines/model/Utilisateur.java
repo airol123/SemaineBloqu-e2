@@ -39,4 +39,20 @@ public class Utilisateur {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
+
+	public String getIdentifiant() {
+		return identifiant;
+	}
+
+	public String getMdp() {
+		return mdp;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
 }
