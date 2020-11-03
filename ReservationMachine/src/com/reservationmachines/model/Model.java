@@ -21,7 +21,7 @@ public class Model extends AbstractModel {
 		 */
 		
 		/* Ceci est un test pour l'affichage
-		Etudiant e = new Etudiant("21901234", "dsmlfjdf", "jean.dupont@mail.fr", "DUPONT", "Jean");
+		Etudiant e = new Etudiant("21901234", "dsmlfjdf", "DUPONT", "Jean", "jean.dupont@mail.fr");
 		Machine m = new Machine("A12345", EtatMachine.DISPONIBLE);
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");	

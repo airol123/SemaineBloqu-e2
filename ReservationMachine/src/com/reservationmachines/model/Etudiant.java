@@ -2,7 +2,7 @@ package com.reservationmachines.model;
 
 public class Etudiant extends Utilisateur {
 
-	public Etudiant(String numEtudiant, String mdp, String email, String nom, String prenom) {
+	public Etudiant(String numEtudiant, String mdp, String nom, String prenom, String email) {
         super(numEtudiant, mdp, nom, prenom, email);
 	}
 	
