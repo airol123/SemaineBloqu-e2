@@ -3,13 +3,13 @@ package com.reservationmachines.model;
 public class Etudiant extends Utilisateur {
 
 	public Etudiant(String numEtudiant, String mdp, String email, String nom, String prenom) {
-		this.identifiant = numEtudiant;
-		this.mdp = mdp;
-		this.email = email;
-		this.nom = nom;
-		this.prenom = prenom;
+        super(numEtudiant, mdp, nom, prenom, email);
 	}
-
+	
+	public Etudiant(String numEtudiant, String mdp) {
+        super(numEtudiant, mdp);
+	}
+	
 	public String getNom() {
 		return this.nom;
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.ReservationMachine;
+import com.reservationmachines.model.ResponsableTP;
 
 public class ResponsableTPControler extends Controler {
 
@@ -11,12 +12,12 @@ public class ResponsableTPControler extends Controler {
 		super(model);
 	}
 
-	// Renvoie l'entête correspondante aux réservation des machines
+	// Renvoie l'entï¿½te correspondante aux rï¿½servation des machines
 	public String[] getEnteteReservationMachine() {
 		return model.getEnteteReservationMachine();
 	}
 
-	// Convertit les valeurs des réservations en données pour le JTable
+	// Convertit les valeurs des rï¿½servations en donnï¿½es pour le JTable
 	public Object[][] getValeursReservationMachine(String idSalle) {
 		ArrayList<ReservationMachine> reservations = model.getValeursReservationMachine(idSalle);
 		int nbLignes = reservations.size();
@@ -33,4 +34,11 @@ public class ResponsableTPControler extends Controler {
 		return objects;
 	}
 
+    public static boolean checkPasswordR(ResponsableTP responsableTP, String strPwd) {
+		boolean same = false;
+		/*if (e.getMotdepasseC() == mdp) {
+			same = true;
+		}*/  // la methode pour verifier le mdp
+		return same;
+    }
 }

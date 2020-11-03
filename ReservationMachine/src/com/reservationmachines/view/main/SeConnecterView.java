@@ -9,45 +9,55 @@ import java.net.URL;
 import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.controler.ResponsableTPControler;
+import com.reservationmachines.model.Admin;
+import com.reservationmachines.model.Etudiant;
+import com.reservationmachines.model.ResponsableTP;
+import com.reservationmachines.view.admin.PageAdmin;
+import com.reservationmachines.view.etudiant.Inscription;
+import com.reservationmachines.view.etudiant.PageEtudiant;
+import com.reservationmachines.view.responsabletp.PageResp;
 
 public class SeConnecterView {
 
 	private JFrame jFrame = new JFrame("Connexion");
     private Container c = jFrame.getContentPane();
+
+    private JLabel titre = new JLabel("Connexion");
     private JLabel lbIMsgI = new JLabel();
     private JLabel lbUser = new JLabel("Indentifiant");
     private JTextField username = new JTextField();
     private JLabel lbPass = new JLabel("Mot de passe");
-    private JLabel logo = new JLabel(new ImageIcon("images/logo.png"));
-
     private JPasswordField password = new JPasswordField();
     private JButton okbtn = new JButton("Valider");
     private JButton cancelbtn = new JButton("Annuler");
     private JButton inscription = new JButton("S'inscrire");
     private JRadioButton radioBtn1 = new JRadioButton("Etudient");
-    private JRadioButton radioBtn2 = new JRadioButton("Responsable TP");
+    private JRadioButton radioBtn2 = new JRadioButton("ResponsableTP");
     private JRadioButton radioBtn3 = new JRadioButton("Administrateur");
-    private int identifiant = 0;
+
+
     //private ControlerInterface contoler=new ControlerInterface();
     private JLabel lblBackground = new JLabel();
-    private URL resource = this.getClass().getResource("images/background2.jpg"); // 获取背景图片路径
+    private JLabel logo = new JLabel(new ImageIcon("images/logo.png"));
+    private URL resource = this.getClass().getResource("images/background2.jpg");
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
-    private JLabel titre = new JLabel("Connexion");
-    
-	private EtudiantControler c1;
+
+    private int identifiant = 0;
+
+    private EtudiantControler c1;
 	private ResponsableTPControler c2;
 	private AdminControler c3;
 	
-	public SeConnecterView(EtudiantControler c1, ResponsableTPControler c2,
-			AdminControler c3) {
+	public SeConnecterView(/*EtudiantControler c1, ResponsableTPControler c2,
+			AdminControler c3*/) {
 		this.c1 = c1;
 		this.c2 = c2;
 		this.c3 = c3;	
 
 		titre.setFont(font);
-        titre.setBounds(410,20,200,40);
-        jFrame.setBounds(600, 200, 1000, 550);
+        titre.setBounds(445,20,200,40);
+        jFrame.setBounds(600, 200, 1010, 550);
         //Mettre en place une couche de quelque chose d'équivalent à une nappe
         c.setLayout(new BorderLayout());//Gestionnaire de mise en page
         //Définir pour fermer après avoir appuyé sur le chiffre X dans le coin supérieur droit
@@ -65,7 +75,6 @@ public class SeConnecterView {
     }
 
     public void init() {
-
         /* Partie d'entrée - Centre */
         ButtonGroup btnGroup1 = new ButtonGroup();
         btnGroup1.add(radioBtn1);
@@ -77,32 +86,30 @@ public class SeConnecterView {
 
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
-        lbUser.setBounds(360, 130, 80, 20);
-        lbPass.setBounds(360, 170, 80, 20);
+
+        lbUser.setBounds(340, 130, 120, 20);
+        lbPass.setBounds(340, 170, 120, 20);
+
+        okbtn.setBounds(340,280,130,20);
+        inscription.setBounds(470,280,130,20);
+        cancelbtn.setBounds(600,280,120,20);
+        username.setBounds(460, 130, 250, 20);
+        password.setBounds(460, 170, 250, 20);
+        radioBtn1.setBounds(340, 210, 105, 20);
+        radioBtn2.setBounds(445, 210, 140, 20);
+        radioBtn3.setBounds(585, 210, 125, 20);
+        logo.setBounds(0,0,220,250);
+
+
         fieldPanel.add(lbUser);
         fieldPanel.add(lbPass);
         fieldPanel.add(titre);
-
-        okbtn.setBounds(360,280,100,20);
-        cancelbtn.setBounds(460,280,100,20);
-        inscription.setBounds(560,280,100,20);
-
-
-        logo.setBounds(0,0,220,100);
         fieldPanel.add(logo);
-
-
         fieldPanel.add(okbtn);
         fieldPanel.add(cancelbtn);
         fieldPanel.add(inscription);
-
-        username.setBounds(460, 130, 200, 20);
-        password.setBounds(460, 170, 200, 20);
         fieldPanel.add(username);
         fieldPanel.add(password);
-        radioBtn1.setBounds(360, 210, 150, 20);
-        radioBtn2.setBounds(510, 210, 150, 20);
-        radioBtn3.setBounds(660, 210, 150, 20);
         fieldPanel.add(radioBtn1);
         fieldPanel.add(radioBtn2);
         fieldPanel.add(radioBtn3);
@@ -116,47 +123,34 @@ public class SeConnecterView {
 
         c.add(fieldPanel, "Center");
 
-
         radioBtn1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
-                    case "Entreprise":
+                    case "Etudient":
+                        inscription.setVisible(true);
                         identifiant = 0;
                         break;
-                    case "Intervenant":
-                        identifiant = 1;
-                        break;
-                    case "Particulier":
-                        identifiant = 2;
-                        break;
+
                 }
             }
         });
         radioBtn2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
-                    case "Client":
-                        identifiant = 0;
-                        break;
-                    case "Intervenant":
+
+                    case "ResponsableTP":
+                        inscription.setVisible(false);
                         identifiant = 1;
                         break;
-                    case "Particulier":
-                        identifiant = 2;
-                        break;
+
                 }
             }
         });
         radioBtn3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
-                    case "Client":
-                        identifiant = 0;
-                        break;
-                    case "Intervenant":
-                        identifiant = 1;
-                        break;
-                    case "Particulier":
+                    case "Administrateur":
+                        inscription.setVisible(false);
                         identifiant = 2;
                         break;
                 }
@@ -176,31 +170,34 @@ public class SeConnecterView {
 
                     switch (identifiant) {
                         case 0:
-
-                            /* if (contoler.checkPasswordC(contoler.seekClient(strE), strPwd)) {*/
+                            //Etudiant etudiant= new Etudiant(strE,strPwd);
+                            //if (EtudiantControler.checkPasswordE(etudiant,strPwd)) {
                             jFrame.setVisible(false);
-                            //ClientInterface cli = new ClientInterface();//contoler.seekClient(strE)
-                            //cli.getjFrame().setVisible(true);
-                       /* } else {
+                            PageEtudiant pe = new PageEtudiant();//contoler.seekClient(strE)
+                            pe.getjFrame().setVisible(true);
+                       //}
+                            /*  else {
                             lbIMsgI.setText("password is wrong");
                         }*/
 
                             break;
                         case 1:
-                            /* if (contoler.checkPasswordI(contoler.seekIntervenant(strE), strPwd)) {*/
+                           // ResponsableTP responsableTP= new ResponsableTP(strE,strPwd);
+                            //if (ResponsableTPControler.checkPasswordR(responsableTP,strPwd)) {
                             jFrame.setVisible(false);
-                           // RecommanderTache re = new RecommanderTache();//contoler.seekIntervenant(strE)
-                           // re.getjFrame().setVisible(true);
+                            PageResp pr = new PageResp();//contoler.seekIntervenant(strE)
+                            pr.getjFrame().setVisible(true);
                        /* } else {
                             lbIMsgI.setText("password is wrong");
                         }*/
 
                             break;
                         case 2:
-                            /*if (contoler.checkPasswordC(contoler.seekClient(strE), strPwd)) {*/
+                            // Admin admin= new Admin(strE,strPwd);
+                            //if (AdminControler.checkPasswordA(admin,strPwd)) {
                             jFrame.setVisible(false);
-                           // ClientInterface pa = new ClientInterface();//contoler.seekClient(strE)
-                           // pa.getjFrame().setVisible(true);
+                            PageAdmin pa = new PageAdmin();//contoler.seekIntervenant(strE)
+                            pa.getjFrame().setVisible(true);
                    /*     } else {
                             lbIMsgI.setText("password is wrong");
                         }*/
@@ -229,24 +226,10 @@ public class SeConnecterView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == inscription) {
-                    switch (identifiant) {
-                        case 0:
                             jFrame.setVisible(false);
-                           // EntrepriseInscription cli = new EntrepriseInscription();
-                           // cli.setVisible(true);
-                            break;
-                        case 1:
-                            jFrame.setVisible(false);
-                           // IntervInscription i = new IntervInscription();
-                           // i.setVisible(true);
-                            break;
-                        case 2:
-                            jFrame.setVisible(false);
-                           // ParticulierInscription p = new ParticulierInscription();
-                           // p.setVisible(true);
+                            Inscription ins = new Inscription();
+                            ins.getjFrame().setVisible(true);
 
-                            break;
-                    }
                 }
             }
         });
