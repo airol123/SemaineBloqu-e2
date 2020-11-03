@@ -5,6 +5,7 @@ import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.Admin;
 import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.model.Model;
+import com.reservationmachines.model.ResponsableTP;
 
 
 public class AdminControler extends Controler {
@@ -31,8 +32,10 @@ public class AdminControler extends Controler {
 	}
 
 
-	public void creerCompteResponsableTP(String text, String text2, String text3, String text4, String text5) {
-		// TODO Auto-generated method stub
+	public void creerCompteResponsableTP(
+			String id, String mdp, String email, String nom, String prenom) {
+			ResponsableTP responsableTP = new ResponsableTP(id, mdp, email, nom, prenom);
+			model.creerCompteResponsableTP(responsableTP);
 		
 	}
 
