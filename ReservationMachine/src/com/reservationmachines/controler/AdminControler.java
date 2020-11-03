@@ -1,7 +1,8 @@
 package com.reservationmachines.controler;
 
-import com.reservationmachines.model.Etudiant;
-import com.reservationmachines.model.Model;
+
+import com.reservationmachines.model.AbstractModel;
+import com.reservationmachines.model.Admin;
 
 public class AdminControler extends Controler {
 

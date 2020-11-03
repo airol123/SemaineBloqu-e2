@@ -2,8 +2,8 @@ package com.reservationmachines.view.etudiant;
 
 import javax.swing.*;
 
-public class EffectuerReservationMachineView {
-    private JFrame jFrame=new JFrame("Reserver la machine");
+public class ConsulterMonProfil {
+    private JFrame jFrame = new JFrame("Mon Profil");
 
     public JFrame getjFrame() {
         return jFrame;
