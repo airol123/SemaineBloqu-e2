@@ -6,6 +6,9 @@ public abstract class Utilisateur {
 	protected String email;
 	protected String nom;
 	protected String prenom;
+	public Utilisateur() {
+
+	}
 
 	public Utilisateur(String identifiant, String mdp) {
 		this.identifiant = identifiant;
@@ -58,5 +61,13 @@ public abstract class Utilisateur {
 
 	public String getPrenom() {
 		return prenom;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }
