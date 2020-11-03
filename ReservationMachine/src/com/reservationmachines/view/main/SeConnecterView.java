@@ -39,7 +39,7 @@ public class SeConnecterView {
     //private ControlerInterface contoler=new ControlerInterface();
     private JLabel lblBackground = new JLabel();
     private JLabel logo = new JLabel(new ImageIcon("images/logo.png"));
-    private URL resource = this.getClass().getResource("images/background2.jpg"); // 获取背景图片路径
+    private URL resource = this.getClass().getResource("images/background2.jpg");
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
 
@@ -57,7 +57,7 @@ public class SeConnecterView {
 
 		titre.setFont(font);
         titre.setBounds(445,20,200,40);
-        jFrame.setBounds(600, 200, 1070, 550);
+        jFrame.setBounds(600, 200, 1010, 550);
         //Mettre en place une couche de quelque chose d'équivalent à une nappe
         c.setLayout(new BorderLayout());//Gestionnaire de mise en page
         //Définir pour fermer après avoir appuyé sur le chiffre X dans le coin supérieur droit
@@ -95,10 +95,10 @@ public class SeConnecterView {
         cancelbtn.setBounds(600,280,120,20);
         username.setBounds(460, 130, 250, 20);
         password.setBounds(460, 170, 250, 20);
-        radioBtn1.setBounds(340, 210, 115, 20);
-        radioBtn2.setBounds(455, 210, 115, 20);
-        radioBtn3.setBounds(605, 210, 115, 20);
-        logo.setBounds(0,0,220,100);
+        radioBtn1.setBounds(340, 210, 105, 20);
+        radioBtn2.setBounds(445, 210, 140, 20);
+        radioBtn3.setBounds(585, 210, 125, 20);
+        logo.setBounds(0,0,220,250);
 
 
         fieldPanel.add(lbUser);
@@ -226,7 +226,6 @@ public class SeConnecterView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == inscription) {
-
                             jFrame.setVisible(false);
                             Inscription ins = new Inscription();
                             ins.getjFrame().setVisible(true);

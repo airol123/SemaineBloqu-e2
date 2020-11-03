@@ -6,6 +6,7 @@ public class Utilisateur {
 	private String nom;
 	private String prenom;
 
+
 	public Utilisateur() {
 
 	}
@@ -20,5 +21,6 @@ public class Utilisateur {
 		this.mdp = mdp;
 		this.nom = nom;
 		this.prenom = prenom;
+
 	}
 }
