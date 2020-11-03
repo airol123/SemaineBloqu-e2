@@ -4,7 +4,6 @@ import com.reservationmachines.model.AbstractModel;
 
 public abstract class Controler {
 	
-
 	protected AbstractModel model;
 	@SuppressWarnings("unused")
 	private String id;

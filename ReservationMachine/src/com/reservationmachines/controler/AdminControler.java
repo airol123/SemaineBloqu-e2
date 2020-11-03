@@ -1,6 +1,5 @@
 package com.reservationmachines.controler;
 
-
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.Admin;
 import com.reservationmachines.model.Etudiant;
@@ -36,7 +35,10 @@ public class AdminControler extends Controler {
 			String id, String mdp, String email, String nom, String prenom) {
 			ResponsableTP responsableTP = new ResponsableTP(id, mdp, email, nom, prenom);
 			model.creerCompteResponsableTP(responsableTP);
-		
-	}
-
 }
+
+public void ajouterMachineSalle(String nomMachine, String nomSalle) {
+		Machine machine = new Machine(nomMachine);
+		model.setMachineSalle(nomMachine, nomSalle);
+
+		}
