@@ -2,13 +2,13 @@ package com.reservationmachines.controler;
 
 
 import com.reservationmachines.model.AbstractModel;
-import com.reservationmachines.model.Admin;
+import com.reservationmachines.model.Etudiant;
 
 public class AdminControler extends Controler {
 
-	private Model model;
+	private AbstractModel model;
 	
-	public AdminControler(Model model) {
+	public AdminControler(AbstractModel model) {
 		super(model);
 	}
 
