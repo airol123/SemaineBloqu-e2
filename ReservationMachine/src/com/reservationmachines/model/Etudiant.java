@@ -18,4 +18,6 @@ public class Etudiant extends Utilisateur {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }

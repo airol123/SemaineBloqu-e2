@@ -51,6 +51,7 @@ public class ModifierProfilView {
         init();
         //Définir le formulaire pour qu'il soit visible
         jFrame.setVisible(true);
+
     }
     public void init() {
 
