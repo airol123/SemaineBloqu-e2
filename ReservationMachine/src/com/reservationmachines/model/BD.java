@@ -1,7 +1,6 @@
-package GestionCompte;
 
 import java.sql.*;
-public class db {
+public class BD {
 
     static final String DB_URL = "jdbc:mysql://localhost:3307/dolt?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     static final String USER = "root";
@@ -32,7 +31,7 @@ public class db {
     }
 
     public static void main(String[] args) {
-        db c= new db();
+        BD c= new BD();
         con = c.getConnection();        
     }
     }
