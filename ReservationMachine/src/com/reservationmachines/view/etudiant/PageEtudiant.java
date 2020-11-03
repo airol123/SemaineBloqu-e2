@@ -90,7 +90,7 @@ public class PageEtudiant {
         btnconsPro.addActionListener(new ActionListener(){
         public void actionPerformed(ActionEvent e) {
             jFrame.setVisible(false);
-            ConsulterMonProfil cp = new ConsulterMonProfil();//Etudiant etudiant
+            ConsulterMonProfil cp = new ConsulterMonProfil(etudiant);//Etudiant etudiant
             cp.getjFrame().setVisible(true);
 
         }
