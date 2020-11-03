@@ -5,22 +5,22 @@ import com.reservationmachines.model.AbstractModel;
 public abstract class Controler {
 	
 	@SuppressWarnings("unused")
-	private AbstractModel model;
+	protected AbstractModel model;
 	@SuppressWarnings("unused")
 	private String id;
 	
 	public Controler(AbstractModel model) {
 		this.model = model;
-		// Aucun utilisateur connecté pour le moment
+		// Aucun utilisateur connectï¿½ pour le moment
 		this.id = null;
 	}
 	
-	// On conserve l'identifiant de l'utilisateur qui s'est connecté
+	// On conserve l'identifiant de l'utilisateur qui s'est connectï¿½
 	public void connexion(String id) {
 		this.id = id;
 	}
 
-	// On supprimer l'identifiant de l'utilisateur qui s'est connecté
+	// On supprimer l'identifiant de l'utilisateur qui s'est connectï¿½
 	public void deconnexion() {
 		this.id = null;
 	}
