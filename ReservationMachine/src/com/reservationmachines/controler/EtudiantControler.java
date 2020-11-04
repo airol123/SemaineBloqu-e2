@@ -1,5 +1,6 @@
 package com.reservationmachines.controler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.reservationmachines.model.AbstractModel;
@@ -49,11 +50,15 @@ public class EtudiantControler extends Controler {
 		return etudiantId;
 	}
 
-    public ReservationMachine[] trouverToutesLesReservation(String etudiant) {
-        ReservationMachine[] rm = null;
+    public ReservationMachine[] trouverToutesLesReservation(String etudiant) {      
+        ArrayList<ReservationMachine> reservations = model.getReservationMachineE(etudiant);
+        int nbreservation=reservations.size();
+        ReservationMachine[] rm = new ReservationMachine[nbreservation];
+        for(int i = 0 ; i < nbreservation ; i++) {
+        	rm[i]=reservations.get(i);
+		}        
         return rm;
     }
-
 
 
     public static void supprimerReservation(ReservationMachine reservationMachine) {
