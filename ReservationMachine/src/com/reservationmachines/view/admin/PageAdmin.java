@@ -1,6 +1,6 @@
 package com.reservationmachines.view.admin;
 
-import com.reservationmachines.controler.EtudiantControler;
+import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.model.Admin;
 import com.reservationmachines.view.main.SeConnecterView;
 
@@ -27,10 +27,10 @@ public class PageAdmin {
     private URL resource = this.getClass().getResource("images/background2.jpg");
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
-    //private Admin admin=new Admin();
+    private Admin admin;
 
-    public PageAdmin() { //
-//         this.admin=admin;
+    public PageAdmin(Admin admin) { //
+        this.admin=admin;
 
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
@@ -65,7 +65,7 @@ public class PageAdmin {
         fieldPanel.add(btnCompte);
         fieldPanel.add(lblBackground);
 
-        lbNom.setText(etudiant.getPrenom());
+        lbNom.setText(admin.getPrenom());
 
         c.add(fieldPanel, "Center");
         
