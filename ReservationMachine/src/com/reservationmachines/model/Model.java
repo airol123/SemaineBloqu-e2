@@ -199,7 +199,7 @@ public class Model extends AbstractModel {
 
 	@Override
 	public boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp) {
-		String querySQL = "SELECT idResp FROM RespP " +
+		String querySQL = "SELECT idResp FROM RespTP " +
 				"WHERE idResp = '" + idResponsableTP + "' AND mdpR = '" + mdp + "';";
 
 		// V�rifier si la valeur existe dans la table
