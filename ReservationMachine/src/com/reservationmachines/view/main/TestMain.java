@@ -9,6 +9,7 @@ public class TestMain {
         // ConsulterReservationView con=new ConsulterReservationView();
         // ConsulterMonProfil c =new ConsulterMonProfil();
         //PageGuacamole pg=new PageGuacamole();
+        //FaireReclamationView re= new FaireReclamationView();
 
     }
 

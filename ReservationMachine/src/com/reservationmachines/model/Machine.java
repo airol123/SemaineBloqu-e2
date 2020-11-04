@@ -7,9 +7,10 @@ public class Machine {
 
 
 
-	public Machine(String nomMachine, EtatMachine etatMachine) {
+	public Machine(String nomMachine, EtatMachine etatMachine,Salle salle) {
 		this.nomMachine = nomMachine;
 		this.etatMachine = etatMachine;
+		this.salle=salle;
 	}
 
 	public Salle getSalle() {
