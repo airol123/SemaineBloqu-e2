@@ -56,8 +56,10 @@ public class EtudiantControler extends Controler {
 		}        
         return rm;
     }
+    
 	public ArrayList<Salle> trouverToutesLesSalles(){
-		ArrayList<Salle> salles=new ArrayList<>();
+		ArrayList<Salle> salles=model.getToutesLesSalles();	
+		System.out.println(salles.size());
 		return salles;
 	}
 

@@ -37,10 +37,9 @@ public class EffectuerReservationMachineView {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
-    String[] listData = new String[]{"ME403","ME405",  "ME407", "ME410"};
+    String[] listData ;//= new String[]{"ME403","ME405",  "ME407", "ME410"};
 
-    final JComboBox<String> comboBox = new JComboBox<String>(listData);
-
+   
     
     private EtudiantControler controler;
     
@@ -64,12 +63,12 @@ public class EffectuerReservationMachineView {
     }
 
     public void init() {
-
-       /* listData= new String[controler.trouverToutesLesSalles().size()];
+    	
+        listData= new String[controler.trouverToutesLesSalles().size()];
         for (int i = 0; i <controler.trouverToutesLesSalles().size() ; i++) {
             listData[i]=controler.trouverToutesLesSalles().get(i).getNomSalle();
-        }*/
-
+        }
+        final JComboBox<String> comboBox = new JComboBox<String>(listData);
 
         lblBackground.setIcon(icon); // Définir l'icône à afficher par le composant d'étiquette
         lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
@@ -89,10 +88,6 @@ public class EffectuerReservationMachineView {
 
         btnValider.setBounds(360, 400, 180, 30);
         btnRetour.setBounds(540, 400, 180, 30);
-
-
-
-
 
         // Définit l'élément sélectionné par défaut
         comboBox.setSelectedIndex(2);
