@@ -42,7 +42,7 @@ public class ConsulterReservationView {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
-    private Etudiant etudiant = new Etudiant();
+    //private Etudiant etudiant = new Etudiant();
 
 /*    private Salle s1 = new Salle("ME405",20,EtatSalle.DISPONIBLE);
     private Machine m1 = new Machine("A123", EtatMachine.DISPONIBLE,s1);
@@ -121,7 +121,7 @@ public class ConsulterReservationView {
 
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
-        lbNom.setText(etudiant.getPrenom());
+        lbNom.setText(controler.getPrenom());
 
         lbSal.setBounds(360, 150, 100, 30);
         lbSalle.setBounds(500, 150, 250, 30);
