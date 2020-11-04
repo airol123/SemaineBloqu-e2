@@ -6,8 +6,6 @@ import com.reservationmachines.model.ResponsableTP;
 
 
 public class AdminControler extends Controler {
-
-	private AbstractModel model;
 	
 	public AdminControler(AbstractModel model) {
 		super(model);
@@ -37,6 +35,26 @@ public class AdminControler extends Controler {
 	public void ajouterMachineSalle(String nomMachine, String nomSalle) {
 		//Machine machine = new Machine(nomMachine, EtatMachine.DISPONIBLE);
 		model.setMachineSalle(nomMachine, nomSalle);
+	}
+	
+	public String getPrenom() {
+		return model.getAdmin(id).getPrenom();
+	}
+	
+	public String getEmail() {
+		return model.getAdmin(id).getEmail();
+	}
+
+	public String getIdentifiant() {
+		return model.getAdmin(id).getIdentifiant();
+	}
+
+	public String getNom() {
+		return model.getAdmin(id).getNom();
+	}
+	
+	public String getMotDePasse() {
+		return model.getAdmin(id).getMdp();
 	}
 
 
