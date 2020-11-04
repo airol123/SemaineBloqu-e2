@@ -466,7 +466,10 @@ public class Model extends AbstractModel {
 	@Override
 	public String[][] getReclamations(String identifiant) {
 		String[][] strings = null;
-		String sqlreservationm = "select ide,idm,typer,descriptionr from concerner,reclamation,traiter where traiter.ida=? and traiter.idr=reclamation.idr and reclamation.idr=concerner.idr"; 
+		String sqlreservationm = "select ide,idm,typer,descriptionr from concerner,reclamation,traiter "
+				+ "where traiter.ida=? and traiter.idr=reclamation.idr "
+				+ "and reclamation.idr=concerner.idr "
+				+ "and reclamation.etatr='EN_COURS'"; 
 		try{
 			Connection con =BD.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
@@ -490,6 +493,22 @@ public class Model extends AbstractModel {
 		}
 		
 		return strings;
+	}
+
+	
+	// changer l'etat d'une reclamation de 'EN_COURS' a 'TRAITEE'
+	@Override
+	public void traiterReclamation(String description) {
+		
+		String sql = "UPDATE reclamation SET ETATR = 'TRAITEE' WHERE reclamation.descriptionr=\""+description+"\""; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		
 	}
 	
 }
