@@ -22,6 +22,11 @@ public class Model extends AbstractModel {
 		return new String[] {"Machine", "état de la machine", "Nom étudiant", "Prénom étudiant"};
 	}
 	
+	public Model() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public ArrayList<ReservationMachine> getValeursReservationMachine(String idSalle) {
 		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
@@ -332,6 +337,52 @@ public class Model extends AbstractModel {
 	public boolean misAjourInBD(String stremail, String strRePwd) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public ArrayList<ReservationMachine> getReservationMachineE(String etudiant) {
+		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
+		String sqlreservationm = "select * from salle,machine,reserverm,etudiant where etudiant.IDE=? and salle.IDS=machine.IDS and machine.IDM=reserverm.IDM and reserverm.IDE=etudiant.IDE "; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
+			pstmt.setInt(1, Integer.parseInt(etudiant));
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Etudiant etu=new Etudiant();
+				etu.setNom(rs.getString("nome"));
+				etu.setPrenom(rs.getString("prenome"));
+				etu.setEmail(rs.getString("emaile"));
+				etu.setIdentifiant(etudiant);
+				etu.setMdp(rs.getString("mdpe"));
+				Salle salle =new Salle();
+				salle.setNomSalle(rs.getString("noms"));
+				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+
+				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
+				Timestamp d = null;
+				try {
+					d = new Timestamp(dateFormat.parse(sdd).getTime());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+
+				String sdf=rs.getString("datem")+" "+rs.getString("heurefinm");
+				Timestamp f = null;
+				try {
+					f = new Timestamp(dateFormat.parse(sdf).getTime());
+				} catch (ParseException e2) {
+					e2.printStackTrace();
+				}
+				
+				reservations.add(new ReservationMachine(etu, mac, d, f));
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		
+		return reservations;
 	}
 
 	/*
