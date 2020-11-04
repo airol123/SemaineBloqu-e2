@@ -87,6 +87,54 @@ public class Model extends AbstractModel {
 		
 		return etu;
 	}
+	
+	public Admin seConnecterAdmin(String ida) throws SQLException {
+		Admin admin=null;
+		String sqladmin = "select * from admin where ida=?";
+        Connection con =BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sqladmin);
+		pstmt.setInt(1, Integer. parseInt(ida));
+		ResultSet rs=pstmt.executeQuery();
+		if (rs.next()) {
+			admin = new Admin();
+			System.out.println("Il y a cet admin");
+			admin.setNom(rs.getString("noma"));	
+			admin.setPrenom(rs.getString("prenoma"));
+			admin.setEmail(rs.getString("emaila"));
+			admin.setIdentifiant(ida);
+			admin.setMdp(rs.getString("mdpa"));
+		}
+		else {
+			System.out.println("Il y a pas de cet etudiant");
+		}
+		rs.close();  
+		
+		return admin;
+	}
+	
+	public ResponsableTP seConnecterResponsable(String idres) throws SQLException {
+		ResponsableTP restp=null;
+		String sqlresp= "select * from resptp where idresp=?";
+        Connection con =BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sqlresp);
+		pstmt.setInt(1, Integer. parseInt(idres));
+		ResultSet rs=pstmt.executeQuery();
+		if (rs.next()) {
+			restp = new ResponsableTP();
+			System.out.println("Il y a cet admin");
+			restp.setNom(rs.getString("noma"));	
+			restp.setPrenom(rs.getString("prenoma"));
+			restp.setEmail(rs.getString("emaila"));
+			restp.setIdentifiant(idres);
+			restp.setMdp(rs.getString("mdpa"));
+		}
+		else {
+			System.out.println("Il y a pas de cet etudiant");
+		}
+		rs.close();  
+		
+		return restp;
+	}
  
 
 }
