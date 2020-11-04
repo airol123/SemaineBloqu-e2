@@ -155,9 +155,9 @@ public class Model extends AbstractModel {
 
 	@Override
 	public boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp) {
-		String querySQL = "SELECT idResp FROM RespP " +
+		String querySQL = "SELECT idResp FROM RespTP " +
 				"WHERE idResp = '" + idResponsableTP + "' AND mdpR = '" + mdp + "';";
-
+		
 		// Vérifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
@@ -165,6 +165,10 @@ public class Model extends AbstractModel {
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
 			resultat.next();
+			
+			System.out.println(querySQL);
+			System.out.println(resultat.getString(1));
+			
 			return resultat.getString(1).equals(idResponsableTP);
 		} catch (Exception e) {
 			return false;
@@ -209,6 +213,51 @@ public class Model extends AbstractModel {
 	@Override
 	public boolean inscrireEtudiant(Etudiant etudiant) {
 		return false;
+	}
+
+	@Override
+	public ArrayList<String> recupererNomsFormations() {
+		String querySQL = "SELECT NomF FROM Formation;";
+
+		// Vérifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			
+			ArrayList<String> formations = new ArrayList<String>();
+			while(resultat.next()) {
+				formations.add(resultat.getString(1));
+			}
+			return formations;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public ArrayList<GroupeTP> recupererNomsGroupesTP(String nomFormation) {
+		String querySQL = "SELECT NomG FROM Groupe G, Formation F " + 
+				"WHERE F.IdF = G.IdF " + 
+				"AND F.NomF = '" + nomFormation + "';";
+
+		// Vérifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			
+			ArrayList<GroupeTP> groupesTP = new ArrayList<GroupeTP>();
+			while(resultat.next()) {
+				groupesTP.add(new GroupeTP(resultat.getString(1)));
+			}
+			
+			return groupesTP;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	/*
