@@ -9,13 +9,7 @@ import java.net.URL;
 import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.controler.ResponsableTPControler;
-import com.reservationmachines.model.Admin;
-import com.reservationmachines.model.Etudiant;
-import com.reservationmachines.model.ResponsableTP;
-import com.reservationmachines.view.admin.PageAdmin;
 import com.reservationmachines.view.etudiant.Inscription;
-import com.reservationmachines.view.etudiant.PageEtudiant;
-import com.reservationmachines.view.responsabletp.PageResp;
 
 public class SeConnecterView {
 
@@ -49,8 +43,8 @@ public class SeConnecterView {
 	private ResponsableTPControler c2;
 	private AdminControler c3;
 	
-	public SeConnecterView(/*EtudiantControler c1, ResponsableTPControler c2,
-			AdminControler c3*/) {
+	public SeConnecterView(EtudiantControler c1, ResponsableTPControler c2,
+			AdminControler c3) {
 		this.c1 = c1;
 		this.c2 = c2;
 		this.c3 = c3;	
@@ -137,7 +131,6 @@ public class SeConnecterView {
         radioBtn2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 switch (e.getActionCommand()) {
-
                     case "ResponsableTP":
                         inscription.setVisible(false);
                         identifiant = 1;
@@ -157,56 +150,34 @@ public class SeConnecterView {
             }
         });
 
-
         okbtn.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == okbtn) {
-
-
                     String strPwd = new String(password.getPassword());
                     String strE = new String(username.getText());
 
                     switch (identifiant) {
                         case 0:
-                            //Etudiant etudiant= new Etudiant(strE,strPwd);
-                            Etudiant etudiant= new Etudiant("21809059","rrh","REN","Ruohan","@123");
-                            //if (EtudiantControler.checkPasswordE(etudiant,strPwd)) {
-                            jFrame.setVisible(false);
-                            //etudiant=EtudiantControler.trouverEtudiant(etudiant);
-                            PageEtudiant pe = new PageEtudiant(etudiant);//
-                            pe.getjFrame().setVisible(true);
-                       //}
-                            /*  else {
-                            lbIMsgI.setText("password is wrong");
-                        }*/
-
+                            if(c1.verifierMotDePasseEtudiant(strE, strPwd)) {
+                                new EtudiantMainView(c1);
+                                jFrame.dispose();
+                            }
+                            else lbIMsgI.setText("password is wrong");
                             break;
                         case 1:
-                           // ResponsableTP responsableTP= new ResponsableTP(strE,strPwd);
-                            ResponsableTP responsableTP= new ResponsableTP("110","respo","REN","Ruohan1","@456");
-                            //if (ResponsableTPControler.checkPasswordR(responsableTP,strPwd)) {
-                            jFrame.setVisible(false);
-                            //responsableTP=ResponsableTPControler.trouverResponsableTP(responsableTP);
-                            PageResp pr = new PageResp();//responsableTP
-                            pr.getjFrame().setVisible(true);
-                       /* } else {
-                            lbIMsgI.setText("password is wrong");
-                        }*/
-
+                        	if(c2.verifierMotDePasseResponsableTP(strE, strPwd)) {
+                                new ResponsableTPMainView(c2);
+                                jFrame.dispose();
+                            }
+                            else lbIMsgI.setText("password is wrong");
                             break;
                         case 2:
-                            // Admin admin= new Admin(strE,strPwd);
-                             Admin admin= new Admin("001","admin","REN","Ruohan2");
-                            //if (AdminControler.checkPasswordA(admin,strPwd)) {
-                            jFrame.setVisible(false);
-                            PageAdmin pa = new PageAdmin(admin);// admin
-                            pa.getjFrame().setVisible(true);
-                   /*     } else {
-                            lbIMsgI.setText("password is wrong");
-                        }*/
-
+                        	if(c3.verifierMotDePasseAdmin(strE, strPwd)) {
+                                new AdminMainView(c3);
+                                jFrame.dispose();
+                            }
+                            else lbIMsgI.setText("password is wrong");
                             break;
                     }
 
@@ -231,10 +202,9 @@ public class SeConnecterView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == inscription) {
-                            jFrame.setVisible(false);
-                            Inscription ins = new Inscription();
-                            ins.getjFrame().setVisible(true);
-
+                    jFrame.dispose();
+                    Inscription ins = new Inscription(c1);
+                    ins.getjFrame().setVisible(true);
                 }
             }
         });

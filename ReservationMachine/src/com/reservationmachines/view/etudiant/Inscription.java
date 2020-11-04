@@ -1,6 +1,7 @@
 package com.reservationmachines.view.etudiant;
 
 import com.reservationmachines.controler.EtudiantControler;
+import com.reservationmachines.main.AppMain;
 import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.view.main.SeConnecterView;
 
@@ -40,7 +41,11 @@ public class Inscription {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
 
-    public Inscription() {
+    private EtudiantControler controler;
+    
+    public Inscription(EtudiantControler controler) {
+    	this.controler = controler;
+    	
         titre.setFont(font);
         titre.setBounds(435,20,200,40);
         jFrame.setBounds(600, 200, 1010, 550);
@@ -127,10 +132,8 @@ public class Inscription {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                jFrame.setVisible(false);
-                SeConnecterView sc = new SeConnecterView();
-                sc.getjFrame().setVisible(true);
-
+                jFrame.dispose();
+                new AppMain();
             }
         });
 
@@ -182,9 +185,8 @@ public class Inscription {
                     return;
                 }
 
-                Etudiant etudiant =new Etudiant(strident,strPwd,strNom,strprenom,stremail);
-                EtudiantControler.putEtudiantInBD(etudiant);
-
+                controler.inscrireEtudiant(strident, strPwd, strNom, strprenom, stremail);
+                
                 lbIMsgC.setText("Successful");
 
             }

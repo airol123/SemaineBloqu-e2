@@ -39,11 +39,11 @@ public class ResponsableTPControler extends Controler {
 		return objects;
 	}
 
-    public static boolean checkPasswordR(ResponsableTP responsableTP, String strPwd) {
-		boolean same = false;
-		/*if (e.getMotdepasseC() == mdp) {
-			same = true;
-		}*/  // la methode pour verifier le mdp
-		return same;
-    }
+	public boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp) {
+    	if(model.verifierMotDePasseResponsableTP(idResponsableTP, mdp)) {
+    		this.connexion(idResponsableTP);
+    		return true;
+    	}
+    	return false;
+	}
 }
