@@ -15,8 +15,6 @@ public class AppMain {
 		EtudiantControler c1 = new EtudiantControler(model);
 		ResponsableTPControler c2 = new ResponsableTPControler(model);
 		AdminControler c3 = new AdminControler(model);
-		BD bd = new BD();
-		bd.getConnection();
 		new SeConnecterView();//c1, c2, c3
 	}
 	
