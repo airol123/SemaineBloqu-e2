@@ -461,5 +461,35 @@ public class Model extends AbstractModel {
 		}
 	}
 	*/
+
+	// get liste des reclamations qui sont traitees par un admin
+	@Override
+	public String[][] getReclamations(String identifiant) {
+		String[][] strings = null;
+		String sqlreservationm = "select ide,idm,typer,descriptionr from concerner,reclamation,traiter where traiter.ida=? and traiter.idr=reclamation.idr and reclamation.idr=concerner.idr"; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
+			pstmt.setInt(1, Integer.parseInt(identifiant));
+			ResultSet rs=pstmt.executeQuery();
+			rs.last();
+			int nbLignes = rs.getRow();
+			rs.absolute(0);
+			int nbColonnes = 4;
+			strings = new String[nbLignes][nbColonnes];
+			int i = 0;
+			while(rs.next()) {
+				strings[i][0] = rs.getString("ide");
+				strings[i][1] = rs.getString("idm");
+				strings[i][2] = rs.getString("typer");
+				strings[i][3] = rs.getString("descriptionr");
+				i++;
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		
+		return strings;
+	}
 	
 }
