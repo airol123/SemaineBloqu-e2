@@ -23,7 +23,7 @@ public class FaireReclamationView {
     private JTextField descri =new JTextField(400);
     private JButton btnVlider = new JButton("Reclamer");
     private JButton btnretourner = new JButton("retourner");
-    String[] typeR = new String[]{"en panne", "deja reserve"};
+    String[] typeR = new String[]{"En panne", "Déjà réservée"};
 
     final JComboBox<String> comboBox = new JComboBox<String>(typeR);
 
@@ -59,19 +59,18 @@ public class FaireReclamationView {
         fieldPanel.setLayout(null);
         lbType.setBounds(340,150,150,30);
         lbDescri.setBounds(340,190,100,30);
-        descri.setBounds(340,240,400,50);
-        btnretourner.setBounds(440,300,100,50);
-        btnVlider.setBounds(340,300,100,50);
-        comboBox.setBounds(540,150,100,30);
+        descri.setBounds(340,240,340,100);
+        btnretourner.setBounds(580,380,100,30);
+        btnVlider.setBounds(340,380,100,30);
+        comboBox.setBounds(530,150,150,25);
         fieldPanel.add(titre);
         fieldPanel.add(lbDescri);
         fieldPanel.add(lbType);
         fieldPanel.add(descri);
-        fieldPanel.add(lblBackground);
         fieldPanel.add(btnVlider);
         fieldPanel.add(btnretourner);
         fieldPanel.add(comboBox);
-
+        fieldPanel.add(lblBackground);
         c.add(fieldPanel, "Center");
 
 
