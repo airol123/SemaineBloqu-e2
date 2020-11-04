@@ -1,7 +1,11 @@
 package com.reservationmachines.controler;
 
+import java.util.ArrayList;
+
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.Etudiant;
+import com.reservationmachines.model.Reclamation;
+import com.reservationmachines.model.ReservationMachine;
 import com.reservationmachines.model.ResponsableTP;
 
 
@@ -55,6 +59,11 @@ public class AdminControler extends Controler {
 	
 	public String getMotDePasse() {
 		return model.getAdmin(id).getMdp();
+	}
+
+
+	public String[][] getReclamation() {
+		return model.getReclamations(model.getAdmin(id).getIdentifiant());
 	}
 
 
