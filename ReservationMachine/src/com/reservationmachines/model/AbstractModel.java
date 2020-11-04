@@ -16,5 +16,7 @@ public abstract class AbstractModel {
 	//public abstract String getPrenomResponsableTP(String idResponsableTP);
 	//public abstract String getPrenomAdmin(String idAdmin);
 	public abstract boolean inscrireEtudiant(Etudiant etudiant);
+	public abstract ArrayList<String> recupererNomsFormations();
+	public abstract ArrayList<GroupeTP> recupererNomsGroupesTP(String idFormation);
 
 }
