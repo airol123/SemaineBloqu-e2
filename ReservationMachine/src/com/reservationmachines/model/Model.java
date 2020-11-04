@@ -6,6 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 
 public class Model extends AbstractModel {
@@ -18,9 +23,48 @@ public class Model extends AbstractModel {
 	@Override
 	public ArrayList<ReservationMachine> getValeursReservationMachine(String idSalle) {
 		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
+		String sqlreservationm = "select * from salle,machine,reserverm,etudiant where noms=? and salle.IDS=machine.IDS and machine.IDM=reserverm.IDM and reserverm.IDE=etudiant.IDE "; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
+			pstmt.setString(1, idSalle);
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Etudiant etu=new Etudiant();
+				etu.setNom(rs.getString("nome"));	
+				etu.setPrenom(rs.getString("prenome"));
+				etu.setEmail(rs.getString("emaile"));
+				etu.setIdentifiant(String.valueOf(rs.getInt("ide")));
+				etu.setMdp(rs.getString("mdpe"));
+				Salle salle =new Salle();
+				salle.setNomSalle(idSalle);
+				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	
+				
+				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
+				Timestamp d = null;
+				try {
+					d = new Timestamp(dateFormat.parse(sdd).getTime());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+				
+				String sdf=rs.getString("datem")+" "+rs.getString("heurefinm");
+				Timestamp f = null;
+				try {
+					f = new Timestamp(dateFormat.parse(sdf).getTime());
+				} catch (ParseException e2) {
+					e2.printStackTrace();
+				}
+				
+				reservations.add(new ReservationMachine(etu, mac, d, f));
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
 		
 		/*
-		 * Remplir la liste avec toutes les rÃ©servations de la salle 'idSalle' en paramÃ¨tre
+		 * Remplir la liste avec toutes les rï¿½servations de la salle 'idSalle' en paramï¿½tre
 		 */
 		
 		/* Ceci est un test pour l'affichage
@@ -140,7 +184,7 @@ public class Model extends AbstractModel {
 		String querySQL = "SELECT idE FROM Etudiant " +
 				"WHERE idE = '" + numEtudiant + "' AND mdpE = '" + mdp + "';";
 
-		// Vérifier si la valeur existe dans la table
+		// Vï¿½rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			Statement statement;
@@ -155,20 +199,16 @@ public class Model extends AbstractModel {
 
 	@Override
 	public boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp) {
-		String querySQL = "SELECT idResp FROM RespTP " +
+		String querySQL = "SELECT idResp FROM RespP " +
 				"WHERE idResp = '" + idResponsableTP + "' AND mdpR = '" + mdp + "';";
-		
-		// Vérifier si la valeur existe dans la table
+
+		// Vï¿½rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			Statement statement;
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
 			resultat.next();
-			
-			System.out.println(querySQL);
-			System.out.println(resultat.getString(1));
-			
 			return resultat.getString(1).equals(idResponsableTP);
 		} catch (Exception e) {
 			return false;
@@ -180,7 +220,7 @@ public class Model extends AbstractModel {
 		String querySQL = "SELECT idA FROM Admin " +
 				"WHERE idA = '" + idAdmin + "' AND mdpA = '" + mdp + "';";
 
-		// Vérifier si la valeur existe dans la table
+		// Vï¿½rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			Statement statement;
@@ -197,7 +237,7 @@ public class Model extends AbstractModel {
 	public String getPrenomEtudiant(String numEtudiant) {
 		String querySQL = "SELECT nomE FROM Etudiant WHERE idE = '" + numEtudiant + "';";
 
-		// Vérifier si la valeur existe dans la table
+		// Vï¿½rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			Statement statement;
@@ -214,12 +254,12 @@ public class Model extends AbstractModel {
 	public boolean inscrireEtudiant(Etudiant etudiant) {
 		return false;
 	}
-
+	
 	@Override
 	public ArrayList<String> recupererNomsFormations() {
 		String querySQL = "SELECT NomF FROM Formation;";
 
-		// Vérifier si la valeur existe dans la table
+		// Vï¿½rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			Statement statement;
@@ -242,7 +282,7 @@ public class Model extends AbstractModel {
 				"WHERE F.IdF = G.IdF " + 
 				"AND F.NomF = '" + nomFormation + "';";
 
-		// Vérifier si la valeur existe dans la table
+		// Vï¿½rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			Statement statement;
@@ -265,7 +305,7 @@ public class Model extends AbstractModel {
 	public String getPrenomResponsableTP(String idResponsableTP) {
 		String querySQL = "SELECT nomA FROM RespP WHERE idResp = '" + idResponsableTP + "';";
 
-		// Vérifier si la valeur existe dans la table
+		// Vï¿½rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			Statement statement;
@@ -282,7 +322,7 @@ public class Model extends AbstractModel {
 	public String getPrenomAdmin(String idAdmin) {
 		String querySQL = "SELECT nomR FROM Admin WHERE idA = '" + idAdmin + "';";
 
-		// Vérifier si la valeur existe dans la table
+		// Vï¿½rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			Statement statement;
