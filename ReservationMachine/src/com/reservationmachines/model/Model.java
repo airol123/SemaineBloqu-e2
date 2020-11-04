@@ -10,12 +10,17 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Model extends AbstractModel {
 
+	protected final static String HEURE_RESERVATION_SEPARATEUR = ":";
+	protected final static String HEURE_RESERVATION_SALLE_MIN = "08:00";
+	protected final static String HEURE_RESERVATION_SALLE_MAX = "20:00";
+	protected final static String FREQUENCE_RESERVATION_EN_HEURE = "01:30";
+	
 	@Override
 	public String[] getEnteteReservationMachine() {
 		return new String[] {"Machine", "Ã©tat de la machine", "Nom Ã©tudiant", "PrÃ©nom Ã©tudiant"};
@@ -313,6 +318,127 @@ public class Model extends AbstractModel {
 	public boolean misAjourInBD(String stremail, String strRePwd) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String[] getReservationsSallesDates() {
+		// Initialisation à la date d'aujourd'hui
+        LocalDate day = LocalDate.now();
+        // Ex. mer. 04/11/2020
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("EEE dd/MM/yyyy");
+        // Le numéro du jour de la semaine (ex. 3 pour mercredi)
+        DateTimeFormatter dayName = DateTimeFormatter.ofPattern("e");
+        String[] result = new String[100];
+        
+        for(int i = 0 ; i < result.length ; i++) {
+        	// Si c'est samedi, on avance deux de jours
+        	if(Integer.parseInt(day.format(dayName)) == 6)
+        		day = day.plusDays(2);
+        	// Si c'est dimanche, on avance de 1 jour
+        	if(Integer.parseInt(day.format(dayName)) == 7)
+        		day = day.plusDays(1);
+        	
+        	result[i] = day.format(date);   
+        	
+        	// Jour suivant
+        	day = day.plusDays(1);
+        }
+        
+        return result;
+	}
+
+	@Override
+	public ArrayList<Salle> getValeursSallesDisponibles(String date, String heureDebut, String heureFin) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] getEnteteSallesDisponibles() {
+		return new String[] {"Salle", "Capacite"};
+	}
+
+	@Override
+	public String[] getReservationsSallesHeuresDebuts(String heureFin) {
+		ArrayList<String> heuresDebuts = new ArrayList<String>();
+		int hDebut = Integer.parseInt(HEURE_RESERVATION_SALLE_MIN.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mDebut = Integer.parseInt(HEURE_RESERVATION_SALLE_MIN.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		int hFin = Integer.parseInt(heureFin.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mFin = Integer.parseInt(heureFin.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		int hFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		
+		do {
+			if(mDebut >= 60) {
+				mDebut = mDebut % 60;
+				hDebut++;
+			}
+			
+			String tmp = "";
+			// Si les heures sont inférieures à 10, alors on ajoute un zéro
+			tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
+			tmp += HEURE_RESERVATION_SEPARATEUR;
+			// Si les minutes sont inférieures à 10, alors on ajoute un zéro
+			tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
+			
+			heuresDebuts.add(tmp);
+			
+			hDebut = (hDebut + hFrequence) % 24;
+			mDebut = (mDebut + mFrequence);			
+		} while(hDebut % 24 < hFin - hFrequence || mDebut % 60 < mFin - mFrequence);
+		
+		String[] result = new String[heuresDebuts.size()];
+		for(int i = 0 ; i < heuresDebuts.size() ; i++) result[i] = heuresDebuts.get(i);
+		
+		return result;
+	}
+
+	@Override
+	public String[] getReservationsSallesHeuresFins(String heureDebut) {
+		ArrayList<String> heuresDebuts = new ArrayList<String>();
+		int hDebut = Integer.parseInt(heureDebut.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mDebut = Integer.parseInt(heureDebut.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		int hFin = Integer.parseInt(HEURE_RESERVATION_SALLE_MAX.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mFin = Integer.parseInt(HEURE_RESERVATION_SALLE_MAX.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		int hFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		
+		hDebut += hFrequence;
+		mDebut += mFrequence;
+		
+		do {
+			if(mDebut >= 60) {
+				mDebut = mDebut % 60;
+				hDebut++;
+			}
+			
+			String tmp = "";
+			// Si les heures sont inférieures à 10, alors on ajoute un zéro
+			tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
+			tmp += HEURE_RESERVATION_SEPARATEUR;
+			// Si les minutes sont inférieures à 10, alors on ajoute un zéro
+			tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
+			
+			heuresDebuts.add(tmp);
+			
+			hDebut = (hDebut + hFrequence) % 24;
+			mDebut = (mDebut + mFrequence);			
+		} while(hDebut % 24 < hFin || mDebut % 60 <= mFin);
+		
+		String[] result = new String[heuresDebuts.size()];
+		for(int i = 0 ; i < heuresDebuts.size() ; i++) result[i] = heuresDebuts.get(i);
+		
+		return result;
+	}
+
+	@Override
+	public String[] getReservationsSallesHeuresDebuts() {
+		return getReservationsSallesHeuresDebuts(HEURE_RESERVATION_SALLE_MAX);
+	}
+
+	@Override
+	public String[] getReservationsSallesHeuresFins() {
+		return getReservationsSallesHeuresFins(HEURE_RESERVATION_SALLE_MIN);
 	}
 
 	/*
