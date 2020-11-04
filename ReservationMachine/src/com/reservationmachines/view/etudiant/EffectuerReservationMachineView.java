@@ -29,11 +29,14 @@ public class EffectuerReservationMachineView {
     private JLabel lbFin = new JLabel();
     private JButton btnRetour = new JButton("Retourner");
     private JButton btnValider = new JButton("Valider");
+    private DateChooserJButton btnDateD=new DateChooserJButton();
+    private DateChooserJButton btnDateF=new DateChooserJButton();
+
 
     // background && font
     private JLabel lblBackground = new JLabel();
-    private final URL resource = this.getClass().getResource("images/background2.jpg");
-    private ImageIcon icon = new ImageIcon("images/background2.jpg");
+    private final URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
+    private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
     String[] listData ;//= new String[]{"ME403","ME405",  "ME407", "ME410"};
@@ -75,24 +78,30 @@ public class EffectuerReservationMachineView {
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
         lbNom.setText(controler.getPrenom());
-
+        lbIMsgC.setForeground(Color.RED);
+        lbIMsgC.setBounds(450, 300, 200, 25);
         lbSal.setBounds(360, 150, 100, 30);
         comboBox.setBounds(500, 150, 220, 30);
         lbDeb.setBounds(360, 190, 100, 30);
-        lbDebur.setBounds(500, 190, 250, 30);
+
         lbF.setBounds(360, 230, 100, 30);
-        lbFin.setBounds(500, 230, 250, 30);
+
         lbBon.setBounds(700, 80, 50, 20);
         lbNom.setBounds(750, 80, 100, 20);
 
         btnValider.setBounds(360, 400, 180, 30);
         btnRetour.setBounds(540, 400, 180, 30);
+        btnDateD.setBounds(500, 190, 220, 30);
+        btnDateD.setBackground(new java.awt.Color(176,196,222));
+        btnDateF.setBackground(new java.awt.Color(176,196,222));
+        btnDateF.setBounds(500, 230, 220, 30);
 
         // Définit l'élément sélectionné par défaut
         comboBox.setSelectedIndex(2);
 
         fieldPanel.add(lbBon);
         fieldPanel.add(titre);
+        fieldPanel.add(lbIMsgC);
         fieldPanel.add(lbNom);
         fieldPanel.add(lbDeb);
         fieldPanel.add(lbDebur);
@@ -102,6 +111,8 @@ public class EffectuerReservationMachineView {
         fieldPanel.add(lbFin);
         fieldPanel.add(btnRetour);
         fieldPanel.add(btnValider);
+        fieldPanel.add(btnDateD);
+        fieldPanel.add(btnDateF);
         fieldPanel.add(comboBox);
 
         fieldPanel.add(lblBackground);
@@ -124,6 +135,15 @@ public class EffectuerReservationMachineView {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                btnDateD.getDateActuelle();
+                btnDateF.getDateActuelle();
+                System.out.println(btnDateD.getDateActuelle()+btnDateF.getDateActuelle());
+               if(controler.enregistrerReservation(comboBox.getSelectedItem().toString(),btnDateD.getDateActuelle(),btnDateF.getDateActuelle()))
+               {
+                   lbIMsgC.setText("Opération réussie!");
+               }else{
+                   lbIMsgC.setText("Non machine disponible");
+               }
 
             }
         });
@@ -134,6 +154,7 @@ public class EffectuerReservationMachineView {
                 // Traiter uniquement l'état sélectionné
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     System.out.println("select: " + comboBox.getSelectedIndex() + " = " + comboBox.getSelectedItem());
+
                 }
             }
         });
