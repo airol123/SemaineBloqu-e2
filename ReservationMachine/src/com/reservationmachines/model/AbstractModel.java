@@ -21,6 +21,7 @@ public abstract class AbstractModel {
 	public abstract boolean misAjourInBD(String stremail, String strRePwd);
 	public abstract ArrayList<ReservationMachine> getReservationMachineE(String etudiant);
 	public abstract Admin getAdmin(String numAdmin);
+	public abstract String[][] getReclamations(String identifiant);
 
 }
 
