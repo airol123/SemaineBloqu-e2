@@ -385,6 +385,25 @@ public class Model extends AbstractModel {
 		return reservations;
 	}
 
+	@Override
+	public ArrayList<Salle> getToutesLesSalles() {
+		ArrayList<Salle> salles = new ArrayList<Salle>();
+		String sqlsalle = "select * from salle;"; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlsalle);
+			ResultSet rs=pstmt.executeQuery(sqlsalle);
+			while(rs.next()) {
+				Salle salle =new Salle();
+				salle.setNomSalle(rs.getString("noms"));					
+				salles.add(salle);
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}		
+		return salles;
+	}
+
 	/*
 	@Override
 	public String getPrenomResponsableTP(String idResponsableTP) {
