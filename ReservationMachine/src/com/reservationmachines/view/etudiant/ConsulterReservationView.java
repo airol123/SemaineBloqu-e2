@@ -121,7 +121,7 @@ public class ConsulterReservationView {
 
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
-        lbNom.setText(etudiant.getPrenom());
+        lbNom.setText(controler.getPrenom());
 
         lbSal.setBounds(360, 150, 100, 30);
         lbSalle.setBounds(500, 150, 250, 30);
