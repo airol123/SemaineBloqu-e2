@@ -3,9 +3,11 @@ package com.reservationmachines.controler;
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.Admin;
 import com.reservationmachines.model.EtatMachine;
+import com.reservationmachines.model.EtatSalle;
 import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.model.Machine;
 import com.reservationmachines.model.ResponsableTP;
+import com.reservationmachines.model.Salle;
 
 
 public class AdminControler extends Controler {
@@ -41,6 +43,12 @@ public class AdminControler extends Controler {
 	public void ajouterMachineSalle(String nomMachine, String nomSalle) {
 		Machine machine = new Machine(nomMachine, EtatMachine.DISPONIBLE);
 		model.setMachineSalle(nomMachine, nomSalle);
+
+	}
+	
+	public void ajouterSalle(String nomS, int capacite) {
+		Salle salle = new Salle(nomS, capacite, EtatSalle.DISPONIBLE);
+		model.ajoutSalle(nomS, capacite);
 
 	}
 }
