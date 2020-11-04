@@ -30,6 +30,7 @@ public class EffectuerReservationMachineView {
     private JButton btnRetour = new JButton("Retourner");
     private JButton btnValider = new JButton("Valider");
 
+
     // background && font
     private JLabel lblBackground = new JLabel();
     private final URL resource = this.getClass().getResource("images/background2.jpg");
