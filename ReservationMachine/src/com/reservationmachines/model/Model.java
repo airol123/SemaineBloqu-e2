@@ -135,6 +135,21 @@ public class Model extends AbstractModel {
 		
 		return restp;
 	}
+
+	@Override
+	public String[] getListeNomSalle() throws SQLException {
+		ArrayList<String> listeNomSalle = new ArrayList<>();
+		String sqlnomSalle= "select noms from salle";
+        Connection con =BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sqlnomSalle);
+		ResultSet rs=pstmt.executeQuery();
+		while (rs.next()) {
+			listeNomSalle.add(rs.getString("noms"));
+		}
+		rs.close();  
+		
+		return listeNomSalle.toArray(new String[0]);
+	}
  
 
 }
