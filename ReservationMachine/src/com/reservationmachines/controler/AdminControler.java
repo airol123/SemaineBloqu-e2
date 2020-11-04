@@ -43,4 +43,9 @@ public class AdminControler extends Controler {
 
 	}
 
+	public String[] getListeNomSalle(){
+		String[] s=null;
+		return s;
+
+	}
 }
