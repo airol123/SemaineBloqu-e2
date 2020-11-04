@@ -201,7 +201,7 @@ public class SeConnecterView {
                              Admin admin= new Admin("001","admin","REN","Ruohan2");
                             //if (AdminControler.checkPasswordA(admin,strPwd)) {
                             jFrame.setVisible(false);
-                            PageAdmin pa = new PageAdmin();// admin
+                            PageAdmin pa = new PageAdmin(admin);// admin
                             pa.getjFrame().setVisible(true);
                    /*     } else {
                             lbIMsgI.setText("password is wrong");
