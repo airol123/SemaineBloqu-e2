@@ -137,7 +137,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbl_panel_3.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
 		
-		JLabel lblNewLabel_2 = new JLabel("Liste des salle disponibles");
+		JLabel lblNewLabel_2 = new JLabel("Liste des salles disponibles");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
