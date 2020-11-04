@@ -43,4 +43,10 @@ public class AdminControler extends Controler {
 		model.setMachineSalle(nomMachine, nomSalle);
 
 	}
+
+	public String[] getListeNomSalle(){
+		String[] s=null;
+		return s;
+
+	}
 }
