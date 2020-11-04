@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.main.AppMain;
+import com.reservationmachines.view.admin.ConsulterReclamationView;
 
 public class AdminMainView {
 	private JFrame jFrame = new JFrame("Page Personnelle");
@@ -112,7 +113,8 @@ public class AdminMainView {
 	
 	    btnReclamation.addActionListener(new ActionListener(){
 	        public void actionPerformed(ActionEvent e) {
-	            jFrame.setVisible(false);
+	            jFrame.dispose();
+	            new ConsulterReclamationView(controler);
 	            //
 	        }
 	    });
