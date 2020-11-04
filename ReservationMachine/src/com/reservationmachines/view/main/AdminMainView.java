@@ -15,11 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.reservationmachines.controler.AdminControler;
-import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.main.AppMain;
-import com.reservationmachines.view.etudiant.ConsulterMonProfil;
-import com.reservationmachines.view.etudiant.ConsulterReservationView;
-import com.reservationmachines.view.etudiant.EffectuerReservationMachineView;
 
 public class AdminMainView {
 	private JFrame jFrame = new JFrame("Page Personnelle");
@@ -33,7 +29,7 @@ public class AdminMainView {
 	private JButton btnCompte = new JButton("Gestion de compte");
 	private JButton btnMachine = new JButton("Gestion de machine");
 	private JButton btndeconnec = new JButton("Se déconnecter");
-	
+	private JButton btnSalle = new JButton("Gestion de salle");
 	// background && font
 	private JLabel lblBackground = new JLabel();
 	private URL resource = this.getClass().getResource("images/background2.jpg");
@@ -69,6 +65,7 @@ public class AdminMainView {
 	    btnReclamation.setBounds(410,363,250,50);
 	    btndeconnec.setBounds(740,440,200,30);
 	    btndeconnec.setBackground(Color.LIGHT_GRAY);
+	    btnSalle.setBounds(410, 291, 250, 50);
 	    lbBon.setBounds(700,80,50,20);
 	    lbNom.setBounds(750,80,100,20);
 	    fieldPanel.add(titre);
@@ -78,15 +75,15 @@ public class AdminMainView {
 	    fieldPanel.add(btnMachine);
 	    fieldPanel.add(btndeconnec);
 	    fieldPanel.add(btnReclamation);
+	    fieldPanel.add(btnSalle);
 	    fieldPanel.add(lblBackground);
 	
 	    lbNom.setText(controler.getPrenom());
 	
 	    c.add(fieldPanel, "Center");
 	    
-	    JButton btnSalle = new JButton("Gestion de salle");
-	    btnSalle.setBounds(410, 291, 250, 50);
-	    fieldPanel.add(btnSalle);
+	    
+	    
 	
 	    //----------------------------listener--------------------------------
 	    btndeconnec.addActionListener(new ActionListener() {
