@@ -22,6 +22,7 @@ public abstract class AbstractModel {
 	public abstract ArrayList<ReservationMachine> getReservationMachineE(String etudiant);
 	public abstract Admin getAdmin(String numAdmin);
 	public abstract String[][] getReclamations(String identifiant);
+	public abstract void traiterReclamation(String description);
 
 }
 
