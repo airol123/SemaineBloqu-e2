@@ -66,7 +66,7 @@ public class Model extends AbstractModel {
 	
 	public Etudiant seConnecter(String ide) throws SQLException {
 		Etudiant etu=null;
-		String sqletudiant = "select * from etudiant where ide=?";
+		String sqletudiant = "select * from etudiant where ide=? and etate='valide'";
         Connection con =BD.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(sqletudiant);
 		pstmt.setInt(1, Integer. parseInt(ide));
