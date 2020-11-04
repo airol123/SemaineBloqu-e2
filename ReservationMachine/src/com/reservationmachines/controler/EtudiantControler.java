@@ -63,7 +63,13 @@ public class EtudiantControler extends Controler {
 		return salles;
 	}
 
-    public static void supprimerReservation(ReservationMachine reservationMachine) {
+	public boolean enregistrerReservation(String salle,String dateD,String dateF){
+    	//verifier si la reservation est possible
+		return false;
+	};
+
+
+	public static void supprimerReservation(ReservationMachine reservationMachine) {
         //supprimer cette reservation dans BD
     }
 

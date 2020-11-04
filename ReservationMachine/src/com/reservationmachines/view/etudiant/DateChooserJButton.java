@@ -191,25 +191,26 @@ public class DateChooserJButton extends JButton {
      */
     private class DateChooser extends JPanel implements ActionListener, ChangeListener {
 
-        int startYear = 2019; // 默认【最小】显示年份
-        int lastYear = 2025; // 默认【最大】显示年份
-        int width = 390; // 界面宽度
-        int height = 210; // 界面高度
-        Color backGroundColor = Color.gray; // 底色
-        // 月历表格配色----------------//
-        Color palletTableColor = Color.white; // 日历表底色
-        Color todayBackColor = Color.orange; // 今天背景色
-        Color weekFontColor = Color.blue; // 星期文字色
-        Color dateFontColor = Color.black; // 日期文字色
-        Color weekendFontColor = Color.red; // 周末文字色
-        // 控制条配色------------------//
-        Color controlLineColor = Color.pink; // 控制条底色
-        Color controlTextColor = Color.white; // 控制条标签文字色
-        Color rbFontColor = Color.white; // RoundBox文字色
-        Color rbBorderColor = Color.red; // RoundBox边框色
-        Color rbButtonColor = Color.pink; // RoundBox按钮色
-        Color rbBtFontColor = Color.red; // RoundBox按钮文字色
-        /** 点击DateChooserButton时弹出的对话框，日历内容在这个对话框内 */
+        int startYear = 2019; // Année d'affichage par défaut [minimum]
+        int lastYear = 2025; // Année d'affichage par défaut [Max]
+        int width = 500; // Largeur d'interface
+        int height = 210; // Hauteur
+        Color backGroundColor = Color.gray; // background color
+        // tableau----------------//
+        Color palletTableColor = Color.white;
+        Color todayBackColor = Color.orange;
+        Color weekFontColor = Color.blue;
+        Color dateFontColor = Color.black;
+        Color weekendFontColor = Color.red;
+        // controle------------------//
+        Color controlLineColor = Color.pink;
+        Color controlTextColor = Color.white;
+        Color rbFontColor = Color.white;
+        Color rbBorderColor = Color.red;
+        Color rbButtonColor = Color.pink;
+        Color rbBtFontColor = Color.red;
+        /** La boîte de dialogue qui apparaît lorsque vous cliquez sur le DateChooserButton,
+         * le contenu du calendrier se trouve dans cette boîte de dialogue */
         JDialog dialog;
         JSpinner yearSpin;
         JSpinner monthSpin;
@@ -304,7 +305,7 @@ public class DateChooserJButton extends JButton {
         private JPanel createWeekAndDayPanal() {
             String colname[] = {"DIM", "LUN", "MAR", "MER", "JEU", "VEN", "SAM"};
             JPanel result = new JPanel();
-            // 设置固定字体，以免调用环境改变影响界面美观
+
             result.setFont(new Font("Arial", Font.PLAIN, 12));
             result.setLayout(new GridLayout(7, 7));
             result.setBackground(Color.white);
@@ -345,12 +346,12 @@ public class DateChooserJButton extends JButton {
             return result;
         }
 
-        /** 得到DateChooserButton的当前text，本方法是为按钮事件匿名类准备的。 */
+
         public String getTextOfDateChooserButton() {
             return getText();
         }
 
-        /** 恢复DateChooserButton的原始日期时间text，本方法是为按钮事件匿名类准备的。 */
+
         public void restoreTheOriginalDate() {
             String originalText = getOriginalText();
             setText(originalText);
@@ -365,9 +366,9 @@ public class DateChooserJButton extends JButton {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //记忆原始日期时间
+
                     initOriginalText(getTextOfDateChooserButton());
-                    //隐藏日历对话框
+
                     dialog.setVisible(false);
                 }
             });
@@ -378,9 +379,9 @@ public class DateChooserJButton extends JButton {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //恢复原始的日期时间
+
                     restoreTheOriginalDate();
-                    //隐藏日历对话框
+
                     dialog.setVisible(false);
                 }
             });
@@ -541,5 +542,9 @@ public class DateChooserJButton extends JButton {
         mainFrame.setLocation((width - w) / 2, (height - h) / 2);
 
         mainFrame.setVisible(true);
+    }
+
+    public String getDateActuelle(){
+        return this.originalText;
     }
 }
