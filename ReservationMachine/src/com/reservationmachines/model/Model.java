@@ -186,7 +186,7 @@ public class Model extends AbstractModel {
 		return restp;
 	}
 
-	@Override
+	
 	public String[] getListeNomSalle() throws SQLException {
 		ArrayList<String> listeNomSalle = new ArrayList<>();
 		String sqlnomSalle= "select noms from salle";
@@ -400,6 +400,32 @@ public class Model extends AbstractModel {
 		return reservations;
 	}
 
+	
+	@Override
+	public Admin getAdmin(String numAdmin) {
+		String querySQL = "SELECT * FROM Admin WHERE idA = '" + numAdmin + "';";
+		Admin admin = null;
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			
+			admin = new Admin(
+				resultat.getString("ida"),
+				resultat.getString("mdpa"),
+				resultat.getString("noma"),
+				resultat.getString("prenoma"),
+				resultat.getString("emaila")
+			);
+			
+			System.out.println("Je suis l� !");
+		} catch (Exception e) {e.printStackTrace();}
+		
+		return admin;
+	}
 	/*
 	@Override
 	public String getPrenomResponsableTP(String idResponsableTP) {
@@ -434,6 +460,6 @@ public class Model extends AbstractModel {
 			return "";
 		}
 	}
-	
 	*/
+	
 }
