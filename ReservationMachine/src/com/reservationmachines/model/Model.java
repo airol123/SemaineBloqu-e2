@@ -33,7 +33,7 @@ public class Model extends AbstractModel {
 			ResultSet rs=pstmt.executeQuery();
 			while(rs.next()) {
 				Etudiant etu=new Etudiant();
-				etu.setNom(rs.getString("nome"));	
+				etu.setNom(rs.getString("nome"));
 				etu.setPrenom(rs.getString("prenome"));
 				etu.setEmail(rs.getString("emaile"));
 				etu.setIdentifiant(String.valueOf(rs.getInt("ide")));
@@ -41,8 +41,8 @@ public class Model extends AbstractModel {
 				Salle salle =new Salle();
 				salle.setNomSalle(idSalle);
 				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	
-				
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+
 				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
 				Timestamp d = null;
 				try {
@@ -50,7 +50,7 @@ public class Model extends AbstractModel {
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
-				
+
 				String sdf=rs.getString("datem")+" "+rs.getString("heurefinm");
 				Timestamp f = null;
 				try {
@@ -152,8 +152,8 @@ public class Model extends AbstractModel {
 		else {
 			System.out.println("Il y a pas de cet etudiant");
 		}
-		rs.close();  
-		
+		rs.close();
+
 		return admin;
 	}
 	
@@ -280,7 +280,7 @@ public class Model extends AbstractModel {
 		}
 		else {
 			return false;
-		}	
+		}
 	}
 	
 	@Override
@@ -293,7 +293,7 @@ public class Model extends AbstractModel {
 			Statement statement;
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
-			
+
 			ArrayList<String> formations = new ArrayList<String>();
 			while(resultat.next()) {
 				formations.add(resultat.getString(1));

@@ -36,8 +36,9 @@ public class ModifierProfilView {
     private Font font=new Font("Arial",Font.BOLD,36);
 
 	private EtudiantControler controler;
-	
+
     public ModifierProfilView(EtudiantControler controler) {//
+        this.controler=controler;
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
         jFrame.setBounds(600, 200, 1010, 550);
@@ -152,9 +153,14 @@ public class ModifierProfilView {
                     return;
                 }
 
-                controler.misAjourInBD(stremail, strRePwd);
-                
-                lbIMsgC.setText("Successful");
+                if (controler.misAjourInBD(stremail, strRePwd)){
+                    lbIMsgC.setText("Successful");
+                }else{
+                    lbIMsgC.setText("échec");
+                }
+
+
+
 
             }
         });
