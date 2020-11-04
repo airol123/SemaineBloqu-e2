@@ -151,8 +151,8 @@ public class BD {
         System.out.println(reservations.get(1).getNomEtudiant());
         System.out.println(reservations.get(1).getNomMachine());
         System.out.println(reservations.get(1).getEtatMachine());
-        System.out.println(reservations.get(1).getHeureDebut());
-        System.out.println(reservations.get(1).getHeureFin());
+        //System.out.println(reservations.get(1).getHeureDebut());
+        //System.out.println(reservations.get(1).getHeureFin());
         //Pour tester
         //Etudiant e=c.seConnecter(Integer.toString(21809061));  
         //System.out.println(e.getEmail());
