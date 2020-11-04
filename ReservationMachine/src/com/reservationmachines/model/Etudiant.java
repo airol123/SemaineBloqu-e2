@@ -1,15 +1,24 @@
 package com.reservationmachines.model;
 
 public class Etudiant extends Utilisateur {
-    public Etudiant() {
-        super();
-    }
+	public Etudiant() {
+		super();
+	}
 
-    public Etudiant(String identifiant, String mdp) {
-        super(identifiant, mdp);
-    }
+	public Etudiant(String numEtudiant, String mdp, String nom, String prenom, String email) {
+        super(numEtudiant, mdp, nom, prenom, email);
+	}
+	
+	public Etudiant(String numEtudiant, String mdp) {
+        super(numEtudiant, mdp);
+	}
+	
+	public String getNom() {
+		return this.nom;
+	}
 
-    public Etudiant(String identifiant, String mdp, String nom, String prenom) {
-        super(identifiant, mdp, nom, prenom);
-    }
+	public String getPrenom() {
+		return this.prenom;
+	}
+
 }

@@ -1,9 +1,10 @@
 package com.reservationmachines.model;
 
 public class Admin extends Utilisateur {
-    public Admin() {
-    }
-
+	public Admin() {
+		super();
+	}
+	
     public Admin(String identifiant, String mdp) {
         super(identifiant, mdp);
     }

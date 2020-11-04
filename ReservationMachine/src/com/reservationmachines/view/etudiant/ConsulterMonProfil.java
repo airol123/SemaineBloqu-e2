@@ -1,6 +1,5 @@
 package com.reservationmachines.view.etudiant;
 
-import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.view.main.SeConnecterView;
 
@@ -10,28 +9,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
-public class PageEtudiant {
-    private JFrame jFrame = new JFrame("Page Personnelle");
+public class ConsulterMonProfil {
+    private JFrame jFrame = new JFrame("Mon Profil");
     private Container c = jFrame.getContentPane();
-
-    private JLabel titre = new JLabel("Page Personnelle");
+    private JLabel titre = new JLabel("Mon Profil");
     private JLabel lbBon = new JLabel("Bonjour, ");
     private JLabel lbNom=new JLabel() ;
 
-    private JButton btnreserv = new JButton("Réserver la machine");
-    private JButton btnconsPro = new JButton("Mon profil");
-    private JButton btnconsReserv = new JButton("Mes réservations");
-    private JButton btndeconnec = new JButton("Se déconnecter");
+    private JLabel lbemail=new JLabel("E-mail");
+    private JLabel lbnumero=new JLabel("Numéro d'étudiant");
+    private JLabel lbnom=new JLabel("Nom");
+    private JLabel lbprenom=new JLabel("Prenom");
+    private JLabel lbemailR=new JLabel();
+    private JLabel lbnumeroR=new JLabel();
+    private JLabel lbnomR=new JLabel();
+    private JLabel lbprenomR=new JLabel();
+
+    private JButton btnmodifier = new JButton("Modifier");
+    private JButton btnreturn = new JButton("retourner");
 
     // background && font
     private JLabel lblBackground = new JLabel();
     private URL resource = this.getClass().getResource("images/background2.jpg");
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
+
     private Etudiant etudiant=new Etudiant();
 
-    public PageEtudiant(Etudiant etu ) { //
-         this.etudiant=etu;
+    public ConsulterMonProfil( Etudiant etu) {
+        this.etudiant=etu;
 
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
@@ -53,68 +59,69 @@ public class PageEtudiant {
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
 
-        btnconsPro.setBounds(410,150,250,50);
-        btnconsReserv.setBounds(410,220,250,50);
-        btnreserv.setBounds(410,290,250,50);
-        btndeconnec.setBounds(740,440,200,30);
-        btndeconnec.setBackground(Color.LIGHT_GRAY);
         lbBon.setBounds(700,80,50,20);
         lbNom.setBounds(750,80,100,20);
-        fieldPanel.add(titre);
+        lbnumero.setBounds(360,150,120,30);
+        lbnom.setBounds(360,190,120,30);
+        lbprenom.setBounds(360,220,120,30);
+        lbemail.setBounds(360,250,120,30);
+        lbnumeroR.setBounds(500,150,150,30);
+        lbnomR.setBounds(500,190,150,30);
+        lbprenomR.setBounds(500,220,150,30);
+        lbemailR.setBounds(500,250,150,30);
+        btnmodifier.setBounds(360,400,100,40);
+        btnreturn.setBounds(550,400,100,40);
+
         fieldPanel.add(lbBon);
+        fieldPanel.add(titre);
         fieldPanel.add(lbNom);
-        fieldPanel.add(btnconsPro);
-        fieldPanel.add(btnconsReserv);
-        fieldPanel.add(btndeconnec);
-        fieldPanel.add(btnreserv);
+        fieldPanel.add(lbnumero);
+        fieldPanel.add(lbnom);
+        fieldPanel.add(lbprenom);
+        fieldPanel.add(lbemail);
+        fieldPanel.add(lbnumeroR);
+        fieldPanel.add(lbnomR);
+        fieldPanel.add(lbprenomR);
+        fieldPanel.add(lbemailR);
+        fieldPanel.add(btnmodifier);
+        fieldPanel.add(btnreturn);
         fieldPanel.add(lblBackground);
+
+          lbemailR.setText(etudiant.getEmail());
+          lbnumeroR.setText(etudiant.getIdentifiant());
+          lbnomR.setText(etudiant.getNom());
+          lbprenomR.setText(etudiant.getNom());
 
         lbNom.setText(etudiant.getPrenom());
 
         c.add(fieldPanel, "Center");
-
-
-
         //----------------------------listener--------------------------------
-        btndeconnec.addActionListener(new ActionListener() {
+
+        btnreturn.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                SeConnecterView sc = new SeConnecterView();
-                sc.getjFrame().setVisible(true);
+                PageEtudiant pe = new PageEtudiant(etudiant);
+                pe.getjFrame().setVisible(true);
 
             }
         });
 
-        btnconsPro.addActionListener(new ActionListener(){
-        public void actionPerformed(ActionEvent e) {
-            jFrame.setVisible(false);
-            ConsulterMonProfil cp = new ConsulterMonProfil(etudiant);//Etudiant etudiant
-            cp.getjFrame().setVisible(true);
+        btnmodifier.addActionListener(new ActionListener() {
 
-        }
-        });
-
-        btnconsReserv.addActionListener(new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                ConsulterReservationView cr = new ConsulterReservationView(); //Etudiant etudiant
-                cr.getjFrame().setVisible(true);
+                ModifierProfilView mo = new ModifierProfilView(etudiant);
+                mo.getjFrame().setVisible(true);
+
             }
         });
-
-        btnreserv.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                jFrame.setVisible(false);
-                EffectuerReservationMachineView er = new EffectuerReservationMachineView(); //Etudiant etudiant
-                er.getjFrame().setVisible(true);
-            }
-        });
-
-
 
     }
+
+
     public JFrame getjFrame() {
         return jFrame;
     }
