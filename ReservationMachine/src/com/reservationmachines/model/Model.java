@@ -13,7 +13,7 @@ public class Model extends AbstractModel {
 
 	@Override
 	public String[] getEnteteReservationMachine() {
-		return new String[] {"Machine", "�tat de la machine", "Nom �tudiant", "Pr�nom �tudiant"};
+		return new String[] {"Machine", "État de la machine", "Nom étudiant", "Prénom �tudiant"};
 	}
 	
 	@Override
@@ -21,7 +21,7 @@ public class Model extends AbstractModel {
 		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
 		
 		/*
-		 * Remplir la liste avec toutes les r�servations de la salle 'idSalle' en param�tre
+		 * Remplir la liste avec toutes les réservations de la salle 'idSalle' en paramètre
 		 */
 		
 		/* Ceci est un test pour l'affichage
