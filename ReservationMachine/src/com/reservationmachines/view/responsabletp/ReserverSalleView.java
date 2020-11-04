@@ -7,7 +7,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -16,9 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListDataListener;
 
 import com.reservationmachines.controler.ResponsableTPControler;
 
@@ -225,7 +222,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(cbFormation)) {
 			String currentFormation = cbFormation.getSelectedItem().toString();
-			cbGroupeTP.setModel(new DefaultComboBoxModel(controler.recupererGroupeTP(currentFormation)));
+			cbGroupeTP.setModel(new DefaultComboBoxModel<String>(controler.recupererGroupeTP(currentFormation)));
 			cbGroupeTP.setEnabled(true);
 		} else if(e.getSource().equals(cbGroupeTP)) {
 			
