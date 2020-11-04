@@ -35,8 +35,8 @@ public class EffectuerReservationMachineView {
 
     // background && font
     private JLabel lblBackground = new JLabel();
-    private final URL resource = this.getClass().getResource("images/background2.jpg");
-    private ImageIcon icon = new ImageIcon("images/background2.jpg");
+    private final URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
+    private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
     String[] listData ;//= new String[]{"ME403","ME405",  "ME407", "ME410"};
