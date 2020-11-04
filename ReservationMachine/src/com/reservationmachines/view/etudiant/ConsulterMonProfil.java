@@ -1,6 +1,8 @@
 package com.reservationmachines.view.etudiant;
 
+import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.model.Etudiant;
+import com.reservationmachines.view.main.EtudiantMainView;
 import com.reservationmachines.view.main.SeConnecterView;
 
 import javax.swing.*;
@@ -35,9 +37,10 @@ public class ConsulterMonProfil {
     private Font font=new Font("Arial",Font.BOLD,36);
 
     private Etudiant etudiant=new Etudiant();
+    private EtudiantControler etudiantControler;
 
-    public ConsulterMonProfil( Etudiant etu) {
-        this.etudiant=etu;
+    public ConsulterMonProfil(EtudiantControler etudiantControler ) {//Etudiant etu
+       // this.etudiant=etu;
 
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
@@ -102,7 +105,7 @@ public class ConsulterMonProfil {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                PageEtudiant pe = new PageEtudiant(etudiant);
+                EtudiantMainView pe = new EtudiantMainView(etudiantControler);
                 pe.getjFrame().setVisible(true);
 
             }
@@ -113,7 +116,7 @@ public class ConsulterMonProfil {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                ModifierProfilView mo = new ModifierProfilView(etudiant);
+                ModifierProfilView mo = new ModifierProfilView(etudiantControler);
                 mo.getjFrame().setVisible(true);
 
             }

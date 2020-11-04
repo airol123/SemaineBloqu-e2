@@ -24,7 +24,7 @@ public class EtudiantControler extends Controler {
     }
 
 
-	public void inscrireEtudiant(String strident, String strPwd, String strNom, String strPrenom, String strEmail) {
+	public boolean inscrireEtudiant(String strident, String strPwd, String strNom, String strPrenom, String strEmail) {
 		return model.inscrireEtudiant(new Etudiant(strident, strPwd, strNom, strPrenom, strEmail));
 	}
 
@@ -39,11 +39,11 @@ public class EtudiantControler extends Controler {
         return rm;
     }
 
-    public void supprimerReservation(ReservationMachine reservationMachine) {
+    public static void supprimerReservation(ReservationMachine reservationMachine) {
         //supprimer cette reservation dans BD
     }
 
-    public void stockerReclamation(Reclamation re) {
+    public static void stockerReclamation(Reclamation re) {
         //stocker la reclamation dans BD
     }
 

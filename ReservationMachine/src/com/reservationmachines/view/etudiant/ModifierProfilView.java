@@ -36,9 +36,10 @@ public class ModifierProfilView {
     private Font font=new Font("Arial",Font.BOLD,36);
 
     private Etudiant etudiant=new Etudiant();
-
-    public ModifierProfilView(Etudiant e) {//
-        this.etudiant=e;
+private EtudiantControler controler;
+    public ModifierProfilView( EtudiantControler controler) {//
+        //this.etudiant=e;
+        this.controler=controler;
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
         jFrame.setBounds(600, 200, 1010, 550);
@@ -115,7 +116,7 @@ public class ModifierProfilView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                ConsulterMonProfil cp = new ConsulterMonProfil(etudiant);
+                ConsulterMonProfil cp = new ConsulterMonProfil(controler);
                 cp.getjFrame().setVisible(true);
 
             }
@@ -157,7 +158,7 @@ public class ModifierProfilView {
 
                 etudiant.setEmail(stremail);
                 etudiant.setMdp(strRePwd);
-                EtudiantControler.misAjourInBD(etudiant);
+                //?EtudiantControler.misAjourInBD(controler);
 
                 lbIMsgC.setText("Successful");
 

@@ -34,9 +34,11 @@ public class FaireReclamationView {
     private Font font=new Font("Arial",Font.BOLD,36);
     private Etudiant etudiant=new Etudiant();
     private ReservationMachine rm;
+    private EtudiantControler controler;
 
-    public FaireReclamationView(Etudiant etu,ReservationMachine rm) {
-        this.etudiant=etu;
+    public FaireReclamationView(EtudiantControler controler) {//Etudiant etu,ReservationMachine rm
+        //this.etudiant=etu;
+        this.controler=controler;
         this.rm=rm;
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
@@ -82,7 +84,7 @@ public class FaireReclamationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                ConsulterReservationView pe = new ConsulterReservationView();
+                ConsulterReservationView pe = new ConsulterReservationView(controler);
                 pe.getjFrame().setVisible(true);
 
             }

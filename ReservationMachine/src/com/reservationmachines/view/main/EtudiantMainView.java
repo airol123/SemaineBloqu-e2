@@ -3,6 +3,9 @@ package com.reservationmachines.view.main;
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.main.AppMain;
 import com.reservationmachines.model.Etudiant;
+import com.reservationmachines.view.etudiant.ConsulterMonProfil;
+import com.reservationmachines.view.etudiant.ConsulterReservationView;
+import com.reservationmachines.view.etudiant.EffectuerReservationMachineView;
 import com.reservationmachines.view.main.SeConnecterView;
 
 import javax.swing.*;
@@ -30,9 +33,9 @@ public class EtudiantMainView {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font = new Font("Arial",Font.BOLD,36);
     private EtudiantControler controler;
-    
+
     public EtudiantMainView(EtudiantControler controler) { //
-         this.controler = controler;
+        this.controler = controler;
 
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
@@ -86,11 +89,11 @@ public class EtudiantMainView {
         });
 
         btnconsPro.addActionListener(new ActionListener(){
-	        public void actionPerformed(ActionEvent e) {
-	            jFrame.dispose();
-	            ConsulterMonProfil cp = new ConsulterMonProfil(controler);
-	            cp.getjFrame().setVisible(true);
-	        }
+            public void actionPerformed(ActionEvent e) {
+                jFrame.dispose();
+                ConsulterMonProfil cp = new ConsulterMonProfil(controler);
+                cp.getjFrame().setVisible(true);
+            }
         });
 
         btnconsReserv.addActionListener(new ActionListener(){
