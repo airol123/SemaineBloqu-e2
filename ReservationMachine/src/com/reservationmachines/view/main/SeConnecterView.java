@@ -49,8 +49,8 @@ public class SeConnecterView {
 	private ResponsableTPControler c2;
 	private AdminControler c3;
 	
-	public SeConnecterView(/*EtudiantControler c1, ResponsableTPControler c2,
-			AdminControler c3*/) {
+	public SeConnecterView(EtudiantControler c1, ResponsableTPControler c2,
+			AdminControler c3) {
 		this.c1 = c1;
 		this.c2 = c2;
 		this.c3 = c3;	

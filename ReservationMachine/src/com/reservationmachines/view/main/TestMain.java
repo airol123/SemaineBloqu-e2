@@ -5,7 +5,7 @@ import com.reservationmachines.view.etudiant.*;
 public class TestMain {
     // il consiste a tester les interfaces
     public static void main(String[] args) throws Exception {
-        SeConnecterView connexion = new SeConnecterView();
+        //SeConnecterView connexion = new SeConnecterView();
         // ConsulterReservationView con=new ConsulterReservationView();
         // ConsulterMonProfil c =new ConsulterMonProfil();
         //PageGuacamole pg=new PageGuacamole();
