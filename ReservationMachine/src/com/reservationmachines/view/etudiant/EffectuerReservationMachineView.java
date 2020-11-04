@@ -3,8 +3,13 @@ package com.reservationmachines.view.etudiant;
 import javax.swing.*;
 
 import com.reservationmachines.controler.EtudiantControler;
+import com.reservationmachines.view.main.EtudiantMainView;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.net.URL;
 
 public class EffectuerReservationMachineView {
@@ -18,20 +23,22 @@ public class EffectuerReservationMachineView {
     private JLabel lbNom = new JLabel();
     private JLabel lbSal = new JLabel("Salle");
     private JLabel lbSalle = new JLabel();
-    private JLabel lbDeb = new JLabel("Debut");
+    private JLabel lbDeb = new JLabel("Date Debut");
     private JLabel lbDebur = new JLabel();
-    private JLabel lbF = new JLabel("Fin");
+    private JLabel lbF = new JLabel("Date Fin");
     private JLabel lbFin = new JLabel();
     private JButton btnRetour = new JButton("Retourner");
     private JButton btnValider = new JButton("Valider");
 
     // background && font
     private JLabel lblBackground = new JLabel();
-    private URL resource = this.getClass().getResource("images/background2.jpg");
+    private final URL resource = this.getClass().getResource("images/background2.jpg");
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
+    String[] listData = new String[]{"ME403","ME405",  "ME407", "ME410"};
 
+    final JComboBox<String> comboBox = new JComboBox<String>(listData);
 
     
     private EtudiantControler controler;
@@ -39,6 +46,102 @@ public class EffectuerReservationMachineView {
     public EffectuerReservationMachineView(EtudiantControler controler) {
 
         this.controler = controler;
+
+        titre.setFont(font);
+        titre.setBounds(390, 20, 500, 40);
+        jFrame.setBounds(600, 200, 1010, 550);
+        //Mettre en place une couche de quelque chose d'équivalent à une nappe
+        c.setLayout(new BorderLayout());//Gestionnaire de mise en page
+        //Définir pour fermer après avoir appuyé sur le chiffre X dans le coin supérieur droit
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setLocationRelativeTo(null);
+        //Initialisation-mettre d'autres contrôles dans le formulaire
+        init();
+        //Définir le formulaire pour qu'il soit visible
+        jFrame.setVisible(true);
+
+    }
+
+    public void init() {
+
+       /* listData= new String[controler.trouverToutesLesSalles().size()];
+        for (int i = 0; i <controler.trouverToutesLesSalles().size() ; i++) {
+            listData[i]=controler.trouverToutesLesSalles().get(i).getNomSalle();
+        }*/
+
+
+        lblBackground.setIcon(icon); // Définir l'icône à afficher par le composant d'étiquette
+        lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
+
+        JPanel fieldPanel = new JPanel();
+        fieldPanel.setLayout(null);
+        lbNom.setText(controler.getPrenom());
+
+        lbSal.setBounds(360, 150, 100, 30);
+        comboBox.setBounds(500, 150, 220, 30);
+        lbDeb.setBounds(360, 190, 100, 30);
+        lbDebur.setBounds(500, 190, 250, 30);
+        lbF.setBounds(360, 230, 100, 30);
+        lbFin.setBounds(500, 230, 250, 30);
+        lbBon.setBounds(700, 80, 50, 20);
+        lbNom.setBounds(750, 80, 100, 20);
+
+        btnValider.setBounds(360, 400, 180, 30);
+        btnRetour.setBounds(540, 400, 180, 30);
+
+
+
+
+
+        // Définit l'élément sélectionné par défaut
+        comboBox.setSelectedIndex(2);
+
+        fieldPanel.add(lbBon);
+        fieldPanel.add(titre);
+        fieldPanel.add(lbNom);
+        fieldPanel.add(lbDeb);
+        fieldPanel.add(lbDebur);
+        fieldPanel.add(lbSal);
+        fieldPanel.add(lbSalle);
+        fieldPanel.add(lbF);
+        fieldPanel.add(lbFin);
+        fieldPanel.add(btnRetour);
+        fieldPanel.add(btnValider);
+        fieldPanel.add(comboBox);
+
+        fieldPanel.add(lblBackground);
+
+
+        c.add(fieldPanel, "Center");
+        //----------------------------listener--------------------------------
+
+
+        btnRetour.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.setVisible(false);
+                new EtudiantMainView(controler);
+            }
+        });
+
+        btnValider.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        comboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                // Traiter uniquement l'état sélectionné
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    System.out.println("select: " + comboBox.getSelectedIndex() + " = " + comboBox.getSelectedItem());
+                }
+            }
+        });
     }
 
 
