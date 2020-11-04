@@ -43,10 +43,18 @@ public class EtudiantControler extends Controler {
         return etudiant;
     }
 
-    public ReservationMachine[] trouverToutesLesReservation(Etudiant etudiant) {
+	public String trouverEtudiantId() {
+		String etudiantId =null;
+		etudiantId = model.getEtudiant(id).getIdentifiant();
+		return etudiantId;
+	}
+
+    public ReservationMachine[] trouverToutesLesReservation(String etudiant) {
         ReservationMachine[] rm = null;
         return rm;
     }
+
+
 
     public static void supprimerReservation(ReservationMachine reservationMachine) {
         //supprimer cette reservation dans BD
