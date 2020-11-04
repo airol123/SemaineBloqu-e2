@@ -1,5 +1,7 @@
 package com.reservationmachines.controler;
 
+import java.util.HashMap;
+
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.model.Reclamation;
@@ -19,18 +21,25 @@ public class EtudiantControler extends Controler {
     	return false;
     }
 
-    public void misAjourInBD(Etudiant etudiant) {
-
+    public boolean misAjourInBD(String stremail, String strRePwd) {
+		return model.misAjourInBD(stremail, strRePwd);
     }
 
 
-	public void inscrireEtudiant(String strident, String strPwd, String strNom, String strPrenom, String strEmail) {
+	public boolean inscrireEtudiant(String strident, String strPwd, String strNom, String strPrenom, String strEmail) {
 		return model.inscrireEtudiant(new Etudiant(strident, strPwd, strNom, strPrenom, strEmail));
 	}
 
-    public Etudiant trouverEtudiant(Etudiant etu ) {
-        Etudiant etudiant = new Etudiant();
-
+    public HashMap<String, String> trouverEtudiant() {
+    	HashMap<String, String> etudiant = new HashMap<String, String>();
+    	Etudiant etudiantModel = model.getEtudiant(id);
+    	
+    	etudiant.put("ide", etudiantModel.getIdentifiant());
+    	etudiant.put("mdpe", etudiantModel.getMdp());
+    	etudiant.put("nome", etudiantModel.getNom());
+    	etudiant.put("prenome", etudiantModel.getPrenom());
+    	etudiant.put("emaile", etudiantModel.getEmail());
+    	
         return etudiant;
     }
 
@@ -47,11 +56,27 @@ public class EtudiantControler extends Controler {
         //stocker la reclamation dans BD
     }
 
-	public String getPrenom() {
-		return model.getPrenomEtudiant(id);
-	}
-
 	public void methode(String strident) {
 		
+	}
+
+	public String getPrenom() {
+		return model.getEtudiant(id).getPrenom();
+	}
+	
+	public String getEmail() {
+		return model.getEtudiant(id).getEmail();
+	}
+
+	public String getIdentifiant() {
+		return model.getEtudiant(id).getIdentifiant();
+	}
+
+	public String getNom() {
+		return model.getEtudiant(id).getNom();
+	}
+	
+	public String getMotDePasse() {
+		return model.getEtudiant(id).getMdp();
 	}
 }
