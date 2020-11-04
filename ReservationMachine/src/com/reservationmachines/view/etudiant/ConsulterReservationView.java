@@ -2,6 +2,7 @@ package com.reservationmachines.view.etudiant;
 
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.model.*;
+import com.reservationmachines.view.main.EtudiantMainView;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -55,9 +56,11 @@ public class ConsulterReservationView {
     private ReservationMachine[] rm;
     private String[] reserveNom ;
     private int courrent;
+    
+    private EtudiantControler controler;
 
-
-    public ConsulterReservationView() {//etu  this.etudiant=etu;
+    public ConsulterReservationView(EtudiantControler controler) {
+    	this.controler = controler;
         // retourner toutes les reservations de cet etudiant
         //rm = new ReservationMachine[EtudiantControler.trouverToutesLesReservation(etudiant).length];
         //reserveNom = new String[rm.length];
@@ -162,9 +165,7 @@ public class ConsulterReservationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                PageEtudiant pe = new PageEtudiant(etudiant);
-                pe.getjFrame().setVisible(true);
-
+                new EtudiantMainView(controler);
             }
         });
 
@@ -173,9 +174,7 @@ public class ConsulterReservationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                PageGuacamole pe = new PageGuacamole();
-                pe.getFrame().setVisible(true);
-
+                new PageGuacamole();
             }
         });
 
@@ -183,18 +182,15 @@ public class ConsulterReservationView {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                EtudiantControler.supprimerReservation(rm[courrent]);
-
+                controler.supprimerReservation(rm[courrent]);
             }
         });
         btnReclamer.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                jFrame.setVisible(false);
-                FaireReclamationView re = new FaireReclamationView(etudiant, rm[courrent]);
-                re.getjFrame().setVisible(true);
-
+                jFrame.dispose();
+                new FaireReclamationView(controler, rm[courrent]);
             }
         });
     }
