@@ -78,7 +78,8 @@ public class EffectuerReservationMachineView {
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
         lbNom.setText(controler.getPrenom());
-
+        lbIMsgC.setForeground(Color.RED);
+        lbIMsgC.setBounds(450, 300, 200, 25);
         lbSal.setBounds(360, 150, 100, 30);
         comboBox.setBounds(500, 150, 220, 30);
         lbDeb.setBounds(360, 190, 100, 30);
@@ -100,6 +101,7 @@ public class EffectuerReservationMachineView {
 
         fieldPanel.add(lbBon);
         fieldPanel.add(titre);
+        fieldPanel.add(lbIMsgC);
         fieldPanel.add(lbNom);
         fieldPanel.add(lbDeb);
         fieldPanel.add(lbDebur);

@@ -1,5 +1,7 @@
 package com.reservationmachines.controler;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -64,9 +66,32 @@ public class EtudiantControler extends Controler {
 	}
 
 	public boolean enregistrerReservation(String salle,String dateD,String dateF){
-    	//verifier si la reservation est possible
+    	//1.get arraylist de Machine disponible
+		//2. if(arraylist.size!=null){
+		//  affecter une machine
+		//  return true
+		//}
+		//3.else{ return false;}
+
+
+		System.out.println(dateD);
+
+		DateTimeFormatter fommatter1 =DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+		LocalDateTime dateTime1  = LocalDateTime.parse(dateD, fommatter1);
+
+		System.out.println(dateTime1);
+
+
+
+		/*DateTime time = new DateTime(new Date());
+		Date date = time.toDate();
+		DateTime time2 = new DateTime(System.currentTimeMillis());
+		time2.getMillis();*/
 		return false;
-	};
+	}
+
+
 
 
 	public static void supprimerReservation(ReservationMachine reservationMachine) {
