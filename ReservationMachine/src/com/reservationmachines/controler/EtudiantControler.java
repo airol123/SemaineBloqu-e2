@@ -47,15 +47,19 @@ public class EtudiantControler extends Controler {
 		return etudiantId;
 	}
 
-    public ReservationMachine[] trouverToutesLesReservation(String etudiant) {
-        ReservationMachine[] rm = null;
+    public ReservationMachine[] trouverToutesLesReservation(String etudiant) {      
+        ArrayList<ReservationMachine> reservations = model.getReservationMachineE(etudiant);
+        int nbreservation=reservations.size();
+        ReservationMachine[] rm = new ReservationMachine[nbreservation];
+        for(int i = 0 ; i < nbreservation ; i++) {
+        	rm[i]=reservations.get(i);
+		}        
         return rm;
     }
 	public ArrayList<Salle> trouverToutesLesSalles(){
 		ArrayList<Salle> salles=new ArrayList<>();
 		return salles;
 	}
-
 
     public static void supprimerReservation(ReservationMachine reservationMachine) {
         //supprimer cette reservation dans BD
