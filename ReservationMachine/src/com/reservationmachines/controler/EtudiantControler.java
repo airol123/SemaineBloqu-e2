@@ -3,10 +3,7 @@ package com.reservationmachines.controler;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.reservationmachines.model.AbstractModel;
-import com.reservationmachines.model.Etudiant;
-import com.reservationmachines.model.Reclamation;
-import com.reservationmachines.model.ReservationMachine;
+import com.reservationmachines.model.*;
 
 public class EtudiantControler extends Controler {
 
@@ -59,7 +56,10 @@ public class EtudiantControler extends Controler {
 		}        
         return rm;
     }
-
+	public ArrayList<Salle> trouverToutesLesSalles(){
+		ArrayList<Salle> salles=new ArrayList<>();
+		return salles;
+	}
 
     public static void supprimerReservation(ReservationMachine reservationMachine) {
         //supprimer cette reservation dans BD

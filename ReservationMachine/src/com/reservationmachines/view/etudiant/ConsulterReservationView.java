@@ -42,7 +42,7 @@ public class ConsulterReservationView {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
-    private Etudiant etudiant = new Etudiant();
+    //private Etudiant etudiant = new Etudiant();
 
 /*    private Salle s1 = new Salle("ME405",20,EtatSalle.DISPONIBLE);
     private Machine m1 = new Machine("A123", EtatMachine.DISPONIBLE,s1);
