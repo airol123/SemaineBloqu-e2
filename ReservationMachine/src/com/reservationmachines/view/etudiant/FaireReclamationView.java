@@ -89,7 +89,7 @@ public class FaireReclamationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String strDes=descri.getText();
-                Enum ty;
+                TypeReclamation ty;
                 //String t=comboBox.getSelectedItem().toString();
                 int index=comboBox.getSelectedIndex();
                 if (index==1){
