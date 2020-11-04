@@ -80,6 +80,7 @@ public class EtudiantMainView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.dispose();
+                controler.deconnexion();
                 new AppMain();
             }
         });

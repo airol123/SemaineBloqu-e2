@@ -138,7 +138,7 @@ public class Model extends AbstractModel {
 	@Override
 	public boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp) {
 		String querySQL = "SELECT idE FROM Etudiant " +
-				"WHERE idE = " + numEtudiant + " AND mdpE = " + mdp + ";";
+				"WHERE idE = '" + numEtudiant + "' AND mdpE = '" + mdp + "';";
 
 		// Vérifier si la valeur existe dans la table
 		try {
@@ -156,7 +156,7 @@ public class Model extends AbstractModel {
 	@Override
 	public boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp) {
 		String querySQL = "SELECT idResp FROM RespP " +
-				"WHERE idResp = " + idResponsableTP + " AND mdpR = " + mdp + ";";
+				"WHERE idResp = '" + idResponsableTP + "' AND mdpR = '" + mdp + "';";
 
 		// Vérifier si la valeur existe dans la table
 		try {
@@ -174,7 +174,7 @@ public class Model extends AbstractModel {
 	@Override
 	public boolean verifierMotDePasseAdmin(String idAdmin, String mdp) {
 		String querySQL = "SELECT idA FROM Admin " +
-				"WHERE idA = " + idAdmin + " AND mdpA = " + mdp + ";";
+				"WHERE idA = '" + idAdmin + "' AND mdpA = '" + mdp + "';";
 
 		// Vérifier si la valeur existe dans la table
 		try {
@@ -191,7 +191,7 @@ public class Model extends AbstractModel {
 
 	@Override
 	public String getPrenomEtudiant(String numEtudiant) {
-		String querySQL = "SELECT nomE FROM Etudiant WHERE idE = " + numEtudiant + ";";
+		String querySQL = "SELECT nomE FROM Etudiant WHERE idE = '" + numEtudiant + "';";
 
 		// Vérifier si la valeur existe dans la table
 		try {
@@ -214,7 +214,7 @@ public class Model extends AbstractModel {
 	/*
 	@Override
 	public String getPrenomResponsableTP(String idResponsableTP) {
-		String querySQL = "SELECT nomA FROM RespP WHERE idResp = " + idResponsableTP + ";";
+		String querySQL = "SELECT nomA FROM RespP WHERE idResp = '" + idResponsableTP + "';";
 
 		// Vérifier si la valeur existe dans la table
 		try {
@@ -231,7 +231,7 @@ public class Model extends AbstractModel {
 
 	@Override
 	public String getPrenomAdmin(String idAdmin) {
-		String querySQL = "SELECT nomR FROM Admin WHERE idA = " + idAdmin + ";";
+		String querySQL = "SELECT nomR FROM Admin WHERE idA = '" + idAdmin + "';";
 
 		// Vérifier si la valeur existe dans la table
 		try {
