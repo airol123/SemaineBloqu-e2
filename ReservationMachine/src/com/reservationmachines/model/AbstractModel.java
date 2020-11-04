@@ -19,5 +19,12 @@ public abstract class AbstractModel {
 	public abstract ArrayList<String> recupererNomsFormations();
 	public abstract ArrayList<GroupeTP> recupererNomsGroupesTP(String idFormation);
 	public abstract boolean misAjourInBD(String stremail, String strRePwd);
+	public abstract String[] getReservationsSallesDates();
+	public abstract ArrayList<Salle> getValeursSallesDisponibles(String date, String heureDebut, String heureFin);
+	public abstract String[] getEnteteSallesDisponibles();
+	public abstract String[] getReservationsSallesHeuresDebuts();
+	public abstract String[] getReservationsSallesHeuresDebuts(String heureFin);
+	public abstract String[] getReservationsSallesHeuresFins();
+	public abstract String[] getReservationsSallesHeuresFins(String heureDebut);
 
 }
