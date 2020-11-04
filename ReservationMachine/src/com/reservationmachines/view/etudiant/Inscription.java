@@ -1,6 +1,7 @@
 package com.reservationmachines.view.etudiant;
 
 import com.reservationmachines.controler.EtudiantControler;
+import com.reservationmachines.main.AppMain;
 import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.view.main.SeConnecterView;
 
@@ -10,15 +11,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
-public class ModifierProfilView {
-    private JFrame jFrame = new JFrame("ModifierProfil");
+public class Inscription {
+    private JFrame jFrame = new JFrame("Inscription");
     private EtudiantControler ec;
     private Container c = jFrame.getContentPane();
     //composition
-    private JLabel titre = new JLabel("Modifier Profil");
+    private JLabel titre = new JLabel("Inscription");
     private JLabel lbIMsgC = new JLabel();
 
-
+    private JLabel lbIdent = new JLabel("Indentifiant");
+    private JTextField txtidentifiant = new JTextField();
+    private JLabel lbnom = new JLabel("Nom");
+    private JTextField txtnom = new JTextField();
+    private JLabel lbprenom = new JLabel("Prenom");
+    private JTextField txtprenom = new JTextField();
     private JLabel lbemail = new JLabel("E-mail");
     private JTextField txtemail = new JTextField();
     private JLabel lblPwdC = new JLabel("Mot de passe");
@@ -35,12 +41,13 @@ public class ModifierProfilView {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
 
-    private Etudiant etudiant=new Etudiant();
-
-    public ModifierProfilView(Etudiant e) {//
-        this.etudiant=e;
+    private EtudiantControler controler;
+    
+    public Inscription(EtudiantControler controler) {
+    	this.controler = controler;
+    	
         titre.setFont(font);
-        titre.setBounds(390,20,300,40);
+        titre.setBounds(435,20,200,40);
         jFrame.setBounds(600, 200, 1010, 550);
         //Mettre en place une couche de quelque chose d'équivalent à une nappe
         c.setLayout(new BorderLayout());//Gestionnaire de mise en page
@@ -51,7 +58,6 @@ public class ModifierProfilView {
         init();
         //Définir le formulaire pour qu'il soit visible
         jFrame.setVisible(true);
-
     }
     public void init() {
 
@@ -63,26 +69,35 @@ public class ModifierProfilView {
         //Définir le texte de l'étiquette en rouge
 
         lbIMsgC.setForeground(Color.RED);
-        lbIMsgC.setBounds(450, 270, 200, 25);
+        lbIMsgC.setBounds(450, 370, 200, 25);
+        lbIdent.setBounds(340,130,100,30);
+        txtidentifiant.setBounds(450,130,220,30);
+        lbnom.setBounds(340,170,100,30);
+        txtnom.setBounds(450,170,220,30);
+        lbprenom.setBounds(340,210,100,30);
+        txtprenom.setBounds(450,210,220,30);
+        lbemail.setBounds(340,250,100,30);
+        txtemail.setBounds(450,250,220,30);
+        lblPwdC.setBounds(340,290,100,30);
+        txtPwdC.setBounds(450,290,220,30);
+        lbRePwdC.setBounds(340,330,100,30);
+        txtRePwdC.setBounds(450,330,220,30);
 
-        lbemail.setBounds(340,150,100,30);
-        txtemail.setBounds(450,150,220,30);
-        lblPwdC.setBounds(340,190,100,30);
-        txtPwdC.setBounds(450,190,220,30);
-        lbRePwdC.setBounds(340,230,100,30);
-        txtRePwdC.setBounds(450,230,220,30);
-
-        okbtn.setBounds(340,350,110,30);
-        resetlbtn.setBounds(450,350,110,30);
-        btnreturn.setBounds(560,350,110,30);
+        okbtn.setBounds(340,400,110,30);
+        resetlbtn.setBounds(450,400,110,30);
+        btnreturn.setBounds(560,400,110,30);
 
         fieldPanel.add(titre);
         fieldPanel.add(lbIMsgC);
-
+        fieldPanel.add(lbIdent);
+        fieldPanel.add(lbnom);
+        fieldPanel.add(lbprenom);
         fieldPanel.add(lbemail);
         fieldPanel.add(lblPwdC);
         fieldPanel.add(lbRePwdC);
-
+        fieldPanel.add(txtidentifiant);
+        fieldPanel.add(txtnom);
+        fieldPanel.add(txtprenom);
         fieldPanel.add(txtemail);
         fieldPanel.add(txtPwdC);
         fieldPanel.add(txtRePwdC);
@@ -103,7 +118,10 @@ public class ModifierProfilView {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                txtidentifiant.setText("");
                 txtemail.setText("");
+                txtnom.setText("");
+                txtprenom.setText("");
                 txtPwdC.setText("");
                 txtRePwdC.setText("");
 
@@ -114,10 +132,8 @@ public class ModifierProfilView {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                jFrame.setVisible(false);
-                ConsulterMonProfil cp = new ConsulterMonProfil(etudiant);
-                cp.getjFrame().setVisible(true);
-
+                jFrame.dispose();
+                new AppMain();
             }
         });
 
@@ -128,10 +144,24 @@ public class ModifierProfilView {
                 lbIMsgC.setText("");
 
                 //Obtenez le nom d'utilisateur saisi par l'utilisateur
-
+                String strNom = txtnom.getText();
+                if (strNom == null || strNom.equals("")) {
+                    lbIMsgC.setText("nom is empty");
+                    return;
+                }
+                String strprenom = txtprenom.getText();
+                if (strprenom == null || strprenom.equals("")) {
+                    lbIMsgC.setText("prenom is empty");
+                    return;
+                }
                 String stremail = txtemail.getText();
                 if (stremail == null || stremail.equals("")) {
                     lbIMsgC.setText("email is empty");
+                    return;
+                }
+                String strident = txtidentifiant.getText();
+                if (strident == null || strident.equals("")) {
+                    lbIMsgC.setText("identifiant is empty");
                     return;
                 }
                 //Obtenez un nom d'utilisateur et un mot de passe
@@ -155,10 +185,8 @@ public class ModifierProfilView {
                     return;
                 }
 
-                etudiant.setEmail(stremail);
-                etudiant.setMdp(strRePwd);
-                EtudiantControler.misAjourInBD(etudiant);
-
+                controler.inscrireEtudiant(strident, strPwd, strNom, strprenom, stremail);
+                
                 lbIMsgC.setText("Successful");
 
             }
@@ -170,4 +198,3 @@ public class ModifierProfilView {
         return jFrame;
     }
 }
-
