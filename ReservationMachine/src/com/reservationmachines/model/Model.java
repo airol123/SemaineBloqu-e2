@@ -5,9 +5,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-
-
+import java.util.HashMap;
+import java.util.TimeZone;
 
 public class Model extends AbstractModel {
 
@@ -16,12 +22,56 @@ public class Model extends AbstractModel {
 		return new String[] {"Machine", "état de la machine", "Nom étudiant", "Prénom étudiant"};
 	}
 	
+	public Model() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public ArrayList<ReservationMachine> getValeursReservationMachine(String idSalle) {
 		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
+		String sqlreservationm = "select * from salle,machine,reserverm,etudiant where noms=? and salle.IDS=machine.IDS and machine.IDM=reserverm.IDM and reserverm.IDE=etudiant.IDE "; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
+			pstmt.setString(1, idSalle);
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Etudiant etu=new Etudiant();
+				etu.setNom(rs.getString("nome"));
+				etu.setPrenom(rs.getString("prenome"));
+				etu.setEmail(rs.getString("emaile"));
+				etu.setIdentifiant(String.valueOf(rs.getInt("ide")));
+				etu.setMdp(rs.getString("mdpe"));
+				Salle salle =new Salle();
+				salle.setNomSalle(idSalle);
+				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+
+				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
+				Timestamp d = null;
+				try {
+					d = new Timestamp(dateFormat.parse(sdd).getTime());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+
+				String sdf=rs.getString("datem")+" "+rs.getString("heurefinm");
+				Timestamp f = null;
+				try {
+					f = new Timestamp(dateFormat.parse(sdf).getTime());
+				} catch (ParseException e2) {
+					e2.printStackTrace();
+				}
+				
+				reservations.add(new ReservationMachine(etu, mac, d, f));
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
 		
 		/*
-		 * Remplir la liste avec toutes les réservations de la salle 'idSalle' en paramètre
+		 * Remplir la liste avec toutes les r�servations de la salle 'idSalle' en param�tre
 		 */
 		
 		/* Ceci est un test pour l'affichage
@@ -77,7 +127,7 @@ public class Model extends AbstractModel {
         }		
 	};
 
-	
+	//Trouver une etudiant selon son identifiant
 	public Etudiant seConnecter(String ide) throws SQLException {
 		Etudiant etu=null;
 		String sqletudiant = "select * from etudiant where ide=? and etate='valide'";
@@ -121,8 +171,8 @@ public class Model extends AbstractModel {
 		else {
 			System.out.println("Il y a pas de cet etudiant");
 		}
-		rs.close();  
-		
+		rs.close();
+
 		return admin;
 	}
 	
@@ -149,6 +199,259 @@ public class Model extends AbstractModel {
 		
 		return restp;
 	}
- 
 
+	@Override
+	public boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp) {
+		String querySQL = "SELECT idE FROM Etudiant " +
+				"WHERE idE = '" + numEtudiant + "' AND mdpE = '" + mdp + "' AND EtatE='valide';";
+
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1).equals(numEtudiant);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp) {
+		String querySQL = "SELECT idResp FROM RespTP " +
+				"WHERE idResp = '" + idResponsableTP + "' AND mdpR = '" + mdp + "';";
+
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1).equals(idResponsableTP);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean verifierMotDePasseAdmin(String idAdmin, String mdp) {
+		String querySQL = "SELECT idA FROM Admin " +
+				"WHERE idA = '" + idAdmin + "' AND mdpA = '" + mdp + "';";
+
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1).equals(idAdmin);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	@Override
+	public Etudiant getEtudiant(String numEtudiant) {
+		String querySQL = "SELECT * FROM Etudiant WHERE idE = '" + numEtudiant + "';";
+		Etudiant etudiant = null;
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			
+			etudiant = new Etudiant(
+				resultat.getString("ide"),
+				resultat.getString("mdpe"),
+				resultat.getString("nome"),
+				resultat.getString("prenome"),
+				resultat.getString("emaile")
+			);
+			
+			System.out.println("Je suis l� !");
+		} catch (Exception e) {e.printStackTrace();}
+		
+		return etudiant;
+	}
+
+	@Override
+	public boolean inscrireEtudiant(Etudiant etudiant) {
+		int n=0;
+		String sqlinsertetu="INSERT INTO etudiant (ide,mdpe, emaile,nome, prenome, etate) VALUES (?,?,?,?,?,'attente');";
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertetu);
+
+			pstmt.setInt(1,Integer.parseInt(etudiant.getIdentifiant()));
+			pstmt.setString(2, etudiant.mdp);
+			pstmt.setString(3, etudiant.email);
+			pstmt.setString(4, etudiant.nom);
+			pstmt.setString(5, etudiant.prenom);
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
+		if (n==1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@Override
+	public ArrayList<String> recupererNomsFormations() {
+		String querySQL = "SELECT NomF FROM Formation;";
+
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+
+			ArrayList<String> formations = new ArrayList<String>();
+			while(resultat.next()) {
+				formations.add(resultat.getString(1));
+			}
+			return formations;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public ArrayList<GroupeTP> recupererNomsGroupesTP(String nomFormation) {
+		String querySQL = "SELECT NomG FROM Groupe G, Formation F " + 
+				"WHERE F.IdF = G.IdF " + 
+				"AND F.NomF = '" + nomFormation + "';";
+
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			
+			ArrayList<GroupeTP> groupesTP = new ArrayList<GroupeTP>();
+			while(resultat.next()) {
+				groupesTP.add(new GroupeTP(resultat.getString(1)));
+			}
+			
+			return groupesTP;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean misAjourInBD(String stremail, String strRePwd) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ArrayList<ReservationMachine> getReservationMachineE(String etudiant) {
+		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
+		String sqlreservationm = "select * from salle,machine,reserverm,etudiant where etudiant.IDE=? and salle.IDS=machine.IDS and machine.IDM=reserverm.IDM and reserverm.IDE=etudiant.IDE "; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
+			pstmt.setInt(1, Integer.parseInt(etudiant));
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Etudiant etu=new Etudiant();
+				etu.setNom(rs.getString("nome"));
+				etu.setPrenom(rs.getString("prenome"));
+				etu.setEmail(rs.getString("emaile"));
+				etu.setIdentifiant(etudiant);
+				etu.setMdp(rs.getString("mdpe"));
+				Salle salle =new Salle();
+				salle.setNomSalle(rs.getString("noms"));
+				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+
+				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
+				Timestamp d = null;
+				try {
+					d = new Timestamp(dateFormat.parse(sdd).getTime());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+
+				String sdf=rs.getString("datem")+" "+rs.getString("heurefinm");
+				Timestamp f = null;
+				try {
+					f = new Timestamp(dateFormat.parse(sdf).getTime());
+				} catch (ParseException e2) {
+					e2.printStackTrace();
+				}
+				
+				reservations.add(new ReservationMachine(etu, mac, d, f));
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		
+		return reservations;
+	}
+
+	@Override
+	public ArrayList<Salle> getToutesLesSalles() {
+		ArrayList<Salle> salles = new ArrayList<Salle>();
+		String sqlsalle = "select * from salle;"; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlsalle);
+			ResultSet rs=pstmt.executeQuery(sqlsalle);
+			while(rs.next()) {
+				Salle salle =new Salle();
+				salle.setNomSalle(rs.getString("noms"));					
+				salles.add(salle);
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}		
+		return salles;
+	}
+
+	/*
+	@Override
+	public String getPrenomResponsableTP(String idResponsableTP) {
+		String querySQL = "SELECT nomA FROM RespP WHERE idResp = '" + idResponsableTP + "';";
+
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1);
+		} catch (SQLException e) {
+			return "";
+		}
+	}
+
+	@Override
+	public String getPrenomAdmin(String idAdmin) {
+		String querySQL = "SELECT nomR FROM Admin WHERE idA = '" + idAdmin + "';";
+
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1);
+		} catch (SQLException e) {
+			return "";
+		}
+	}
+	
+	*/
 }

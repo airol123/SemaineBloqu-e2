@@ -6,8 +6,16 @@ public class Machine {
 	private Salle salle; ///!!!
 
 
-
 	public Machine(String nomMachine, EtatMachine etatMachine) {
+		this.nomMachine = nomMachine;
+		this.etatMachine = etatMachine;
+
+<<<<<<< HEAD
+	public Machine(String nomMachine, EtatMachine etatMachine) {
+=======
+	}
+	public Machine(String nomMachine, EtatMachine etatMachine,Salle salle) {
+>>>>>>> develop
 		this.nomMachine = nomMachine;
 		this.etatMachine = etatMachine;
 	}
