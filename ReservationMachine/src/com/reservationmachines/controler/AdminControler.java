@@ -67,6 +67,12 @@ public class AdminControler extends Controler {
 	}
 
 
+	public void traiterReclamation(String description) {
+		model.traiterReclamation(description);
+		
+	}
+
+
 	/*public String[] getListeNomSalle() {
 		return model.getListeNomSalle();
 	}*/
