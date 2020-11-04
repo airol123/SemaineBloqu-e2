@@ -6,6 +6,6 @@ import java.util.ArrayList;
 public abstract class AbstractModel {
 
 	public abstract String[] getEnteteReservationMachine();
-	public abstract ArrayList<ReservationMachine> getValeursReservationMachine(String idSalle) throws SQLException;
+	public abstract ArrayList<ReservationMachine> getValeursReservationMachine(String idSalle);
 
 }
