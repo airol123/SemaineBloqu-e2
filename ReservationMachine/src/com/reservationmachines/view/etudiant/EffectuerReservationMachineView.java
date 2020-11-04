@@ -10,9 +10,13 @@ public class EffectuerReservationMachineView {
     private EtudiantControler controler;
     
     public EffectuerReservationMachineView(EtudiantControler controler) {
-    	this.controler = controler;
+
+        this.controler = controler;
     }
-    
+
+
+
+
     public JFrame getjFrame() {
         return jFrame;
     }
