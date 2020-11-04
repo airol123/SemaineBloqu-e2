@@ -1,7 +1,6 @@
 package com.reservationmachines.view.etudiant;
 
 import com.reservationmachines.controler.EtudiantControler;
-import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.model.Reclamation;
 import com.reservationmachines.model.ReservationMachine;
 import com.reservationmachines.model.TypeReclamation;
@@ -10,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.net.URL;
 
 public class FaireReclamationView {
@@ -32,11 +29,11 @@ public class FaireReclamationView {
     private URL resource = this.getClass().getResource("images/background2.jpg");
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
-    private Etudiant etudiant=new Etudiant();
     private ReservationMachine rm;
+	protected EtudiantControler controler;
 
-    public FaireReclamationView(Etudiant etu,ReservationMachine rm) {
-        this.etudiant=etu;
+    public FaireReclamationView(EtudiantControler controler, ReservationMachine rm) {
+        this.controler = controler;
         this.rm=rm;
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
@@ -78,11 +75,10 @@ public class FaireReclamationView {
         //----------------------------listener--------------------------------
 
         btnretourner.addActionListener(new ActionListener() {
-
-            @Override
+			@Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                ConsulterReservationView pe = new ConsulterReservationView();
+                ConsulterReservationView pe = new ConsulterReservationView(controler);
                 pe.getjFrame().setVisible(true);
 
             }
@@ -102,7 +98,7 @@ public class FaireReclamationView {
                      ty = TypeReclamation.En_panne;
                 }
                 Reclamation re = new Reclamation(ty,strDes,rm);
-                EtudiantControler.stockerReclamation(re);
+                controler.stockerReclamation(re);
             }
         });
 

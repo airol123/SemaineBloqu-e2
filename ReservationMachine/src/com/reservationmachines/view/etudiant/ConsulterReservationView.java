@@ -2,6 +2,7 @@ package com.reservationmachines.view.etudiant;
 
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.model.*;
+import com.reservationmachines.view.main.EtudiantMainView;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -41,9 +42,9 @@ public class ConsulterReservationView {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
-    private Etudiant etudiant = new Etudiant();
+    //private Etudiant etudiant = new Etudiant();
 
-    private Salle s1 = new Salle("ME405",20,EtatSalle.DISPONIBLE);
+/*    private Salle s1 = new Salle("ME405",20,EtatSalle.DISPONIBLE);
     private Machine m1 = new Machine("A123", EtatMachine.DISPONIBLE,s1);
     private Machine m2 = new Machine("A456", EtatMachine.DISPONIBLE,s1);
     private Timestamp td1 = new Timestamp(2020, 11, 7, 9, 30, 0, 0);
@@ -51,27 +52,31 @@ public class ConsulterReservationView {
     private Timestamp td2 = new Timestamp(2020, 11, 8, 9, 30, 0, 0);
     private Timestamp tf2 = new Timestamp(2020, 11, 8, 12, 30, 0, 0);
     private ReservationMachine rm1 = new ReservationMachine(etudiant, m1, td1, tf1);
-    private ReservationMachine rm2 = new ReservationMachine(etudiant, m2, td2, tf2);
+    private ReservationMachine rm2 = new ReservationMachine(etudiant, m2, td2, tf2);*/
     private ReservationMachine[] rm;
     private String[] reserveNom ;
     private int courrent;
 
+    private EtudiantControler controler;
 
-    public ConsulterReservationView() {//etu  this.etudiant=etu;
+    public ConsulterReservationView(EtudiantControler controler) {
+    	this.controler = controler;
         // retourner toutes les reservations de cet etudiant
-        //rm = new ReservationMachine[EtudiantControler.trouverToutesLesReservation(etudiant).length];
-        //reserveNom = new String[rm.length];
-        /*for (int i = 0; i < EtudiantControler.trouverToutesLesReservation(etudiant).length; i++)
+
+        rm = new ReservationMachine[controler.trouverToutesLesReservation(controler.trouverEtudiantId()).length];
+        reserveNom = new String[rm.length];
+        for (int i = 0; i < controler.trouverToutesLesReservation(controler.trouverEtudiantId()).length; i++)
         {
-            rm[i] = EtudiantControler.trouverToutesLesReservation(etudiant)[i];
-        }*/
-        rm = new ReservationMachine[2];
+            rm[i] = controler.trouverToutesLesReservation(controler.trouverEtudiantId())[i];
+        }
+
+        /*rm = new ReservationMachine[2];
         rm[0] = rm1; //arraylist
         rm[1] = rm2;
-        reserveNom = new String[2];
+        reserveNom = new String[2];*/
 
 
-        geneterNomReservation();
+        genererNomReservation();
 
 
         titre.setFont(font);
@@ -116,7 +121,7 @@ public class ConsulterReservationView {
 
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
-        lbNom.setText(etudiant.getPrenom());
+        lbNom.setText(controler.getPrenom());
 
         lbSal.setBounds(360, 150, 100, 30);
         lbSalle.setBounds(500, 150, 250, 30);
@@ -162,9 +167,7 @@ public class ConsulterReservationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                PageEtudiant pe = new PageEtudiant(etudiant);
-                pe.getjFrame().setVisible(true);
-
+                new EtudiantMainView(controler);
             }
         });
 
@@ -173,9 +176,7 @@ public class ConsulterReservationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                PageGuacamole pe = new PageGuacamole();
-                pe.getFrame().setVisible(true);
-
+                new PageGuacamole();
             }
         });
 
@@ -183,23 +184,20 @@ public class ConsulterReservationView {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                EtudiantControler.supprimerReservation(rm[courrent]);
-
+                controler.supprimerReservation(rm[courrent]);
             }
         });
         btnReclamer.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                jFrame.setVisible(false);
-                FaireReclamationView re = new FaireReclamationView(etudiant, rm[courrent]);
-                re.getjFrame().setVisible(true);
-
+                jFrame.dispose();
+                new FaireReclamationView(controler, rm[courrent]);
             }
         });
     }
 
-    public void geneterNomReservation() {
+    public void genererNomReservation() {
         for (int i = 0; i < rm.length; i++) {
             reserveNom[i] = ("Reservation" + (i + 1));
             System.out.println(reserveNom[i]);

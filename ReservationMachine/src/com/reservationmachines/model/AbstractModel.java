@@ -1,6 +1,5 @@
 package com.reservationmachines.model;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class AbstractModel {
@@ -13,10 +12,14 @@ public abstract class AbstractModel {
 	public abstract boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp);
 	public abstract boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp);
 	public abstract boolean verifierMotDePasseAdmin(String idAdmin, String mdp);
-	public abstract String getPrenomEtudiant(String numEtudiant);
+	public abstract Etudiant getEtudiant(String numEtudiant);
 	//public abstract String getPrenomResponsableTP(String idResponsableTP);
 	//public abstract String getPrenomAdmin(String idAdmin);
 	public abstract boolean inscrireEtudiant(Etudiant etudiant);
-
+	public abstract ArrayList<String> recupererNomsFormations();
+	public abstract ArrayList<GroupeTP> recupererNomsGroupesTP(String idFormation);
+	public abstract boolean misAjourInBD(String stremail, String strRePwd);
+	public abstract ArrayList<ReservationMachine> getReservationMachineE(String etudiant);
 
 }
+

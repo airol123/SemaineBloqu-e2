@@ -153,35 +153,33 @@ public class SeConnecterView {
         okbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == okbtn) {
-                    String strPwd = new String(password.getPassword());
-                    String strE = new String(username.getText());
+                String strPwd = new String(password.getPassword());
+                String strE = new String(username.getText());
 
-                    switch (identifiant) {
-                        case 0:
-                            if(c1.verifierMotDePasseEtudiant(strE, strPwd)) {
-                                new EtudiantMainView(c1);
-                                jFrame.dispose();
-                            }
-                            else lbIMsgI.setText("password is wrong");
-                            break;
-                        case 1:
-                        	if(c2.verifierMotDePasseResponsableTP(strE, strPwd)) {
-                                new ResponsableTPMainView(c2);
-                                jFrame.dispose();
-                            }
-                            else lbIMsgI.setText("password is wrong");
-                            break;
-                        case 2:
-                        	if(c3.verifierMotDePasseAdmin(strE, strPwd)) {
-                                new AdminMainView(c3);
-                                jFrame.dispose();
-                            }
-                            else lbIMsgI.setText("password is wrong");
-                            break;
-                    }
-
+                switch (identifiant) {
+                    case 0:
+                        if(c1.verifierMotDePasseEtudiant(strE, strPwd)) {
+                            new EtudiantMainView(c1);
+                            jFrame.dispose();
+                        }
+                        else lbIMsgI.setText("password is wrong");
+                        break;
+                    case 1:
+                    	if(c2.verifierMotDePasseResponsableTP(strE, strPwd)) {
+                            new ResponsableTPMainView(c2);
+                            jFrame.dispose();
+                        }
+                        else lbIMsgI.setText("password is wrong");
+                        break;
+                    case 2:
+                    	if(c3.verifierMotDePasseAdmin(strE, strPwd)) {
+                            new AdminMainView(c3);
+                            jFrame.dispose();
+                        }
+                        else lbIMsgI.setText("password is wrong");
+                        break;
                 }
+
             }
         });
 

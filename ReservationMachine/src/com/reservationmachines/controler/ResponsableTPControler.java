@@ -3,6 +3,7 @@ package com.reservationmachines.controler;
 import java.util.ArrayList;
 
 import com.reservationmachines.model.AbstractModel;
+import com.reservationmachines.model.GroupeTP;
 import com.reservationmachines.model.ReservationMachine;
 import com.reservationmachines.model.ResponsableTP;
 
@@ -45,5 +46,25 @@ public class ResponsableTPControler extends Controler {
     		return true;
     	}
     	return false;
+	}
+
+	public String[] recupererFormations() {
+		ArrayList<String> formations = model.recupererNomsFormations();
+		String[] result = new String[formations.size()];
+		
+		for(int i = 0 ; i < formations.size() ; i++)
+			result[i] = formations.get(i);
+		
+		return result;
+	}
+
+	public String[] recupererGroupeTP(String idFormation) {
+		ArrayList<GroupeTP> groupes = model.recupererNomsGroupesTP(idFormation);
+		String[] result = new String[groupes.size()];
+		
+		for(int i = 0 ; i < groupes.size() ; i++)
+			result[i] = groupes.get(i).getNomGroupe();
+		
+		return result;
 	}
 }
