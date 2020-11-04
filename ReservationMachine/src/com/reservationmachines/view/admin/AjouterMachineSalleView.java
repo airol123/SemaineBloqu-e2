@@ -76,9 +76,9 @@ public class AjouterMachineSalleView extends JFrame implements ActionListener {
 		contentPane.add(btnAnnuler);
 		
 		cbSalle = new JComboBox<>();
-		String[] listeNomSalle = controler.getListeNomSalle();
+		//String[] listeNomSalle = controler.getListeNomSalle();
 		
-		cbSalle.setModel(listeNomSalle);
+		//cbSalle.setModel(listeNomSalle);
 		cbSalle.setBounds(147, 77, 147, 23);
 		contentPane.add(cbSalle);
 	}

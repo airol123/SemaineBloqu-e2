@@ -45,7 +45,7 @@ public class AdminControler extends Controler {
 	}
 
 
-	public String[] getListeNomSalle() {
+	/*public String[] getListeNomSalle() {
 		return model.getListeNomSalle();
-	}
+	}*/
 }
