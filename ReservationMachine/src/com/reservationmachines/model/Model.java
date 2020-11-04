@@ -5,9 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-
-
 
 public class Model extends AbstractModel {
 
@@ -135,6 +134,117 @@ public class Model extends AbstractModel {
 		
 		return restp;
 	}
- 
 
+	@Override
+	public boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp) {
+		String querySQL = "SELECT idE FROM Etudiant " +
+				"WHERE idE = " + numEtudiant + " AND mdpE = " + mdp + ";";
+
+		// Vérifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1).equals(numEtudiant);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp) {
+		String querySQL = "SELECT idResp FROM RespP " +
+				"WHERE idResp = " + idResponsableTP + " AND mdpR = " + mdp + ";";
+
+		// Vérifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1).equals(idResponsableTP);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean verifierMotDePasseAdmin(String idAdmin, String mdp) {
+		String querySQL = "SELECT idA FROM Admin " +
+				"WHERE idA = " + idAdmin + " AND mdpA = " + mdp + ";";
+
+		// Vérifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1).equals(idAdmin);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	@Override
+	public String getPrenomEtudiant(String numEtudiant) {
+		String querySQL = "SELECT nomE FROM Etudiant WHERE idE = " + numEtudiant + ";";
+
+		// Vérifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1);
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
+	@Override
+	public boolean inscrireEtudiant(Etudiant etudiant) {
+		return false;
+	}
+
+	/*
+	@Override
+	public String getPrenomResponsableTP(String idResponsableTP) {
+		String querySQL = "SELECT nomA FROM RespP WHERE idResp = " + idResponsableTP + ";";
+
+		// Vérifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1);
+		} catch (SQLException e) {
+			return "";
+		}
+	}
+
+	@Override
+	public String getPrenomAdmin(String idAdmin) {
+		String querySQL = "SELECT nomR FROM Admin WHERE idA = " + idAdmin + ";";
+
+		// Vérifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1);
+		} catch (SQLException e) {
+			return "";
+		}
+	}
+	
+	*/
 }
