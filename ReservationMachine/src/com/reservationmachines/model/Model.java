@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 public class Model extends AbstractModel {
 
@@ -107,7 +108,7 @@ public class Model extends AbstractModel {
 		
 	};
 
-	
+	//Trouver une etudiant selon son identifiant
 	public Etudiant seConnecter(String ide) throws SQLException {
 		Etudiant etu=null;
 		String sqletudiant = "select * from etudiant where ide=? and etate='valide'";
@@ -261,7 +262,25 @@ public class Model extends AbstractModel {
 
 	@Override
 	public boolean inscrireEtudiant(Etudiant etudiant) {
-		return false;
+		int n=0;
+		String sqlinsertetu="INSERT INTO etudiant (ide,mdpe, emaile,nome, prenome, etate) VALUES (?,?,?,?,?,'attente');";
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertetu);
+
+			pstmt.setInt(1,Integer.parseInt(etudiant.getIdentifiant()));
+			pstmt.setString(2, etudiant.mdp);
+			pstmt.setString(3, etudiant.email);
+			pstmt.setString(4, etudiant.nom);
+			pstmt.setString(5, etudiant.prenom);
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
+		if (n==1) {
+			return true;
+		}
+		else {
+			return false;
+		}	
 	}
 	
 	@Override
