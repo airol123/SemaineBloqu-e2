@@ -23,14 +23,13 @@ public class AdminControler extends Controler {
 		model.creerCompteEtudiant(etudiant);
 	}
 
-	public static boolean checkPasswordA(Admin admin, String strPwd) {
-		boolean same = false;
-		/*if (e.getMotdepasseC() == mdp) {
-			same = true;
-		}*/  // la methode pour verifier le mdp
-		return same;
+	public boolean verifierMotDePasseAdmin(String idAdmin, String mdp) {
+    	if(model.verifierMotDePasseAdmin(idAdmin, mdp)) {
+    		this.connexion(idAdmin);
+    		return true;
+    	}
+    	return false;
 	}
-
 
 	public void creerCompteResponsableTP(
 			String id, String mdp, String email, String nom, String prenom) {
@@ -41,6 +40,12 @@ public class AdminControler extends Controler {
 	public void ajouterMachineSalle(String nomMachine, String nomSalle) {
 		Machine machine = new Machine(nomMachine, EtatMachine.DISPONIBLE);
 		model.setMachineSalle(nomMachine, nomSalle);
+
+	}
+
+	public String[] getListeNomSalle(){
+		String[] s=null;
+		return s;
 
 	}
 }

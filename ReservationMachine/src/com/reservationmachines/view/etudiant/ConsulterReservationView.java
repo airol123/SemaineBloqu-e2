@@ -1,10 +1,7 @@
 package com.reservationmachines.view.etudiant;
 
 import com.reservationmachines.controler.EtudiantControler;
-import com.reservationmachines.model.EtatMachine;
-import com.reservationmachines.model.Etudiant;
-import com.reservationmachines.model.Machine;
-import com.reservationmachines.model.ReservationMachine;
+import com.reservationmachines.model.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -14,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class ConsulterReservationView {
     private JFrame jFrame = new JFrame("Mes reservations");
@@ -45,21 +43,24 @@ public class ConsulterReservationView {
 
     private Etudiant etudiant = new Etudiant();
 
-    private Machine m1 = new Machine("A123", EtatMachine.DISPONIBLE);
-    private Machine m2 = new Machine("A456", EtatMachine.DISPONIBLE);
+    private Salle s1 = new Salle("ME405",20,EtatSalle.DISPONIBLE);
+    private Machine m1 = new Machine("A123", EtatMachine.DISPONIBLE,s1);
+    private Machine m2 = new Machine("A456", EtatMachine.DISPONIBLE,s1);
     private Timestamp td1 = new Timestamp(2020, 11, 7, 9, 30, 0, 0);
     private Timestamp tf1 = new Timestamp(2020, 11, 7, 11, 0, 0, 0);
     private Timestamp td2 = new Timestamp(2020, 11, 8, 9, 30, 0, 0);
     private Timestamp tf2 = new Timestamp(2020, 11, 8, 12, 30, 0, 0);
     private ReservationMachine rm1 = new ReservationMachine(etudiant, m1, td1, tf1);
     private ReservationMachine rm2 = new ReservationMachine(etudiant, m2, td2, tf2);
-    private ReservationMachine[] rm; //?????
-    private String[] reserveNom = new String[2];
+    private ReservationMachine[] rm;
+    private String[] reserveNom ;
     private int courrent;
 
 
     public ConsulterReservationView() {//etu  this.etudiant=etu;
         // retourner toutes les reservations de cet etudiant
+        //rm = new ReservationMachine[EtudiantControler.trouverToutesLesReservation(etudiant).length];
+        //reserveNom = new String[rm.length];
         /*for (int i = 0; i < EtudiantControler.trouverToutesLesReservation(etudiant).length; i++)
         {
             rm[i] = EtudiantControler.trouverToutesLesReservation(etudiant)[i];
@@ -67,6 +68,9 @@ public class ConsulterReservationView {
         rm = new ReservationMachine[2];
         rm[0] = rm1; //arraylist
         rm[1] = rm2;
+        reserveNom = new String[2];
+
+
         geneterNomReservation();
 
 
@@ -81,7 +85,7 @@ public class ConsulterReservationView {
 
                 courrent = liste.getSelectedIndex();
 
-                //lbSalle.setText(rm[courrent].getMachine().getSalle().toString());
+                lbSalle.setText(rm[courrent].getMachine().getSalle().getNomSalle());
                 lbNumMach.setText(rm[courrent].getNomMachine());
                 lbDebur.setText(rm[courrent].getHeureDebut().toString());
                 lbFin.setText(rm[courrent].getHeureFin().toString());
@@ -188,7 +192,7 @@ public class ConsulterReservationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                FaireReclamationView re = new FaireReclamationView(etudiant,rm[courrent]);
+                FaireReclamationView re = new FaireReclamationView(etudiant, rm[courrent]);
                 re.getjFrame().setVisible(true);
 
             }
