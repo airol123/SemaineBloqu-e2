@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import com.reservationmachines.controler.ResponsableTPControler;
 
@@ -184,8 +185,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_lblHoraires.gridy = 0;
 		panel_2.add(lblHoraires, gbc_lblHoraires);
 		
-		cbHeureDebut = new JComboBox<String>();
-		cbHeureDebut.setEnabled(false);
+		cbHeureDebut = new JComboBox<String>(controler.getReservationsSallesHeuresDebuts());
 		GridBagConstraints gbc_cbHeureDebut = new GridBagConstraints();
 		gbc_cbHeureDebut.insets = new Insets(0, 0, 5, 0);
 		gbc_cbHeureDebut.fill = GridBagConstraints.BOTH;
@@ -194,7 +194,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		panel_2.add(cbHeureDebut, gbc_cbHeureDebut);
 		cbHeureDebut.addActionListener(this);
 		
-		cbDate = new JComboBox<String>();
+		cbDate = new JComboBox<String>(controler.getReservationsSallesDates());
 		GridBagConstraints gbc_cbDate = new GridBagConstraints();
 		gbc_cbDate.insets = new Insets(0, 0, 5, 5);
 		gbc_cbDate.fill = GridBagConstraints.BOTH;
@@ -203,8 +203,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		panel_2.add(cbDate, gbc_cbDate);
 		cbDate.addActionListener(this);
 		
-		cbHeureFin = new JComboBox<String>();
-		cbHeureFin.setEnabled(false);
+		cbHeureFin = new JComboBox<String>(controler.getReservationsSallesHeuresFins());
 		GridBagConstraints gbc_cbHeureFin = new GridBagConstraints();
 		gbc_cbHeureFin.fill = GridBagConstraints.BOTH;
 		gbc_cbHeureFin.gridx = 1;
@@ -223,16 +222,58 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		if(e.getSource().equals(cbFormation)) {
 			String currentFormation = cbFormation.getSelectedItem().toString();
 			cbGroupeTP.setModel(new DefaultComboBoxModel<String>(controler.recupererGroupeTP(currentFormation)));
-			cbGroupeTP.setEnabled(true);
-		} else if(e.getSource().equals(cbGroupeTP)) {
-			
 		} else if(e.getSource().equals(cbDate)) {
-			
+			//updateJTable();
 		} else if(e.getSource().equals(cbHeureDebut)) {
+			//updateJTable();
+			String currentHeureDebut = cbHeureDebut.getSelectedItem().toString();
+			String currentHeureFin = cbHeureFin.getSelectedItem().toString();
 			
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(controler.getReservationsSallesHeuresFins(currentHeureDebut));
+			if(model.getIndexOf(currentHeureFin) != -1) model.setSelectedItem(currentHeureFin);
+			cbHeureFin.setModel(model);
 		} else if(e.getSource().equals(cbHeureFin)) {
-			
+			//updateJTable();
+			String currentHeureDebut = cbHeureDebut.getSelectedItem().toString();
+			String currentHeureFin = cbHeureFin.getSelectedItem().toString();
+
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(controler.getReservationsSallesHeuresDebuts(currentHeureFin));
+			if(model.getIndexOf(currentHeureDebut) != -1) model.setSelectedItem(currentHeureDebut);
+			cbHeureDebut.setModel(model);
 		}
 	}
 
+	public void updateJTable() {
+		String date = cbDate.getSelectedItem().toString();
+		String heureDebut = cbHeureDebut.getSelectedItem().toString();
+		String heureFin = cbHeureFin.getSelectedItem().toString();
+		
+		// Si toutes les valeurs sont renseignés
+		if(!(date.equals("") && heureDebut.equals("") && heureFin.equals(""))) {
+			this.table.setModel(
+				new DefaultTableModel(
+					controler.getValeursSallesDisponibles(date, heureDebut, heureFin),
+					controler.getEnteteSallesDisponibles()
+				)
+			);
+		}
+	}
+	
+	/**
+	 * Convertit une date "EEE dd/MM/yyyy" en "dd/MM/yyyy"
+	 * @param date
+	 * @return
+	 */
+	public String formatSQLDate(String date) {
+		// Suppression du jour
+		date = date.substring(5);
+		
+		// Récupération des données de la date
+		String jour = date.split("/")[0];
+		String mois = date.split("/")[1];
+		String annee = date.split("/")[2];
+		
+		// Raccord avant return pour avoir le format AAAA-MM-JJ
+        return String.join("-", new String[] {annee, mois, jour});
+	}
 }
