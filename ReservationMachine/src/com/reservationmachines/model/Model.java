@@ -1,9 +1,13 @@
 package com.reservationmachines.model;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+
 
 public class Model extends AbstractModel {
 
@@ -17,7 +21,7 @@ public class Model extends AbstractModel {
 		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
 		
 		/*
-		 * Remplir la liste avec toutes les r�servations de la salle 'idSalle' en param�tre
+		 * Remplir la liste avec toutes les réservations de la salle 'idSalle' en paramètre
 		 */
 		
 		/* Ceci est un test pour l'affichage
@@ -59,5 +63,30 @@ public class Model extends AbstractModel {
 		
 	};
 
+	
+	public Etudiant seConnecter(String ide) throws SQLException {
+		Etudiant etu=null;
+		String sqletudiant = "select * from etudiant where ide=?";
+        Connection con =BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sqletudiant);
+		pstmt.setInt(1, Integer. parseInt(ide));
+		ResultSet rs=pstmt.executeQuery();
+		if (rs.next()) {
+			etu = new Etudiant();
+			System.out.println("Il y a cet etudiant");
+			etu.setNom(rs.getString("nome"));	
+			etu.setPrenom(rs.getString("prenome"));
+			etu.setEmail(rs.getString("emaile"));
+			etu.setIdentifiant(ide);
+			etu.setMdp(rs.getString("mdpe"));
+		}
+		else {
+			System.out.println("Il y a pas de cet etudiant");
+		}
+		rs.close();  
+		
+		return etu;
+	}
+ 
 
 }
