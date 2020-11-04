@@ -33,7 +33,7 @@ public class EtudiantMainView {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font = new Font("Arial",Font.BOLD,36);
     private EtudiantControler controler;
-
+    
     public EtudiantMainView(EtudiantControler controler) { //
         this.controler = controler;
 
@@ -89,26 +89,23 @@ public class EtudiantMainView {
         });
 
         btnconsPro.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                jFrame.dispose();
-                ConsulterMonProfil cp = new ConsulterMonProfil(controler);
-                cp.getjFrame().setVisible(true);
-            }
+	        public void actionPerformed(ActionEvent e) {
+	            jFrame.dispose();
+	            new ConsulterMonProfil(controler);
+	        }
         });
 
         btnconsReserv.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 jFrame.dispose();
-                ConsulterReservationView cr = new ConsulterReservationView(controler);
-                cr.getjFrame().setVisible(true);
+                new ConsulterReservationView(controler);
             }
         });
 
         btnreserv.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                EffectuerReservationMachineView er = new EffectuerReservationMachineView();
-                er.getjFrame().setVisible(true);
+                new EffectuerReservationMachineView(controler);
             }
         });
 

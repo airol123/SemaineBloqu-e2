@@ -36,11 +36,10 @@ public class ConsulterMonProfil {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
 
-    private Etudiant etudiant=new Etudiant();
-    private EtudiantControler etudiantControler;
+    private EtudiantControler controler;
 
-    public ConsulterMonProfil(EtudiantControler etudiantControler ) {//Etudiant etu
-       // this.etudiant=etu;
+    public ConsulterMonProfil(EtudiantControler controler) {
+        this.controler = controler;
 
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
@@ -90,12 +89,11 @@ public class ConsulterMonProfil {
         fieldPanel.add(btnreturn);
         fieldPanel.add(lblBackground);
 
-          lbemailR.setText(etudiant.getEmail());
-          lbnumeroR.setText(etudiant.getIdentifiant());
-          lbnomR.setText(etudiant.getNom());
-          lbprenomR.setText(etudiant.getNom());
-
-        lbNom.setText(etudiant.getPrenom());
+	    lbemailR.setText(controler.getEmail());
+	    lbnumeroR.setText(controler.getIdentifiant());
+	    lbnomR.setText(controler.getNom());
+	    lbprenomR.setText(controler.getPrenom());
+        lbNom.setText(controler.getNom());
 
         c.add(fieldPanel, "Center");
         //----------------------------listener--------------------------------
@@ -105,9 +103,7 @@ public class ConsulterMonProfil {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                EtudiantMainView pe = new EtudiantMainView(etudiantControler);
-                pe.getjFrame().setVisible(true);
-
+                new EtudiantMainView(controler);
             }
         });
 
@@ -116,9 +112,7 @@ public class ConsulterMonProfil {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.setVisible(false);
-                ModifierProfilView mo = new ModifierProfilView(etudiantControler);
-                mo.getjFrame().setVisible(true);
-
+                new ModifierProfilView(controler);
             }
         });
 

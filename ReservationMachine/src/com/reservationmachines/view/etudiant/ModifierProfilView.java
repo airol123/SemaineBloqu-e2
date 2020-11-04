@@ -35,10 +35,9 @@ public class ModifierProfilView {
     private ImageIcon icon = new ImageIcon("images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
 
-    private Etudiant etudiant=new Etudiant();
-private EtudiantControler controler;
-    public ModifierProfilView( EtudiantControler controler) {//
-        //this.etudiant=e;
+	private EtudiantControler controler;
+
+    public ModifierProfilView(EtudiantControler controler) {//
         this.controler=controler;
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
@@ -115,10 +114,8 @@ private EtudiantControler controler;
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                jFrame.setVisible(false);
-                ConsulterMonProfil cp = new ConsulterMonProfil(controler);
-                cp.getjFrame().setVisible(true);
-
+                jFrame.dispose();
+                new ConsulterMonProfil(controler);
             }
         });
 
@@ -156,9 +153,7 @@ private EtudiantControler controler;
                     return;
                 }
 
-                etudiant.setEmail(stremail);
-                etudiant.setMdp(strRePwd);
-                //?EtudiantControler.misAjourInBD(controler);
+                controler.misAjourInBD(stremail, strRePwd);
 
                 lbIMsgC.setText("Successful");
 
