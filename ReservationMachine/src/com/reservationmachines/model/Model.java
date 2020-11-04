@@ -183,7 +183,7 @@ public class Model extends AbstractModel {
 	@Override
 	public boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp) {
 		String querySQL = "SELECT idE FROM Etudiant " +
-				"WHERE idE = '" + numEtudiant + "' AND mdpE = '" + mdp + "';";
+				"WHERE idE = '" + numEtudiant + "' AND mdpE = '" + mdp + "' AND EtatE='valide';";
 
 		// Vï¿½rifier si la valeur existe dans la table
 		try {
@@ -253,7 +253,7 @@ public class Model extends AbstractModel {
 				resultat.getString("emaile")
 			);
 			
-			System.out.println("Je suis là !");
+			System.out.println("Je suis lï¿½ !");
 		} catch (Exception e) {e.printStackTrace();}
 		
 		return etudiant;
