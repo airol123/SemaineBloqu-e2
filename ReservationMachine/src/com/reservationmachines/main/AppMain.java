@@ -1,6 +1,7 @@
 package com.reservationmachines.main;
 
 import com.reservationmachines.model.AbstractModel;
+import com.reservationmachines.model.BD;
 import com.reservationmachines.model.Model;
 import com.reservationmachines.view.main.SeConnecterView;
 import com.reservationmachines.controler.EtudiantControler;
@@ -14,6 +15,8 @@ public class AppMain {
 		EtudiantControler c1 = new EtudiantControler(model);
 		ResponsableTPControler c2 = new ResponsableTPControler(model);
 		AdminControler c3 = new AdminControler(model);
+		BD bd = new BD();
+		bd.getConnection();
 		new SeConnecterView();//c1, c2, c3
 	}
 	
