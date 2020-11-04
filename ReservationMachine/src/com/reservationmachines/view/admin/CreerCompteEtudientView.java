@@ -12,12 +12,11 @@ import com.reservationmachines.controler.AdminControler;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class CreerCompteResponsableTPView extends JFrame implements ActionListener {
+public class CreerCompteEtudientView extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JTextField identifiant;
@@ -38,7 +37,7 @@ public class CreerCompteResponsableTPView extends JFrame implements ActionListen
 	/**
 	 * Create the frame.
 	 */
-	public CreerCompteResponsableTPView(AdminControler controler) {
+	public CreerCompteEtudientView(AdminControler controler) {
 		this.controler = controler;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,7 +47,7 @@ public class CreerCompteResponsableTPView extends JFrame implements ActionListen
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Création de compte résponsable TP");
+		JLabel lblNewLabel = new JLabel("Création de compte étudient");
 		lblNewLabel.setFont(new Font("����", Font.PLAIN, 24));
 		lblNewLabel.setBounds(20, 15, 404, 28);
 		contentPane.add(lblNewLabel);
@@ -111,7 +110,7 @@ public class CreerCompteResponsableTPView extends JFrame implements ActionListen
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(btnValider)) {
-			controler.creerCompteResponsableTP(
+			controler.creerCompteEtudiant(
 				identifiant.getText(),
 				mdp.getText(),
 				email.getText(),

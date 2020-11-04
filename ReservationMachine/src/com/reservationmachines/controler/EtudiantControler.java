@@ -2,6 +2,8 @@ package com.reservationmachines.controler;
 
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.Etudiant;
+import com.reservationmachines.model.Reclamation;
+import com.reservationmachines.model.ReservationMachine;
 
 public class EtudiantControler extends Controler {
 
@@ -30,5 +32,18 @@ public class EtudiantControler extends Controler {
         Etudiant etudiant = new Etudiant();
 
         return etudiant;
+    }
+
+    public static ReservationMachine[] trouverToutesLesReservation(Etudiant etudiant) {
+        ReservationMachine[] rm = null;
+        return rm;
+    }
+
+    public static void supprimerReservation(ReservationMachine reservationMachine) {
+        //supprimer cette reservation dans BD
+    }
+
+    public static void stockerReclamation(Reclamation re) {
+        //stocker la reclamation dans BD
     }
 }

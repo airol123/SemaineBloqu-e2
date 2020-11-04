@@ -17,20 +17,36 @@ public class ReservationMachine extends Reservation {
 		this.heureFin = heureFin;
 	}
 	
-	// Revoie le nom de la machine qui correspond à la réservation
+	// Revoie le nom de la machine qui correspond ï¿½ la rï¿½servation
 	public String getNomMachine() {
 		return this.machine.getNomMachine();
 	}
-	// Revoie l'état de la machine courante
+	// Revoie l'ï¿½tat de la machine courante
 	public String getEtatMachine() {
 		return this.machine.getEtatMachine();
 	}
-	// Renvoie le nom de l'étudiant concerné par la réservation
+	// Renvoie le nom de l'ï¿½tudiant concernï¿½ par la rï¿½servation
 	public String getNomEtudiant() {
 		return this.etudiant.getNom();
 	}
-	// Renvoie le prénom de l'étudiant concerné par la réservation
+	// Renvoie le prï¿½nom de l'ï¿½tudiant concernï¿½ par la rï¿½servation
 	public String getPrenomEtudiant() {
 		return this.etudiant.getPrenom();
+	}
+
+	public Etudiant getEtudiant() {
+		return etudiant;
+	}
+
+	public Machine getMachine() {
+		return machine;
+	}
+
+	public Timestamp getHeureDebut() {
+		return heureDebut;
+	}
+
+	public Timestamp getHeureFin() {
+		return heureFin;
 	}
 }
