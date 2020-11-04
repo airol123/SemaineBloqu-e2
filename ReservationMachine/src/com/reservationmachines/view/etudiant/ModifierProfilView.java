@@ -153,9 +153,14 @@ public class ModifierProfilView {
                     return;
                 }
 
-                controler.misAjourInBD(stremail, strRePwd);
+                if (controler.misAjourInBD(stremail, strRePwd)){
+                    lbIMsgC.setText("Successful");
+                }else{
+                    lbIMsgC.setText("échec");
+                }
 
-                lbIMsgC.setText("Successful");
+
+
 
             }
         });
