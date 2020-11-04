@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Model extends AbstractModel {
 
@@ -232,11 +233,10 @@ public class Model extends AbstractModel {
 			return false;
 		}
 	}
-
 	@Override
-	public String getPrenomEtudiant(String numEtudiant) {
-		String querySQL = "SELECT nomE FROM Etudiant WHERE idE = '" + numEtudiant + "';";
-
+	public Etudiant getEtudiant(String numEtudiant) {
+		String querySQL = "SELECT * FROM Etudiant WHERE idE = '" + numEtudiant + "';";
+		Etudiant etudiant = null;
 		// Vï¿½rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
@@ -244,10 +244,19 @@ public class Model extends AbstractModel {
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
 			resultat.next();
-			return resultat.getString(1);
-		} catch (Exception e) {
-			return "";
-		}
+			
+			etudiant = new Etudiant(
+				resultat.getString("ide"),
+				resultat.getString("mdpe"),
+				resultat.getString("nome"),
+				resultat.getString("prenome"),
+				resultat.getString("emaile")
+			);
+			
+			System.out.println("Je suis là !");
+		} catch (Exception e) {e.printStackTrace();}
+		
+		return etudiant;
 	}
 
 	@Override
@@ -298,6 +307,12 @@ public class Model extends AbstractModel {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	@Override
+	public boolean misAjourInBD(String stremail, String strRePwd) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	/*
