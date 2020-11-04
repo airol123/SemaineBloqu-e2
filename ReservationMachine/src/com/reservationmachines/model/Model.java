@@ -69,27 +69,6 @@ public class Model extends AbstractModel {
 			e3.printStackTrace();
 		}
 		
-		/*
-		 * Remplir la liste avec toutes les rï¿½servations de la salle 'idSalle' en paramï¿½tre
-		 */
-		
-		/* Ceci est un test pour l'affichage
-		Etudiant e = new Etudiant("21901234", "dsmlfjdf", "DUPONT", "Jean", "jean.dupont@mail.fr");
-		Machine m = new Machine("A12345", EtatMachine.DISPONIBLE);
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");	
-		
-		Timestamp d = null;
-		try {
-			d = new Timestamp(dateFormat.parse("03/11/2020 16:45").getTime());
-		} catch (ParseException e1) {}
-		Timestamp f = null;
-		try {
-			f = new Timestamp(dateFormat.parse("03/11/2020 18:30").getTime());
-		} catch (ParseException e1) {}
-		reservations.add(new ReservationMachine(e, m, d, f));
-		*/
-		
 		return reservations;
 	}
 
@@ -258,7 +237,7 @@ public class Model extends AbstractModel {
 				resultat.getString("emaile")
 			);
 			
-			System.out.println("Je suis là !");
+			System.out.println("Je suis lï¿½ !");
 		} catch (Exception e) {e.printStackTrace();}
 		
 		return etudiant;
@@ -322,11 +301,11 @@ public class Model extends AbstractModel {
 
 	@Override
 	public String[] getReservationsSallesDates() {
-		// Initialisation à la date d'aujourd'hui
+		// Initialisation ï¿½ la date d'aujourd'hui
         LocalDate day = LocalDate.now();
         // Ex. mer. 04/11/2020
         DateTimeFormatter date = DateTimeFormatter.ofPattern("EEE dd/MM/yyyy");
-        // Le numéro du jour de la semaine (ex. 3 pour mercredi)
+        // Le numï¿½ro du jour de la semaine (ex. 3 pour mercredi)
         DateTimeFormatter dayName = DateTimeFormatter.ofPattern("e");
         String[] result = new String[100];
         
@@ -375,10 +354,10 @@ public class Model extends AbstractModel {
 			}
 			
 			String tmp = "";
-			// Si les heures sont inférieures à 10, alors on ajoute un zéro
+			// Si les heures sont infï¿½rieures ï¿½ 10, alors on ajoute un zï¿½ro
 			tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
 			tmp += HEURE_RESERVATION_SEPARATEUR;
-			// Si les minutes sont inférieures à 10, alors on ajoute un zéro
+			// Si les minutes sont infï¿½rieures ï¿½ 10, alors on ajoute un zï¿½ro
 			tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
 			
 			heuresDebuts.add(tmp);
@@ -413,10 +392,10 @@ public class Model extends AbstractModel {
 			}
 			
 			String tmp = "";
-			// Si les heures sont inférieures à 10, alors on ajoute un zéro
+			// Si les heures sont infï¿½rieures ï¿½ 10, alors on ajoute un zï¿½ro
 			tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
 			tmp += HEURE_RESERVATION_SEPARATEUR;
-			// Si les minutes sont inférieures à 10, alors on ajoute un zéro
+			// Si les minutes sont infï¿½rieures ï¿½ 10, alors on ajoute un zï¿½ro
 			tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
 			
 			heuresDebuts.add(tmp);
