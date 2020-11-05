@@ -11,6 +11,11 @@ public class Salle {
 	public Salle() {
 	}
 
+	public Salle(String nomSalle, int capacite) {
+		this.nomSalle = nomSalle;
+		this.capacite = capacite;
+	}
+	
 	public Salle(String nomSalle, int capacite, EtatSalle etatSalle) {
 		this.nomSalle = nomSalle;
 		this.capacite = capacite;
