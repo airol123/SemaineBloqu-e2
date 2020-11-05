@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class BD {
 
-    static final String DB_URL = "jdbc:mysql://localhost:3307/reservationmachine?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/reservationmachine?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     static final String USER = "root";
-    static final String PASS = "000000";
+    static final String PASS = "";
     static Connection con;
     //static Statement sql;   //pour SELECT
     static PreparedStatement sql;  //pour UPDATE
