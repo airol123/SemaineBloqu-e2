@@ -73,7 +73,11 @@ public class AdminControler extends Controler {
 	public String getMotDePasse() {
 		return model.getAdmin(id).getMdp();
 	}
-
+	
+	public String[][] getMachine(String nomS) {
+		return model.getMachines(nomS);
+	}
+	
 	public Object[][]  getCompteE(){
 		Object[][] t=null;
 		return t;

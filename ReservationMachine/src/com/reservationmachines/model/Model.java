@@ -1064,7 +1064,7 @@ public class Model extends AbstractModel {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }		
-	};
+	}
 	
 	public void supprimerSalle(String nomSalle) {
         try {
@@ -1077,6 +1077,34 @@ public class Model extends AbstractModel {
         }	
 	}
 	
+	// get tableau des machines
+	@Override
+	public String[][] getMachines(String nomS) {
+		String[][] strings = null;
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"select s.noms, m.nomm, m.etatm "
+					+ "from reservationmachine.salle s, reservationmachine.machine m "
+					+ "where s.ids = m.ids;");
+			ResultSet rs=pstmt.executeQuery();
+			rs.last();
+			int nbLignes = rs.getRow();
+			rs.absolute(0);
+			int nbColonnes = 3;
+			strings = new String[nbLignes][nbColonnes];
+			int i = 0;
+			while(rs.next()) {
+				strings[i][0] = rs.getString("noms");
+				strings[i][1] = rs.getString("nomm");
+				strings[i][2] = rs.getString("etatm");
+				i++;
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}		
+		return strings;
+	}
 
 
 

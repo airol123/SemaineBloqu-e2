@@ -42,6 +42,8 @@ public abstract class AbstractModel {
 	public abstract String[][] getSalles();
 	public abstract void ajoutSalle(String nomSalle);
 	public abstract void supprimerSalle(String nomSalle);
+	public abstract String[][] getMachines(String nomS);
+	
 	public Etudiant seConnecter(String ide) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
@@ -61,4 +63,5 @@ public abstract class AbstractModel {
 	public abstract boolean supprimerRservation(ReservationMachine reservationMachine);
 	public abstract ArrayList<Machine> trouverMDisponible(String salle, String dateD, String dateF);
 	public abstract Boolean affecterReservationM(Machine machine, Etudiant etudiant, String dateD, String dateF);
+
 }

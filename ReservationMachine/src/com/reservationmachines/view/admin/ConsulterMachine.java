@@ -43,11 +43,8 @@ public class ConsulterMachine extends JFrame {
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Salle", "Machine", "Etat"
-			}
+			controler.getMachine(null),
+			new String[] {"Salle", "Machine", "Etat"}
 		));
 		scrollPane.setViewportView(table);
 		
