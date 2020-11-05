@@ -18,6 +18,8 @@ import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.main.AppMain;
 import com.reservationmachines.view.admin.ConsulterReclamationView;
 import com.reservationmachines.view.admin.ConsulterCompte;
+import com.reservationmachines.view.admin.ConsulterSalle;
+
 
 public class AdminMainView {
 	private JFrame jFrame = new JFrame("Page Personnelle");
@@ -112,6 +114,13 @@ public class AdminMainView {
 	            jFrame.dispose();
 	            //
 	        }
+	    });
+	    
+	    btnSalle.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		jFrame.dispose();
+	    		new ConsulterSalle(controler);
+	    	}
 	    });
 	
 	    btnReclamation.addActionListener(new ActionListener(){

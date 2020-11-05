@@ -16,6 +16,7 @@ public class ConsulterReservationView {
     private JFrame jFrame = new JFrame("Mes reservations");
     private Container c = jFrame.getContentPane();
     private JLabel titre = new JLabel("Mes reservations");
+    private JLabel lbIMsgC = new JLabel();
     private JLabel lbBon = new JLabel("Bonjour, ");
     private JLabel lbNom = new JLabel();
     private JLabel lbMach = new JLabel("Numero de la machine");
@@ -33,6 +34,7 @@ public class ConsulterReservationView {
     private JButton btnGuacamole = new JButton("Acceder Guacamole");
     private JButton btnSupprimer = new JButton("Supprimer reservation");
     private JButton btnReclamer = new JButton("Reclamer");
+    private JButton btnActualiser = new JButton("Actualiser");
 
     // background && font
     private JLabel lblBackground = new JLabel();
@@ -40,39 +42,21 @@ public class ConsulterReservationView {
     private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
-    //private Etudiant etudiant = new Etudiant();
-
-/*    private Salle s1 = new Salle("ME405",20,EtatSalle.DISPONIBLE);
-    private Machine m1 = new Machine("A123", EtatMachine.DISPONIBLE,s1);
-    private Machine m2 = new Machine("A456", EtatMachine.DISPONIBLE,s1);
-    private Timestamp td1 = new Timestamp(2020, 11, 7, 9, 30, 0, 0);
-    private Timestamp tf1 = new Timestamp(2020, 11, 7, 11, 0, 0, 0);
-    private Timestamp td2 = new Timestamp(2020, 11, 8, 9, 30, 0, 0);
-    private Timestamp tf2 = new Timestamp(2020, 11, 8, 12, 30, 0, 0);
-    private ReservationMachine rm1 = new ReservationMachine(etudiant, m1, td1, tf1);
-    private ReservationMachine rm2 = new ReservationMachine(etudiant, m2, td2, tf2);*/
     private ReservationMachine[] rm;
-    private String[] reserveNom ;
+    private String[] reserveNom;
     private int courrent;
 
     private EtudiantControler controler;
 
     public ConsulterReservationView(EtudiantControler controler) {
-    	this.controler = controler;
+        this.controler = controler;
         // retourner toutes les reservations de cet etudiant
 
         rm = new ReservationMachine[controler.trouverToutesLesReservation(controler.trouverEtudiantId()).length];
         reserveNom = new String[rm.length];
-        for (int i = 0; i < controler.trouverToutesLesReservation(controler.trouverEtudiantId()).length; i++)
-        {
+        for (int i = 0; i < controler.trouverToutesLesReservation(controler.trouverEtudiantId()).length; i++) {
             rm[i] = controler.trouverToutesLesReservation(controler.trouverEtudiantId())[i];
         }
-
-        /*rm = new ReservationMachine[2];
-        rm[0] = rm1; //arraylist
-        rm[1] = rm2;
-        reserveNom = new String[2];*/
-
 
         genererNomReservation();
 
@@ -92,7 +76,6 @@ public class ConsulterReservationView {
                 lbNumMach.setText(rm[courrent].getNomMachine());
                 lbDebur.setText(rm[courrent].getHeureDebut().toString());
                 lbFin.setText(rm[courrent].getHeureFin().toString());
-
 
             }
 
@@ -131,12 +114,15 @@ public class ConsulterReservationView {
         lbNumMach.setBounds(500, 270, 250, 30);
         lbBon.setBounds(700, 80, 50, 20);
         lbNom.setBounds(750, 80, 100, 20);
-
+        lbIMsgC.setForeground(Color.RED);
+        lbIMsgC.setBounds(450, 120, 200, 25);
         btnSupprimer.setBounds(360, 400, 180, 30);
         btnGuacamole.setBounds(540, 400, 180, 30);
         btnReclamer.setBounds(720, 400, 180, 30);
         btnRetour.setBounds(800, 470, 100, 20);
+        btnActualiser.setBounds(700, 470, 100, 20);
         btnRetour.setBackground(Color.LIGHT_GRAY);
+
 
         fieldPanel.add(lbBon);
         fieldPanel.add(titre);
@@ -152,8 +138,10 @@ public class ConsulterReservationView {
         fieldPanel.add(liste);
         fieldPanel.add(btnGuacamole);
         fieldPanel.add(btnRetour);
+        fieldPanel.add(btnActualiser);
         fieldPanel.add(btnSupprimer);
         fieldPanel.add(btnReclamer);
+        fieldPanel.add(lbIMsgC);
 
         fieldPanel.add(lblBackground);
 
@@ -182,7 +170,20 @@ public class ConsulterReservationView {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                controler.supprimerReservation(rm[courrent]);
+                if (controler.supprimerReservation(rm[courrent])) {
+                    lbIMsgC.setText("Opération réussie, actualisez, s'il vous plait");
+
+                } else {
+                    lbIMsgC.setText("Echec");
+                }
+            }
+        });
+
+        btnActualiser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jFrame.dispose();
+                ConsulterReservationView actualiser = new ConsulterReservationView(controler);
             }
         });
         btnReclamer.addActionListener(new ActionListener() {
@@ -198,7 +199,7 @@ public class ConsulterReservationView {
     public void genererNomReservation() {
         for (int i = 0; i < rm.length; i++) {
             reserveNom[i] = ("Reservation" + (i + 1));
-            System.out.println(reserveNom[i]);
+            //  System.out.println(reserveNom[i]);
         }
     }
 

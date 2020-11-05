@@ -14,10 +14,11 @@ public class AdminControler extends Controler {
 	}
 
 
-	public void creerCompteEtudiant(
+	public boolean creerCompteEtudiant(
 		String noEtudiant, String mdp, String email, String nom, String prenom) {
 		Etudiant etudiant = new Etudiant(noEtudiant, mdp, email, nom, prenom);
 		model.creerCompteEtudiant(etudiant);
+		return false;
 	}
 
 	public boolean verifierMotDePasseAdmin(String idAdmin, String mdp) {
@@ -38,7 +39,9 @@ public class AdminControler extends Controler {
 		//Machine machine = new Machine(nomMachine, EtatMachine.DISPONIBLE);
 		model.setMachineSalle(nomMachine, nomSalle);
 	}
-	
+	public boolean misAjourInBD(String nom,String prenom ,String email, String rePwd){
+		return false;
+	}
 	public String getPrenom() {
 		return model.getAdmin(id).getPrenom();
 	}
@@ -56,9 +59,15 @@ public class AdminControler extends Controler {
 	}
 	
 	public void ajouterSalle(String nomS) {
-		Salle salle = new Salle(nomS, EtatSalle.DISPONIBLE);
 		model.ajoutSalle(nomS);
-
+	}
+	
+	public String[][] getSalle() {
+		return model.getSalles();
+	}
+	
+	public void supprimerSalle(String nomS) {
+		model.supprimerSalle(nomS) ;
 	}
 
 	public String getMotDePasse() {

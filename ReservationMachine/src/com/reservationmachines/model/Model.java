@@ -94,19 +94,6 @@ public class Model extends AbstractModel {
 	public void setMachineSalle(String nomMachine, String nomSalle){
 		
 	};
-
-	// ajouter une nouvelle salle
-	@Override
-	public void ajoutSalle(String nomSalle) {
-        try {
-		Connection con =BD.getConnection();
-		PreparedStatement sql = con.prepareStatement( "insert into salle(noms) values(?);");
-		sql.setString(1, nomSalle);
-		sql.executeUpdate();		
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }		
-	};
 	
 	//Trouver une etudiant selon son identifiant
 	@Override
@@ -1028,7 +1015,70 @@ public class Model extends AbstractModel {
 		}
 		else {
 			return false;
-		}
+		}	
 
 	}
+
+
+	// get tableau des salles 
+	@Override
+	public String[][] getSalles() {
+		String[][] strings = null;
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT noms, count(m.idm) as capacite "+
+					"FROM reservationmachine.salle s left outer join reservationmachine.machine m "+
+					"on s.ids = m.ids "+
+					"group by s.ids, s.noms;");
+			ResultSet rs=pstmt.executeQuery();
+			rs.last();
+			int nbLignes = rs.getRow();
+			rs.absolute(0);
+			int nbColonnes = 2;
+			strings = new String[nbLignes][nbColonnes];
+			int i = 0;
+			while(rs.next()) {
+				strings[i][0] = rs.getString("noms");
+				strings[i][1] = rs.getString("capacite");
+				i++;
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}		
+		return strings;
+	}
+	
+	// ajouter une nouvelle salle
+	public void ajoutSalle(String nomSalle){
+        try {
+		Connection con =BD.getConnection();
+		PreparedStatement sql = con.prepareStatement( "select max(ids) from salle;");
+		ResultSet res = sql.executeQuery();
+		res.next();
+		int idSalle = res.getInt(1)+1;
+		PreparedStatement sql1 = con.prepareStatement( "insert into salle(ids,noms) values(?,?);");
+		sql1.setInt(1, idSalle);
+		sql1.setString(2, nomSalle);
+		sql1.executeUpdate();		
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }		
+	};
+	
+	public void supprimerSalle(String nomSalle) {
+        try {
+		Connection con =BD.getConnection();
+		PreparedStatement sql = con.prepareStatement( "DELETE FROM salle WHERE noms=?;");
+		sql.setString(1, nomSalle);
+		sql.executeUpdate();		
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }	
+	}
+	
+
+
+
+
 }
