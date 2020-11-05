@@ -68,21 +68,21 @@ public class AjouterSalleView extends JFrame implements ActionListener {
 		contentPane.add(lblTitle);
 		
 		lblNomSalle = new JLabel("Nom de salle");
-		lblNomSalle.setBounds(20, 56, 173, 15);
+		lblNomSalle.setBounds(20, 70, 173, 15);
 		contentPane.add(lblNomSalle);
 		
 		nomS = new JTextField();
-		nomS.setBounds(147, 53, 147, 21);
+		nomS.setBounds(147, 67, 147, 21);
 		contentPane.add(nomS);
 		nomS.setColumns(10);
 		
-		lblCapacite = new JLabel("Capacité");
-		lblCapacite.setBounds(20, 81, 97, 15);
-		contentPane.add(lblCapacite);
-		
-		capacite = new JTextField();
-		capacite.setBounds(147, 77, 147, 23);
-		contentPane.add(capacite);		
+//		lblCapacite = new JLabel("Capacité");
+//		lblCapacite.setBounds(20, 81, 97, 15);
+//		contentPane.add(lblCapacite);
+//		
+//		capacite = new JTextField();
+//		capacite.setBounds(147, 77, 147, 23);
+//		contentPane.add(capacite);		
 		
 		btnValider = new JButton("Valider");
 		btnValider.setBounds(20, 121, 97, 23);
@@ -96,7 +96,8 @@ public class AjouterSalleView extends JFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(btnValider)) {
-			controler.ajouterSalle(nomS.getText(), Integer.parseInt(capacite.getText()));
+			controler.ajouterSalle(nomS.getText());
+			this.dispose();
 		}
 		if(e.getSource().equals(btnAnnuler)) {
 			this.dispose();

@@ -1,12 +1,9 @@
 package com.reservationmachines.controler;
 
 import com.reservationmachines.model.AbstractModel;
-<<<<<<< HEAD
 import com.reservationmachines.model.Admin;
 import com.reservationmachines.model.EtatMachine;
 import com.reservationmachines.model.EtatSalle;
-=======
->>>>>>> develop
 import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.model.ResponsableTP;
 import com.reservationmachines.model.Salle;
@@ -52,9 +49,9 @@ public class AdminControler extends Controler {
 
 	}
 	
-	public void ajouterSalle(String nomS, int capacite) {
-		Salle salle = new Salle(nomS, capacite, EtatSalle.DISPONIBLE);
-		model.ajoutSalle(nomS, capacite);
+	public void ajouterSalle(String nomS) {
+		Salle salle = new Salle(nomS, EtatSalle.DISPONIBLE);
+		model.ajoutSalle(nomS);
 
 	}
 }

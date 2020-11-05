@@ -114,14 +114,12 @@ public class Model extends AbstractModel {
 	};
 	
 	// ajouter une nouvelle salle
-	public void ajoutSalle(String nomSalle, int capacite){
+	public void ajoutSalle(String nomSalle){
         try {
 		Connection con =BD.getConnection();
-		PreparedStatement sql = con.prepareStatement( "insert into salle(noms,capacite) values(?,?);");
+		PreparedStatement sql = con.prepareStatement( "insert into salle(noms) values(?);");
 		sql.setString(1, nomSalle);
-		sql.setInt(2, capacite);
-		sql.executeUpdate();
-		
+		sql.executeUpdate();		
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }		

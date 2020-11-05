@@ -10,14 +10,11 @@ public class Machine {
 		this.nomMachine = nomMachine;
 		this.etatMachine = etatMachine;
 
-<<<<<<< HEAD
-	public Machine(String nomMachine, EtatMachine etatMachine) {
-=======
 	}
 	public Machine(String nomMachine, EtatMachine etatMachine,Salle salle) {
->>>>>>> develop
 		this.nomMachine = nomMachine;
 		this.etatMachine = etatMachine;
+		this.salle = salle;
 	}
 
 	public Salle getSalle() {
