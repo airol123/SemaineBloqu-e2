@@ -56,4 +56,5 @@ public abstract class AbstractModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public abstract boolean supprimerRservation(ReservationMachine reservationMachine);
 }
