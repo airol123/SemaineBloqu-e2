@@ -45,7 +45,7 @@ public class CreerCompteResponsableTPView extends JFrame implements ActionListen
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Création de compte résponsable TP");
-		lblNewLabel.setFont(new Font("����", Font.PLAIN, 24));
+		lblNewLabel.setFont(new Font("Arail", Font.PLAIN, 24));
 		lblNewLabel.setBounds(20, 15, 404, 28);
 		contentPane.add(lblNewLabel);
 		

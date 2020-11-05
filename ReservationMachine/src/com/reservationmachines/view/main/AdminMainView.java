@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.main.AppMain;
+import com.reservationmachines.view.admin.ConsulterCompte;
 
 public class AdminMainView {
 	private JFrame jFrame = new JFrame("Page Personnelle");
@@ -32,8 +33,8 @@ public class AdminMainView {
 	private JButton btnSalle = new JButton("Gestion de salle");
 	// background && font
 	private JLabel lblBackground = new JLabel();
-	private URL resource = this.getClass().getResource("images/background2.jpg");
-	private ImageIcon icon = new ImageIcon("images/background2.jpg");
+	private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
+	private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
 	private Font font = new Font("Arial",Font.BOLD,36);
 	private AdminControler controler;
 	
@@ -99,6 +100,8 @@ public class AdminMainView {
 	    btnCompte.addActionListener(new ActionListener(){
 	        public void actionPerformed(ActionEvent e) {
 	            jFrame.dispose();
+				ConsulterCompte cc =new ConsulterCompte(controler);
+				cc.setVisible(true);
 	            //
 	        }
 	    });

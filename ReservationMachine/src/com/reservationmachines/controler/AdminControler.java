@@ -67,9 +67,15 @@ public class AdminControler extends Controler {
 		return model.getAdmin(id).getMdp();
 	}
 
+	public Object[][]  getCompteE(){
+		Object[][] t=null;
+		return t;
+	}
+
 
 	/*public String[] getListeNomSalle() {
 		return model.getListeNomSalle();
 	}*/
+
 
 }
