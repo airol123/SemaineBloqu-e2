@@ -44,4 +44,7 @@ public abstract class AbstractModel {
 	public abstract Admin seConnecterAdmin(String ida) throws SQLException;
 	public abstract ResponsableTP seConnecterResponsable(String idres) throws SQLException;
 	public abstract String[] getListeNomSalle() throws SQLException;
+	public abstract boolean supprimerRservation(ReservationMachine reservationMachine);
+	public abstract ArrayList<Machine> trouverMDisponible(String salle, String dateD, String dateF);
+	public abstract Boolean affecterReservationM(Machine machine, Etudiant etudiant, String dateD, String dateF);
 }
