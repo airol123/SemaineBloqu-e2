@@ -564,7 +564,7 @@ public class Model extends AbstractModel {
 	public boolean stockerReclamation(Reclamation re) {
 		int n=0;
 		int n2=0;
-		String sqlinsertrec="INSERT INTO reclamation (idr,typer, descriptionr) VALUES (?,?,?);";
+		String sqlinsertrec="INSERT INTO reclamation (idr,typer, descriptionr,etatr) VALUES (?,?,?,'EN_COURS');";
 		int idr=this.trouverMaxReclamation();
 		try {
 			Connection con =BD.getConnection();
@@ -574,9 +574,9 @@ public class Model extends AbstractModel {
 			pstmt.setString(3, re.getDescription());
 			n=pstmt.executeUpdate();
 		} catch (Exception e) {e.printStackTrace();}
-		System.out.println(re.getRm().getEtudiant().getIdentifiant()+"---------");
-		System.out.println(re.getRm().getNomMachine()+"+++++++");
-		System.out.println(this.trouverNumeroM(re.getRm().getNomMachine())+"////////");
+		//System.out.println(re.getRm().getEtudiant().getIdentifiant()+"---------");
+		//System.out.println(re.getRm().getNomMachine()+"+++++++");
+		//System.out.println(this.trouverNumeroM(re.getRm().getNomMachine())+"////////");
 		n2=this.insertConcerner(idr,re.getRm().getEtudiant().getIdentifiant(),this.trouverNumeroM(re.getRm().getNomMachine()));
 		if (n2==1 && n==1) {
 			return true;
