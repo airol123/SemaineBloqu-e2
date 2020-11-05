@@ -30,6 +30,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 	private JComboBox<String> cbHeureDebut;
 	private JComboBox<String> cbDate;
 	private JComboBox<String> cbHeureFin;
+	private JComboBox<String> cbNomTP;
 
 	private ResponsableTPControler controler;
 	
@@ -123,6 +124,16 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		panel_1.add(cbGroupeTP, gbc_cbGroupeTP);
 		cbGroupeTP.addActionListener(this);
 		
+		cbNomTP = new JComboBox<String>(controler.recupererNomTP());
+		cbNomTP.setEditable(true);
+		GridBagConstraints gbc_cbNomTP = new GridBagConstraints();
+		gbc_cbNomTP.insets = new Insets(0, 0, 0, 5);
+		gbc_cbNomTP.gridwidth = 2;
+		gbc_cbNomTP.fill = GridBagConstraints.BOTH;
+		gbc_cbNomTP.gridx = 1;
+		gbc_cbNomTP.gridy = 2;
+		panel_1.add(cbNomTP, gbc_cbNomTP);
+		
 		JPanel panel_3 = new JPanel();
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
 		gbc_panel_3.gridheight = 2;
@@ -184,16 +195,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_lblHoraires.gridx = 0;
 		gbc_lblHoraires.gridy = 0;
 		panel_2.add(lblHoraires, gbc_lblHoraires);
-		
-		cbHeureDebut = new JComboBox<String>(controler.getReservationsSallesHeuresDebuts());
-		GridBagConstraints gbc_cbHeureDebut = new GridBagConstraints();
-		gbc_cbHeureDebut.insets = new Insets(0, 0, 5, 0);
-		gbc_cbHeureDebut.fill = GridBagConstraints.BOTH;
-		gbc_cbHeureDebut.gridx = 1;
-		gbc_cbHeureDebut.gridy = 1;
-		panel_2.add(cbHeureDebut, gbc_cbHeureDebut);
-		cbHeureDebut.addActionListener(this);
-		
+				
 		cbDate = new JComboBox<String>(controler.getReservationsSallesDates());
 		GridBagConstraints gbc_cbDate = new GridBagConstraints();
 		gbc_cbDate.insets = new Insets(0, 0, 5, 5);
@@ -211,12 +213,22 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		panel_2.add(cbHeureFin, gbc_cbHeureFin);
 		cbHeureFin.addActionListener(this);
 		
+		cbHeureDebut = new JComboBox<String>(controler.getReservationsSallesHeuresDebuts());
+		GridBagConstraints gbc_cbHeureDebut = new GridBagConstraints();
+		gbc_cbHeureDebut.insets = new Insets(0, 0, 5, 0);
+		gbc_cbHeureDebut.fill = GridBagConstraints.BOTH;
+		gbc_cbHeureDebut.gridx = 1;
+		gbc_cbHeureDebut.gridy = 1;
+		panel_2.add(cbHeureDebut, gbc_cbHeureDebut);
+		cbHeureDebut.addActionListener(this);
+		
 		updateJTable();
 		
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();
 		setLocationRelativeTo(null);
+		setResizable(false);
 	}
 
 	@Override
@@ -252,12 +264,8 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		
 		// Si toutes les valeurs sont renseignées
 		if(!(date.equals("") && heureDebut.equals("") && heureFin.equals(""))) {
-			this.table.setModel(
-				new DefaultTableModel(
-					controler.getValeursSallesDisponibles(date, heureDebut, heureFin),
-					controler.getEnteteSallesDisponibles()
-				)
-			);
+			Object[][] objects = controler.getValeursSallesDisponibles(date, heureDebut, heureFin);
+			this.table.setModel(new DefaultTableModel(objects, controler.getEnteteSallesDisponibles()));
 		}
 	}
 	
