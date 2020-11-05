@@ -4,10 +4,10 @@ import com.reservationmachines.controler.AdminControler;
 
 import javax.swing.*;
 
-public class ModifierCompteEtudiantView {
+public class ModifierCompteView {
     private AdminControler controler;
     private JFrame jFrame;
-    public ModifierCompteEtudiantView(AdminControler controler){
+    public ModifierCompteView(AdminControler controler){
         this.controler=controler;
     }
 
