@@ -35,7 +35,7 @@ public class ConsulterReclamationView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Consultation de la réclamation");
+		JLabel lblNewLabel = new JLabel("Consultation des machines");
 		lblNewLabel.setBounds(10, 10, 220, 15);
 		contentPane.add(lblNewLabel);
 		
