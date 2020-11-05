@@ -101,7 +101,12 @@ public class EtudiantControler extends Controler {
 
     public boolean stockerReclamation(Reclamation re) {
     	boolean sto= model.stockerReclamation(re);
-        return false;
+    	if(sto) {
+    		return true;
+    	}
+    	else {
+    		 return false;
+    	}      
     }
 
 	public void methode(String strident) {
