@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
-public class ModifierCompteEtudiantView {
+public class ModifierCompteView {
     private JFrame jFrame = new JFrame("ModifierCompte");
     private EtudiantControler ec;
     private Container c = jFrame.getContentPane();
@@ -43,7 +43,7 @@ public class ModifierCompteEtudiantView {
 
     private AdminControler controler;
 
-    public ModifierCompteEtudiantView(AdminControler controler) {//
+    public ModifierCompteView(AdminControler controler) {//
 
         this.controler=controler;
         titre.setFont(font);
