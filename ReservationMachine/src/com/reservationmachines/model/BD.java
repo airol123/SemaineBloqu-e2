@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class BD {
 
-    static final String DB_URL = "jdbc:mysql://localhost:3307/reservationmachine?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    static final String DB_URL = "jdbc:mysql://localhost:3306/reservationmachine?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     static final String USER = "root";
-    static final String PASS = "000000";
+    static final String PASS = "";
     static Connection con;
     //static Statement sql;   //pour SELECT
     static PreparedStatement sql;  //pour UPDATE
@@ -16,7 +16,7 @@ public class BD {
         try {
             // bd driver
             Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Succès driver");
+            System.out.println("Succï¿½s driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("pb: Class.forName");
@@ -24,7 +24,7 @@ public class BD {
 
         try {
             con = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Succès Connexion");
+            System.out.println("Succï¿½s Connexion");
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("pb:JDBC ");
