@@ -211,6 +211,8 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		panel_2.add(cbHeureFin, gbc_cbHeureFin);
 		cbHeureFin.addActionListener(this);
 		
+		updateJTable();
+		
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();
@@ -223,9 +225,9 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 			String currentFormation = cbFormation.getSelectedItem().toString();
 			cbGroupeTP.setModel(new DefaultComboBoxModel<String>(controler.recupererGroupeTP(currentFormation)));
 		} else if(e.getSource().equals(cbDate)) {
-			//updateJTable();
+			updateJTable();
 		} else if(e.getSource().equals(cbHeureDebut)) {
-			//updateJTable();
+			updateJTable();
 			String currentHeureDebut = cbHeureDebut.getSelectedItem().toString();
 			String currentHeureFin = cbHeureFin.getSelectedItem().toString();
 			
@@ -244,11 +246,11 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 	}
 
 	public void updateJTable() {
-		String date = cbDate.getSelectedItem().toString();
+		String date = formatSQLDate(cbDate.getSelectedItem().toString());
 		String heureDebut = cbHeureDebut.getSelectedItem().toString();
 		String heureFin = cbHeureFin.getSelectedItem().toString();
 		
-		// Si toutes les valeurs sont renseignés
+		// Si toutes les valeurs sont renseignées
 		if(!(date.equals("") && heureDebut.equals("") && heureFin.equals(""))) {
 			this.table.setModel(
 				new DefaultTableModel(
