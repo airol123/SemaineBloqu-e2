@@ -1,12 +1,18 @@
 package com.reservationmachines.view.responsabletp;
 
+import java.util.HashMap;
+
 import javax.swing.JOptionPane;
 
 import com.reservationmachines.controler.ResponsableTPControler;
 
 public class AnnulerReservationSalleView {
-
-	public AnnulerReservationSalleView(String idSalle, ResponsableTPControler controler) {
+	
+	private ConsulterReservationSalleView view;
+	
+	public AnnulerReservationSalleView(HashMap<String, String> values, ConsulterReservationSalleView view, String idSalle, ResponsableTPControler controler) {
+		this.view = view;
+		
 		// Si le responsable TP a confirmé l'annulation,
 		if(JOptionPane.showConfirmDialog(
 				null,
@@ -16,7 +22,7 @@ public class AnnulerReservationSalleView {
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
 			// alors on annule la réservation de la salle
-			controler.annulerReservationSalle(idSalle);
+			controler.annulerReservationSalle(values);
 
 			// et on lui demande s'il souhaite également annuler 
 			// les réservations machines des étudiants de son TP pour la même salle
@@ -28,8 +34,10 @@ public class AnnulerReservationSalleView {
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				
 				// S'il confirme, alors on annule toutes les réservations machines
-				controler.annulerToutesReservationsMachinesSalle(idSalle);
+				controler.annulerToutesReservationsMachinesSalle(values);
 			}
+			
+			this.view.updateTable();
 		}
 	}
 
