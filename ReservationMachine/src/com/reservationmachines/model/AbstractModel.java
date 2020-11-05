@@ -13,7 +13,7 @@ public abstract class AbstractModel {
 	public abstract boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp);
 	public abstract boolean verifierMotDePasseAdmin(String idAdmin, String mdp);
 	public abstract Etudiant getEtudiant(String numEtudiant);
-	//public abstract String getPrenomResponsableTP(String idResponsableTP);
+	public abstract String getPrenomResponsableTP(String idResponsableTP);
 	//public abstract String getPrenomAdmin(String idAdmin);
 	public abstract boolean inscrireEtudiant(Etudiant etudiant);
 	public abstract ArrayList<String> recupererNomsFormations();
@@ -26,5 +26,11 @@ public abstract class AbstractModel {
 	public abstract String[] getReservationsSallesHeuresDebuts(String heureFin);
 	public abstract String[] getReservationsSallesHeuresFins();
 	public abstract String[] getReservationsSallesHeuresFins(String heureDebut);
+	public abstract void reserverSalle(ReservationSalle reservationSalle);
+	public abstract String[] recupererNomTP(String id);
+	public abstract ArrayList<ReservationSalle> getValeursReservees(String id);
+	public abstract String[] getEnteteSallesReservees();
+	public abstract void annulerReservationSalle(String idSalle);
+	public abstract void annulerToutesReservationsMachinesSalle(String idSalle);
 
 }
