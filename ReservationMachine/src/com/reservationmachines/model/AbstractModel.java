@@ -32,28 +32,16 @@ public abstract class AbstractModel {
 	public abstract String[] recupererNomTP(String id);
 	public abstract ArrayList<ReservationSalle> getValeursReservees(String id);
 	public abstract String[] getEnteteSallesReservees();
-	public abstract void annulerReservationSalle(String idSalle);
-	public abstract void annulerToutesReservationsMachinesSalle(String idSalle);
+	public abstract boolean annulerReservationSalle(ReservationSalle reservationSalle);
+	public abstract boolean annulerToutesReservationsMachinesSalle(ReservationSalle reservationSalle);
 	public abstract ArrayList<ReservationMachine> getReservationMachineE(String etudiant);
 	public abstract ArrayList<Salle> getToutesLesSalles();
 	public abstract Admin getAdmin(String numAdmin);
 	public abstract String[][] getReclamations(String identifiant);
 	public abstract void traiterReclamation(String description);
 	public abstract boolean stockerReclamation(Reclamation re);
-	public Etudiant seConnecter(String ide) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Admin seConnecterAdmin(String ida) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public ResponsableTP seConnecterResponsable(String idres) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public String[] getListeNomSalle() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract Etudiant seConnecter(String ide) throws SQLException;
+	public abstract Admin seConnecterAdmin(String ida) throws SQLException;
+	public abstract ResponsableTP seConnecterResponsable(String idres) throws SQLException;
+	public abstract String[] getListeNomSalle() throws SQLException;
 }
