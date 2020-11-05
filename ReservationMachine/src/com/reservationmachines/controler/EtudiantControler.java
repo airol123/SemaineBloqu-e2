@@ -1,5 +1,6 @@
 package com.reservationmachines.controler;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -74,13 +75,12 @@ public class EtudiantControler extends Controler {
 		//3.else{ return false;}
 
 
-		System.out.println(dateD);
-
-		DateTimeFormatter fommatter1 =DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-		LocalDateTime dateTime1  = LocalDateTime.parse(dateD, fommatter1);
-
-		System.out.println(dateTime1);
+		dateD = dateD + ":00";
+		DateTimeFormatter fommatter1 =DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dateTime1  = LocalDateTime.parse(dateD, fommatter1);//datetime: 2020-11-05T08:06
+		//System.out.println("datetime: "+dateTime1);
+		Timestamp timestamp = Timestamp.valueOf(dateTime1);//timestamp: 2020-11-05 08:06:00.0
+		//System.out.println("timestamp: "+timestamp);
 
 
 
