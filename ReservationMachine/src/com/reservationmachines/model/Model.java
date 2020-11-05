@@ -173,17 +173,23 @@ public class Model extends AbstractModel {
 	}
 	
 	@Override
-	public String[] getListeNomSalle() throws SQLException {
+	public String[] getListeNomSalle() {
 		ArrayList<String> listeNomSalle = new ArrayList<>();
 		String sqlnomSalle= "select noms from salle";
         Connection con =BD.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(sqlnomSalle);
-		ResultSet rs=pstmt.executeQuery();
-		while (rs.next()) {
-			listeNomSalle.add(rs.getString("noms"));
+		PreparedStatement pstmt;
+		try {
+			pstmt = con.prepareStatement(sqlnomSalle);
+			
+			ResultSet rs=pstmt.executeQuery();
+			while (rs.next()) {
+				listeNomSalle.add(rs.getString("noms"));
+			}
+			rs.close();  
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		rs.close();  
-		
 		return listeNomSalle.toArray(new String[0]);
 	}
 
@@ -1163,8 +1169,37 @@ public class Model extends AbstractModel {
 		}		
 	}
 	
-
-
-
-
+	public void setMachineSalle(Machine machine){
+		Salle salle = machine.getSalle();
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement sql = con.prepareStatement( "INSERT INTO machine(IDM, IDS, NOMM, ETATM) VALUES (?, ?, ?, ?)");
+			sql.setInt(1, this.trouverMaxMachine());
+			sql.setInt(2, this.chercherIdSalle(salle));
+			sql.setString(3, machine.getNomMachine());
+			sql.setString(4, machine.getEtatMachine());
+			sql.executeUpdate();		
+	        } catch (SQLException throwables) {
+	            throwables.printStackTrace();
+	        }		
+		};
+		
+		private int trouverMaxMachine() {
+			String sql="SELECT max(idm) FROM machine";
+			int nbIDM=0;
+			try {
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rs =pstmt.executeQuery(sql);
+			while (rs.next()) {
+				nbIDM=rs.getInt(1);
+				nbIDM++;
+			}
+			rs.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			return nbIDM;
+		}
 }

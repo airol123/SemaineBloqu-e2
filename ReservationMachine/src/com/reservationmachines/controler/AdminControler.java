@@ -1,8 +1,12 @@
 package com.reservationmachines.controler;
 
+import java.sql.SQLException;
+
 import com.reservationmachines.model.AbstractModel;
+import com.reservationmachines.model.EtatMachine;
 import com.reservationmachines.model.EtatSalle;
 import com.reservationmachines.model.Etudiant;
+import com.reservationmachines.model.Machine;
 import com.reservationmachines.model.ResponsableTP;
 import com.reservationmachines.model.Salle;
 
@@ -36,8 +40,9 @@ public class AdminControler extends Controler {
 	}
 
 	public void ajouterMachineSalle(String nomMachine, String nomSalle) {
-		//Machine machine = new Machine(nomMachine, EtatMachine.DISPONIBLE);
-		model.setMachineSalle(nomMachine, nomSalle);
+		Salle salle = new Salle(nomSalle);
+		Machine machine = new Machine(nomMachine, EtatMachine.DISPONIBLE, salle);
+		model.setMachineSalle(machine);
 	}
 	public boolean misAjourInBD(String identifiant,String nom,String prenom ,String email, String rePwd){
 		boolean mis=model.miseAJourcompteE(identifiant,nom,prenom,email,rePwd);
@@ -96,9 +101,9 @@ public class AdminControler extends Controler {
 	}
 
 
-	/*public String[] getListeNomSalle() {
+	public String[] getListeNomSalle() {
 		return model.getListeNomSalle();
-	}*/
+	}
 
 
 }
