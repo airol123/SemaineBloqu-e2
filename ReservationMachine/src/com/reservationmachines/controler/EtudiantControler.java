@@ -75,12 +75,17 @@ public class EtudiantControler extends Controler {
 		//System.out.println(machines.get(0).getNomMachine()+"---*2*--");
 		//System.out.println(machines.get(1).getNomMachine()+"---*3*--");
 		int n=machines.size();
+		System.out.println("n: "+n);
+		for (int i = 0; i < machines.size(); i++) {
+			System.out.println("M :"+i+machines.get(i).getNomMachine());
+		}
 		//Si il y une ou des machines
 		if(n!=0){
 		//Affecter une machine disponible aleatoirement a cet etudiant
 			Etudiant etudiant=model.getEtudiant(this.trouverEtudiantId());
 			Random rand = new Random();			
 	    	int numI = rand.nextInt(n);
+			System.out.println("numI "+numI);
 	        //System.out.println(numI);
 	        Boolean enrM =model.affecterReservationM(machines.get(numI),etudiant,dateD,dateF);			
 			if(enrM){

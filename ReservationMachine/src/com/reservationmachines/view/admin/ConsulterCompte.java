@@ -73,7 +73,7 @@ public class ConsulterCompte extends JFrame {
         contentPane.add(btnAjouter);
 
 
-        btnModifier = new JButton("<html>Modifier<br>Etudiant</html>");
+        btnModifier = new JButton("Modifier");
         btnModifier.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 dispose();

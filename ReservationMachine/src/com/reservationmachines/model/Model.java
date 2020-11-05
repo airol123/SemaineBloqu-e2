@@ -1011,18 +1011,17 @@ public class Model extends AbstractModel {
         //System.out.println(date+"--3--");
 
         String sql = "select distinct machine.IDM ,machine.NOMM,machine.ETATM \r\n" +
-                "	from salle,machine,reserverm,etudiant \r\n" +
+                "	from salle,machine \r\n" +
                 "	where salle.NOMS=? \r\n" +
                 "	and salle.IDS=machine.IDS \r\n" +
-                "	and machine.IDM=reserverm.IDM \r\n" +
-                "	and reserverm.IDE=etudiant.IDE \r\n" +
+
                 "	and machine.ETATM<>'HORS_SERVICE'\r\n" +
                 "	and machine.IDM not in\r\n" +
                 "		(select reserverm.IDM \r\n" +
                 "		from reserverm \r\n" +
-                "		where (reserverm.datem=? and reserverm.HEUREDEBUTM > ? and reserverm.HEUREDEBUTM < ? )\r\n" +
-                "		or (reserverm.datem=? and reserverm.HEUREFINM > ? and reserverm.HEUREFINM  < ?)\r\n" +
-                "        or (reserverm.datem=? and reserverm.HEUREDEBUTM < ? and reserverm.HEUREFINM  > ?));";
+                "		where (reserverm.datem=? and reserverm.HEUREDEBUTM >= ? and reserverm.HEUREDEBUTM <= ? )\r\n" +
+                "		or (reserverm.datem=? and reserverm.HEUREFINM >= ? and reserverm.HEUREFINM  <= ?)\r\n" +
+                "        or (reserverm.datem=? and reserverm.HEUREDEBUTM <= ? and reserverm.HEUREFINM  >= ?));";
         try {
             Connection con = BD.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql);

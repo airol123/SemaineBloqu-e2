@@ -19,7 +19,7 @@ public class ConsulterReservationView {
     private JLabel lbIMsgC = new JLabel();
     private JLabel lbBon = new JLabel("Bonjour, ");
     private JLabel lbNom = new JLabel();
-    private JLabel lbMach = new JLabel("Numero de la machine");
+    private JLabel lbMach = new JLabel("<html>Numero de<br>la machine</html>");
     private JLabel lbNumMach = new JLabel();
     private JLabel lbSal = new JLabel("Salle");
     private JLabel lbSalle = new JLabel();
@@ -111,11 +111,11 @@ public class ConsulterReservationView {
         lbF.setBounds(360, 230, 100, 30);
         lbFin.setBounds(500, 230, 250, 30);
         lbMach.setBounds(360, 270, 100, 30);
-        lbNumMach.setBounds(500, 270, 250, 30);
-        lbBon.setBounds(700, 80, 50, 20);
-        lbNom.setBounds(750, 80, 100, 20);
+        lbNumMach.setBounds(500, 273, 250, 30);
+        lbBon.setBounds(700, 80, 70, 20);
+        lbNom.setBounds(770, 80, 100, 20);
         lbIMsgC.setForeground(Color.RED);
-        lbIMsgC.setBounds(450, 120, 200, 25);
+        lbIMsgC.setBounds(450, 120, 300, 25);
         btnSupprimer.setBounds(360, 400, 180, 30);
         btnGuacamole.setBounds(540, 400, 180, 30);
         btnReclamer.setBounds(720, 400, 180, 30);
