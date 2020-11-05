@@ -1083,10 +1083,21 @@ public class Model extends AbstractModel {
 		String[][] strings = null;
 		try{
 			Connection con =BD.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(
+			PreparedStatement pstmt;
+			if (nomS==null) {
+				pstmt = con.prepareStatement(
+						"select s.noms, m.nomm, m.etatm "
+						+ "from salle s, machine m "
+						+ "where s.ids = m.ids;");
+			} else {
+				pstmt = con.prepareStatement(
 					"select s.noms, m.nomm, m.etatm "
-					+ "from reservationmachine.salle s, reservationmachine.machine m "
-					+ "where s.ids = m.ids;");
+					+ "from salle s, machine m "
+					+ "where s.ids = m.ids "
+					+ "and s.noms = ?;");
+				pstmt.setString(1, nomS);
+			}
+			System.out.println(pstmt);
 			ResultSet rs=pstmt.executeQuery();
 			rs.last();
 			int nbLignes = rs.getRow();

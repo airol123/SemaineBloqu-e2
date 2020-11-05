@@ -113,7 +113,7 @@ public class AdminMainView {
 	    btnMachine.addActionListener(new ActionListener(){
 	        public void actionPerformed(ActionEvent e) {
 	            jFrame.dispose();
-	            new ConsulterMachine(controler);	            
+	            new ConsulterMachine(controler,null);	            
 	        }
 	    });
 	    
