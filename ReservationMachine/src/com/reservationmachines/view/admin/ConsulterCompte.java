@@ -77,13 +77,14 @@ public class ConsulterCompte extends JFrame {
         btnModifier.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 dispose();
-                ModifierCompteEtudiantView mce = new ModifierCompteEtudiantView(controler);
-                mce.getjFrame().setVisible(true);
                 int count=table.getSelectedRow();
         		String id=table.getValueAt(count,1).toString();
         		String type=table.getValueAt(count,0).toString();
                 controler.id(id);
                 controler.type(type);
+                ModifierCompteEtudiantView mce = new ModifierCompteEtudiantView(controler);
+                mce.getjFrame().setVisible(true);
+
             }
         });
         btnModifier.setBounds(170, 400, 100, 23);

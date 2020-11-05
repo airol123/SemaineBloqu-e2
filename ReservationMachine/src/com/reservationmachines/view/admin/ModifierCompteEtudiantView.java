@@ -2,6 +2,7 @@ package com.reservationmachines.view.admin;
 
 import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.controler.EtudiantControler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -39,14 +40,14 @@ public class ModifierCompteEtudiantView {
     private JLabel lblBackground = new JLabel();
     private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
     private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
-    private Font font=new Font("Arial",Font.BOLD,36);
+    private Font font = new Font("Arial", Font.BOLD, 36);
 
     private AdminControler controler;
 
     public ModifierCompteEtudiantView(AdminControler controler) {//
-        this.controler=controler;
+        this.controler = controler;
         titre.setFont(font);
-        titre.setBounds(390,20,300,40);
+        titre.setBounds(390, 20, 300, 40);
         jFrame.setBounds(600, 200, 1010, 550);
         //Mettre en place une couche de quelque chose d'équivalent à une nappe
         c.setLayout(new BorderLayout());//Gestionnaire de mise en page
@@ -59,6 +60,7 @@ public class ModifierCompteEtudiantView {
         jFrame.setVisible(true);
 
     }
+
     public void init() {
 
         lblBackground.setIcon(icon); // Définir l'icône à afficher par le composant d'étiquette
@@ -67,27 +69,28 @@ public class ModifierCompteEtudiantView {
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
         //Définir le texte de l'étiquette en rouge
-identifiant.setText(controler.getIdModifierCurrent());
+        identifiant.setText(controler.getIdModifierCurrent());
+        System.out.println(controler.idModifierCurrent);
         lbIMsgC.setForeground(Color.RED);
         lbIMsgC.setBounds(450, 85, 200, 25);
 
-        lbNom.setBounds(340,150,100,30);
-        lbIdenti.setBounds(340,110,100,30);
-        txtNom.setBounds(450,150,220,30);
-        identifiant.setBounds(450,110,220,30);
+        lbNom.setBounds(340, 150, 100, 30);
+        lbIdenti.setBounds(340, 110, 100, 30);
+        txtNom.setBounds(450, 150, 220, 30);
+        identifiant.setBounds(450, 110, 220, 30);
 
-        lbPrenom.setBounds(340,190,100,30);
-        txtPrenom.setBounds(450,190,220,30);
-        lbemail.setBounds(340,230,100,30);
-        txtemail.setBounds(450,230,220,30);
-        lblPwdC.setBounds(340,270,100,30);
-        txtPwdC.setBounds(450,270,220,30);
-        lbRePwdC.setBounds(340,310,100,30);
-        txtRePwdC.setBounds(450,310,220,30);
+        lbPrenom.setBounds(340, 190, 100, 30);
+        txtPrenom.setBounds(450, 190, 220, 30);
+        lbemail.setBounds(340, 230, 100, 30);
+        txtemail.setBounds(450, 230, 220, 30);
+        lblPwdC.setBounds(340, 270, 100, 30);
+        txtPwdC.setBounds(450, 270, 220, 30);
+        lbRePwdC.setBounds(340, 310, 100, 30);
+        txtRePwdC.setBounds(450, 310, 220, 30);
 
-        okbtn.setBounds(340,360,110,30);
-        resetlbtn.setBounds(450,360,110,30);
-        btnreturn.setBounds(560,360,110,30);
+        okbtn.setBounds(340, 360, 110, 30);
+        resetlbtn.setBounds(450, 360, 110, 30);
+        btnreturn.setBounds(560, 360, 110, 30);
 
         fieldPanel.add(titre);
         fieldPanel.add(lbIMsgC);
@@ -110,8 +113,6 @@ identifiant.setText(controler.getIdModifierCurrent());
         fieldPanel.add(btnreturn);
 
         fieldPanel.add(lblBackground);
-
-
 
 
         c.add(fieldPanel, "Center");
@@ -195,13 +196,11 @@ identifiant.setText(controler.getIdModifierCurrent());
                     return;
                 }
 
-                if (controler.misAjourInBD(strIdenti,strNom,strPrenom ,stremail, strRePwd)){
+                if (controler.misAjourInBD(strIdenti, strNom, strPrenom, stremail, strRePwd)) {
                     lbIMsgC.setText("Successful");
-                }else{
+                } else {
                     lbIMsgC.setText("échec");
                 }
-
-
 
 
             }

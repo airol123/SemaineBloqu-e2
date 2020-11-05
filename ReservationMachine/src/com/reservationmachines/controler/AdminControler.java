@@ -117,9 +117,10 @@ public class AdminControler extends Controler {
 		return objects;
 	}
 
-	private String idModifierCurrent;
+	public String idModifierCurrent;
 	public void id(String id) {
 		this.idModifierCurrent=id;
+		System.out.println("contole:"+idModifierCurrent);
 	}
 	public String getIdModifierCurrent() {
 		return idModifierCurrent;
