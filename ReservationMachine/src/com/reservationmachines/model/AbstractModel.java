@@ -52,4 +52,6 @@ public abstract class AbstractModel {
 	public abstract boolean miseAJourcompteE(String identifiant, String nom, String prenom, String email, String rePwd);
 	public abstract ArrayList<Etudiant> getTousLesEtudiant();
 	public abstract ArrayList<ResponsableTP> getTousLesRespTP();
+	public abstract boolean miseAJourcompteR(String identifiant, String nom, String prenom, String email,
+			String rePwd);
 }

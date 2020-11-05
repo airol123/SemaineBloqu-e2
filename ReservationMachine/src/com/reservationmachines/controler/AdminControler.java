@@ -43,7 +43,15 @@ public class AdminControler extends Controler {
 		model.setMachineSalle(nomMachine, nomSalle);
 	}
 	public boolean misAjourInBD(String identifiant,String nom,String prenom ,String email, String rePwd){
-		boolean mis=model.miseAJourcompteE(identifiant,nom,prenom,email,rePwd);
+		//Ajouter panduan-type est etudiant ou resp
+		boolean mis=false;
+		if(this.getTypeModifierCurrent().equals("Etudaint")) {
+			mis=model.miseAJourcompteE(identifiant,nom,prenom,email,rePwd);
+			System.out.println("etu"+mis);
+		}else if(this.getTypeModifierCurrent().equals("Responsable TP")) {
+			mis=model.miseAJourcompteR(identifiant,nom,prenom,email,rePwd);
+			System.out.println("eres"+mis);
+		}
 		if(mis) {
 			return true;
 		}else {
