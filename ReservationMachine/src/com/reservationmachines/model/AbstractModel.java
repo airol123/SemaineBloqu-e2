@@ -10,7 +10,6 @@ public abstract class AbstractModel {
 	public abstract void creerCompteEtudiant(Etudiant etudiant);
 	public abstract void creerCompteResponsableTP(ResponsableTP responsableTP) ;
 	public abstract void setMachineSalle(String nomMachine, String nomSalle);
-	public abstract void ajoutSalle(String nomSalle);
 	public abstract boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp);
 	public abstract boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp);
 	public abstract boolean verifierMotDePasseAdmin(String idAdmin, String mdp);
@@ -40,6 +39,9 @@ public abstract class AbstractModel {
 	public abstract String[][] getReclamations(String identifiant);
 	public abstract void traiterReclamation(String description);
 	public abstract boolean stockerReclamation(Reclamation re);
+	public abstract String[][] getSalles();
+	public abstract void ajoutSalle(String nomSalle);
+	public abstract void supprimerSalle(String nomSalle);
 	public Etudiant seConnecter(String ide) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
@@ -57,4 +59,6 @@ public abstract class AbstractModel {
 		return null;
 	}
 	public abstract boolean supprimerRservation(ReservationMachine reservationMachine);
+	public abstract ArrayList<Machine> trouverMDisponible(String salle, String dateD, String dateF);
+	public abstract Boolean affecterReservationM(Machine machine, Etudiant etudiant, String dateD, String dateF);
 }
