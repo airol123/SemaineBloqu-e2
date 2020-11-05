@@ -112,19 +112,6 @@ public class Model extends AbstractModel {
 	public void setMachineSalle(String nomMachine, String nomSalle){
 		
 	};
-	
-	// ajouter une nouvelle salle
-	public void ajoutSalle(String nomSalle){
-        try {
-		Connection con =BD.getConnection();
-		
-		PreparedStatement sql = con.prepareStatement( "insert into salle(noms) values(?);");
-		sql.setString(1, nomSalle);
-		sql.executeUpdate();		
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }		
-	};
 
 	//Trouver une etudiant selon son identifiant
 	public Etudiant seConnecter(String ide) throws SQLException {
@@ -467,9 +454,9 @@ public class Model extends AbstractModel {
 		try{
 			Connection con =BD.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
-					"SELECT noms, count(*) as capacite "+
-					"FROM salle s, machine m "+
-					"where s.ids = m.ids "+
+					"SELECT noms, count(m.idm) as capacite "+
+					"FROM reservationmachine.salle s left outer join reservationmachine.machine m "+
+					"on s.ids = m.ids "+
 					"group by s.ids, s.noms;");
 			ResultSet rs=pstmt.executeQuery();
 			rs.last();
@@ -485,11 +472,27 @@ public class Model extends AbstractModel {
 			}
 		}catch (Exception e3) {
 			e3.printStackTrace();
-		}
-		
+		}		
 		return strings;
 	}
-
+	
+	// ajouter une nouvelle salle
+	public void ajoutSalle(String nomSalle){
+        try {
+		Connection con =BD.getConnection();
+		PreparedStatement sql = con.prepareStatement( "select max(ids) from salle;");
+		ResultSet res = sql.executeQuery();
+		res.next();
+		int idSalle = res.getInt(1)+1;
+		PreparedStatement sql1 = con.prepareStatement( "insert into salle(ids,noms) values(?,?);");
+		sql1.setInt(1, idSalle);
+		sql1.setString(2, nomSalle);
+		sql1.executeUpdate();		
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }		
+	};
+	
 	/*
 	@Override
 	public String getPrenomResponsableTP(String idResponsableTP) {
