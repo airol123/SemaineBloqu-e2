@@ -12,8 +12,10 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 public class Model extends AbstractModel {
 
@@ -887,7 +889,8 @@ public class Model extends AbstractModel {
 		int n=0;
 		String sql ="DELETE reserverm FROM reserverm,machine where reserverm.IDM=machine.IDM and reserverm.IDE=? and machine.NOMM=? and reserverm.HEUREDEBUTM=? and reserverm.DATEM=?;"; 
 		try { 
-			Connection con = BD.getConnection(); PreparedStatement pstmt =  con.prepareStatement(sql); 
+			Connection con = BD.getConnection(); 
+			PreparedStatement pstmt =  con.prepareStatement(sql); 
 			pstmt.setInt(1,  Integer.parseInt(reservationMachine.getEtudiant().identifiant));
 			pstmt.setString(2, reservationMachine.getMachine().getNomMachine());
 				  
@@ -916,5 +919,116 @@ public class Model extends AbstractModel {
 		 * e.printStackTrace(); } System.out.println(date+"--d--");
 		 * System.out.println(heure+"--h--");
 		 */	
+	}
+
+	@Override
+	public ArrayList<Machine> trouverMDisponible(String sallenom, String dateD, String dateF) {
+		ArrayList<Machine> machines=new ArrayList<Machine>();
+		dateD = dateD + ":00";
+		DateTimeFormatter fommatter1 =DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dateTime1  = LocalDateTime.parse(dateD, fommatter1);//datetime: 2020-11-05T08:06
+		//System.out.println("datetime: "+dateTime1);
+		Timestamp timestamp1 = Timestamp.valueOf(dateTime1);//timestamp: 2020-11-05 08:06:00.0	
+		//System.out.println("timestamp: "+timestamp);
+		
+		dateF = dateF + ":00";
+		LocalDateTime dateTime2  = LocalDateTime.parse(dateF, fommatter1);//datetime: 2020-11-05T08:06
+		//System.out.println("datetime: "+dateTime1);
+		Timestamp timestamp2 = Timestamp.valueOf(dateTime2);//timestamp: 2020-11-05 08:06:00.0	
+		//System.out.println("timestamp: "+timestamp);
+		
+		Date reserdebut=new Date(timestamp1.getTime());
+		Date reserfin=new Date(timestamp2.getTime());
+		//System.out.println(reserdebut+"----");
+		SimpleDateFormat formattimed = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat formattimeh = new SimpleDateFormat("HH:mm:ss"); 
+		String heuredebut=formattimeh.format(reserdebut);
+		String heurefin=formattimeh.format(reserfin);
+		String date=formattimed.format(reserdebut);
+		//System.out.println(heuredebut+"--1--");
+		//System.out.println(heurefin+"--2--");
+		//System.out.println(date+"--3--");
+		
+		String sql="select distinct machine.IDM ,machine.NOMM,machine.ETATM \r\n" + 
+				"	from salle,machine,reserverm,etudiant \r\n" + 
+				"	where salle.NOMS=? \r\n" + 
+				"	and salle.IDS=machine.IDS \r\n" + 
+				"	and machine.IDM=reserverm.IDM \r\n" + 
+				"	and reserverm.IDE=etudiant.IDE \r\n" + 
+				"	and machine.ETATM<>'HORS_SERVICE'\r\n" + 
+				"	and machine.IDM not in\r\n" + 
+				"		(select reserverm.IDM \r\n" + 
+				"		from reserverm \r\n" + 
+				"		where (reserverm.datem=? and reserverm.HEUREDEBUTM > ? and reserverm.HEUREDEBUTM < ? )\r\n" + 
+				"		or (reserverm.datem=? and reserverm.HEUREFINM > ? and reserverm.HEUREFINM  < ?)\r\n" + 
+				"        or (reserverm.datem=? and reserverm.HEUREDEBUTM < ? and reserverm.HEUREFINM  > ?));";
+		try { 
+			Connection con = BD.getConnection(); 
+			PreparedStatement pstmt =  con.prepareStatement(sql); 
+			pstmt.setString(1,sallenom);
+			pstmt.setString(2,date);
+			pstmt.setString(3,heuredebut);
+			pstmt.setString(4,heurefin);
+			pstmt.setString(5,date);
+			pstmt.setString(6,heuredebut);
+			pstmt.setString(7,heurefin);
+			pstmt.setString(8,date);
+			pstmt.setString(9,heuredebut);
+			pstmt.setString(10,heurefin);
+			ResultSet rs=pstmt.executeQuery();
+			Salle salle =new Salle();
+			salle.setNomSalle(sallenom);
+			while (rs.next()) {
+				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
+				machines.add(mac);
+			}
+			rs.close();
+		}catch (Exception e) { e.printStackTrace(); }
+		return machines;
+	}
+
+	@Override
+	public Boolean affecterReservationM(Machine machine, Etudiant etudiant, String dateD, String dateF) {
+		dateD = dateD + ":00";
+		DateTimeFormatter fommatter1 =DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dateTime1  = LocalDateTime.parse(dateD, fommatter1);//datetime: 2020-11-05T08:06
+		//System.out.println("datetime: "+dateTime1);
+		Timestamp timestamp1 = Timestamp.valueOf(dateTime1);//timestamp: 2020-11-05 08:06:00.0	
+		//System.out.println("timestamp: "+timestamp);
+		
+		dateF = dateF + ":00";
+		LocalDateTime dateTime2  = LocalDateTime.parse(dateF, fommatter1);//datetime: 2020-11-05T08:06
+		//System.out.println("datetime: "+dateTime1);
+		Timestamp timestamp2 = Timestamp.valueOf(dateTime2);//timestamp: 2020-11-05 08:06:00.0	
+		//System.out.println("timestamp: "+timestamp);
+		
+		Date reserdebut=new Date(timestamp1.getTime());
+		Date reserfin=new Date(timestamp2.getTime());
+		//System.out.println(reserdebut+"----");
+		SimpleDateFormat formattimed = new SimpleDateFormat("yyyy-MM-dd"); 
+		SimpleDateFormat formattimeh = new SimpleDateFormat("HH:mm:ss"); 
+		String heuredebut=formattimeh.format(reserdebut);
+		String heurefin=formattimeh.format(reserfin);
+		String date=formattimed.format(reserdebut);
+		//System.out.println(heuredebut+"--1--");
+		//System.out.println(heurefin+"--2--");
+		//System.out.println(date+"--3--");
+		
+		int n=0;
+		String sqlinsertreser="INSERT INTO reserverm (ide,idm, heuredebutm , datem, heurefinm) "
+				+ "VALUES ("+Integer.parseInt(etudiant.getIdentifiant())+","+this.trouverNumeroM(machine.getNomMachine())+",'"+ heuredebut+"','"+ date+"','"+ heurefin+"');";
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertreser);
+
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
+		if (n==1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+
 	}
 }
