@@ -29,6 +29,12 @@ public class AdminControler extends Controler {
     	return false;
 	}
 
+	private String IdModifierCurrent;
+	public String getIdModifierCurrent(){
+
+		return IdModifierCurrent;
+	}
+
 	public void creerCompteResponsableTP(
 			String id, String mdp, String email, String nom, String prenom) {
 			ResponsableTP responsableTP = new ResponsableTP(id, mdp, email, nom, prenom);
