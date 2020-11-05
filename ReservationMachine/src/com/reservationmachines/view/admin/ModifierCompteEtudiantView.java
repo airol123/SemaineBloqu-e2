@@ -23,9 +23,11 @@ public class ModifierCompteEtudiantView {
     private JLabel lbRePwdC = new JLabel("Vérifier MDP");
 
     private JLabel lbNom = new JLabel("Nom");
+    private JLabel lbIdenti = new JLabel("Identifiant");
     private JLabel lbPrenom = new JLabel("Prenom");
     private JPasswordField txtPwdC = new JPasswordField();
     private JPasswordField txtRePwdC = new JPasswordField();
+    private JPasswordField txtIdentif = new JPasswordField();
 
     private JPasswordField txtNom = new JPasswordField();
     private JPasswordField txtPrenom = new JPasswordField();
@@ -70,7 +72,9 @@ public class ModifierCompteEtudiantView {
         lbIMsgC.setBounds(450, 120, 200, 25);
 
         lbNom.setBounds(340,150,100,30);
+        lbIdenti.setBounds(340,110,100,30);
         txtNom.setBounds(450,150,220,30);
+        txtIdentif.setBounds(450,110,220,30);
 
         lbPrenom.setBounds(340,190,100,30);
         txtPrenom.setBounds(450,190,220,30);
@@ -89,6 +93,8 @@ public class ModifierCompteEtudiantView {
         fieldPanel.add(lbIMsgC);
 
         fieldPanel.add(lbemail);
+        fieldPanel.add(lbIdenti);
+        fieldPanel.add(txtIdentif);
         fieldPanel.add(lblPwdC);
         fieldPanel.add(lbRePwdC);
 
@@ -119,6 +125,9 @@ public class ModifierCompteEtudiantView {
                 txtemail.setText("");
                 txtPwdC.setText("");
                 txtRePwdC.setText("");
+                txtPrenom.setText("");
+                txtNom.setText("");
+                txtIdentif.setText("");
 
 
             }
@@ -158,6 +167,13 @@ public class ModifierCompteEtudiantView {
                     return;
                 }
 
+                String strIdenti = new String(txtIdentif.getPassword());
+                if (strIdenti == null || strIdenti.equals("")) {
+
+                    lbIMsgC.setText("Identifiant is empty");
+                    return;
+                }
+
                 //Obtenez un nom d'utilisateur et un mot de passe
                 String strPwd = new String(txtPwdC.getPassword());
                 if (strPwd == null || strPwd.equals("")) {
@@ -179,7 +195,7 @@ public class ModifierCompteEtudiantView {
                     return;
                 }
 
-                if (controler.misAjourInBD(strNom,strPrenom ,stremail, strRePwd)){
+                if (controler.misAjourInBD(strIdenti,strNom,strPrenom ,stremail, strRePwd)){
                     lbIMsgC.setText("Successful");
                 }else{
                     lbIMsgC.setText("échec");

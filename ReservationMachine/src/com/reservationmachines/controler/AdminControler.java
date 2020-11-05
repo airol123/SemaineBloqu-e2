@@ -39,7 +39,7 @@ public class AdminControler extends Controler {
 		//Machine machine = new Machine(nomMachine, EtatMachine.DISPONIBLE);
 		model.setMachineSalle(nomMachine, nomSalle);
 	}
-	public boolean misAjourInBD(String nom,String prenom ,String email, String rePwd){
+	public boolean misAjourInBD(String identifiant,String nom,String prenom ,String email, String rePwd){
 		return false;
 	}
 	public String getPrenom() {
