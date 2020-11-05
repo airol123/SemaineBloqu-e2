@@ -493,6 +493,18 @@ public class Model extends AbstractModel {
         }		
 	};
 	
+	public void supprimerSalle(String nomSalle) {
+        try {
+		Connection con =BD.getConnection();
+		PreparedStatement sql = con.prepareStatement( "DELETE FROM salle WHERE noms=?;");
+		sql.setString(1, nomSalle);
+		sql.executeUpdate();		
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }	
+	}
+	
+	
 	/*
 	@Override
 	public String getPrenomResponsableTP(String idResponsableTP) {

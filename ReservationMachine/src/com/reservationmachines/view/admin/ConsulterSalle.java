@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.view.etudiant.ConsulterMonProfil;
+import com.reservationmachines.view.main.AdminMainView;
 
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
@@ -71,10 +72,6 @@ public class ConsulterSalle extends JFrame {
 		contentPane.add(btnSupprimer);
 		
 		JButton btnRetour = new JButton("Retourner");
-		btnRetour.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnRetour.setBounds(295, 298, 93, 23);
 		contentPane.add(btnRetour);
 		
@@ -92,6 +89,35 @@ public class ConsulterSalle extends JFrame {
 	            new AjouterSalleView(controler);
 			}
 		});
+		
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				if (row!=-1) {					
+					int capacite = Integer.parseInt((String)table.getValueAt(row , 1));
+					if (capacite==0) {
+						String nomS = (String)table.getValueAt(row , 0);
+						controler.supprimerSalle(nomS);
+						
+						table.setModel(new DefaultTableModel(
+							controler.getSalle(),
+							new String[] {"Salle", "Capacit\u00E9"}
+						));		
+					
+					} else {
+						new AttentionSupprimerSalle();
+					}		
+				}				
+			}
+		});
+		
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+	            jFrame.dispose();
+	            new AdminMainView(controler);
+			}
+		});
+		
 		
 	}
 }

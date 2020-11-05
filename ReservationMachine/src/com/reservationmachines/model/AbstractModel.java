@@ -10,6 +10,7 @@ public abstract class AbstractModel {
 	public abstract void creerCompteResponsableTP(ResponsableTP responsableTP) ;
 	public abstract void setMachineSalle(String nomMachine, String nomSalle);
 	public abstract void ajoutSalle(String nomSalle);
+	public abstract void supprimerSalle(String nomSalle);
 	public abstract boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp);
 	public abstract boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp);
 	public abstract boolean verifierMotDePasseAdmin(String idAdmin, String mdp);

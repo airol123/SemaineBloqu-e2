@@ -64,6 +64,10 @@ public class AdminControler extends Controler {
 	public String[][] getSalle() {
 		return model.getSalles();
 	}
+	
+	public void supprimerSalle(String nomS) {
+		model.supprimerSalle(nomS) ;
+	}
 
 	public String getMotDePasse() {
 		return model.getAdmin(id).getMdp();
