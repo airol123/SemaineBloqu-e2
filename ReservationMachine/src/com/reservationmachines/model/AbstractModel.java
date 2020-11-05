@@ -49,4 +49,5 @@ public abstract class AbstractModel {
 	public abstract Boolean affecterReservationM(Machine machine, Etudiant etudiant, String dateD, String dateF);
 	public abstract String[][] getSalles();
 	public abstract void supprimerSalle(String nomS);
+	public abstract boolean miseAJourcompteE(String identifiant, String nom, String prenom, String email, String rePwd);
 }
