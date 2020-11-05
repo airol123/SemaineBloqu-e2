@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 
@@ -298,7 +299,7 @@ public class Model extends AbstractModel {
 			Statement statement;
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
-
+			
 			ArrayList<String> formations = new ArrayList<String>();
 			while(resultat.next()) {
 				formations.add(resultat.getString(1));
@@ -334,9 +335,25 @@ public class Model extends AbstractModel {
 	}
 
 	@Override
-	public boolean misAjourInBD(String stremail, String strRePwd) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean misAjourInBD(String stremail, String strRePwd,String id) {
+		String sql = "update etudiant set emaile=?,mdpe=? where ide = ?";			
+		int nbe=0;
+		try {
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, stremail);
+			pstmt.setString(2, strRePwd);
+			pstmt.setInt(3, Integer.parseInt(id));
+			nbe=pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(nbe==0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	@Override
@@ -358,7 +375,7 @@ public class Model extends AbstractModel {
 				Salle salle =new Salle();
 				salle.setNomSalle(rs.getString("noms"));
 				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
 				Timestamp d = null;
@@ -402,6 +419,114 @@ public class Model extends AbstractModel {
 			e3.printStackTrace();
 		}		
 		return salles;
+	}
+
+	@Override
+	public boolean supprimerRservation(ReservationMachine reservationMachine) {
+		String sql = "DELETE reserverm FROM reserverm,machine where reserverm.IDM=machine.IDM and reserverm.IDE=? and machine.NOMM=? and reserverm.HEUREDEBUTM=? and reserverm.DATEM=?;";			
+		/*try {
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(reservationMachine.getEtudiant().identifiant));
+			pstmt.setString(2, reservationMachine.getMachine().getNomMachine());
+			
+			Date time1=new Date(reservationMachine.getHeureDebut().getTime()); //java.util.Date
+			SimpleDateFormat formattimed = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formattimeh = new SimpleDateFormat("HH:mm:ss");
+			String heure=formattimeh.format(time1);
+			java.util.Date heuredebut = formattimeh.parse(heure);
+			String date=formattimed.format(time1);
+			java.sql.Date datedebut = formattimed.parse(date);;
+			
+			
+			
+			pstmt.setDate(3, heure);
+			pstmt.setString(4, date);
+			pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}	*/	
+		
+		return false;
+	}
+
+	private int trouverMaxReclamation() {
+		String sql="SELECT max(reservationmachine.reclamation.IDR) FROM reservationmachine.reclamation";
+		int nbIDR=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs =pstmt.executeQuery(sql);
+		while (rs.next()) {
+			nbIDR=rs.getInt(1);
+			nbIDR=nbIDR+1;
+		}
+		rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return nbIDR;
+	}
+	
+	private int insertConcerner(int idr,String ide,int idm) {
+		String sql="INSERT INTO concerner (idr,ide, idm) VALUES (?,?,?);";
+		int nbexe=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1,idr);
+		pstmt.setInt(2, Integer.parseInt(ide));
+		pstmt.setInt(3, idm);
+		nbexe=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}	
+		return  nbexe;
+	}
+	
+	private int trouverNumeroM(String nomm) {
+		String sql="select * from machine where machine.NOMM='"+nomm+"';";
+		int idm=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs =pstmt.executeQuery(sql);
+		if(rs.next()) {
+			idm=Integer.parseInt(rs.getString("machine.IDM"));
+		}
+		rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}	
+		return idm;
+	}
+	
+	@Override
+	public boolean stockerReclamation(Reclamation re) {
+		int n=0;
+		int n2=0;
+		String sqlinsertrec="INSERT INTO reclamation (idr,typer, descriptionr) VALUES (?,?,?);";
+		int idr=this.trouverMaxReclamation();
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertrec);
+			pstmt.setInt(1,idr);
+			pstmt.setString(2, String.valueOf(re.getType()));
+			pstmt.setString(3, re.getDescription());
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
+		System.out.println(re.getRm().getEtudiant().getIdentifiant()+"---------");
+		System.out.println(re.getRm().getNomMachine()+"+++++++");
+		System.out.println(this.trouverNumeroM(re.getRm().getNomMachine())+"////////");
+		n2=this.insertConcerner(idr,re.getRm().getEtudiant().getIdentifiant(),this.trouverNumeroM(re.getRm().getNomMachine()));
+		if (n2==1 && n==1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+
 	}
 
 	/*
