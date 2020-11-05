@@ -1,8 +1,5 @@
 package com.reservationmachines.view.admin;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +9,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.reservationmachines.controler.AdminControler;
-import com.reservationmachines.view.etudiant.ConsulterReservationView;
 import com.reservationmachines.view.main.AdminMainView;
 
 import javax.swing.JButton;

@@ -2,13 +2,9 @@ package com.reservationmachines.view.etudiant;
 
 
 import java.awt.*;
-        import java.awt.event.*;
-        import java.net.*;
         import java.io.*;
 
         import javax.swing.*;
-        import javax.swing.event.*;
-        import javax.swing.text.html.*;
 
 public class PageGuacamole {
     private JEditorPane jep = new JEditorPane();

@@ -2,12 +2,9 @@ package com.reservationmachines.view.main;
 
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.main.AppMain;
-import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.view.etudiant.ConsulterMonProfil;
 import com.reservationmachines.view.etudiant.ConsulterReservationView;
 import com.reservationmachines.view.etudiant.EffectuerReservationMachineView;
-import com.reservationmachines.view.main.SeConnecterView;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

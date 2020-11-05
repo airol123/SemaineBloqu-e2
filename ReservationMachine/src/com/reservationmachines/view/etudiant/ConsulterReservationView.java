@@ -11,8 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 
 public class ConsulterReservationView {
     private JFrame jFrame = new JFrame("Mes reservations");

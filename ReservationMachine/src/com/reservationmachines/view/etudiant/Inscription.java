@@ -2,9 +2,6 @@ package com.reservationmachines.view.etudiant;
 
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.main.AppMain;
-import com.reservationmachines.model.Etudiant;
-import com.reservationmachines.view.main.SeConnecterView;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
