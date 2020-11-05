@@ -14,6 +14,7 @@ import java.net.URL;
 public class FaireReclamationView {
     private JFrame jFrame = new JFrame("Reclamation");
     private Container c = jFrame.getContentPane();
+    private JLabel lbIMsgC = new JLabel();
     private JLabel titre = new JLabel("Reclamation");
     private JLabel lbType = new JLabel("Type de reclamation");
     private JLabel lbDescri = new JLabel("Description");
@@ -51,7 +52,8 @@ public class FaireReclamationView {
     public void init() {
         lblBackground.setIcon(icon); // Définir l'icône à afficher par le composant d'étiquette
         lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
-
+        lbIMsgC.setForeground(Color.RED);
+        lbIMsgC.setBounds(450, 120, 200, 25);
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
         lbType.setBounds(340,150,150,30);
@@ -65,6 +67,7 @@ public class FaireReclamationView {
         fieldPanel.add(lbType);
         fieldPanel.add(descri);
         fieldPanel.add(btnVlider);
+        fieldPanel.add(lbIMsgC);
         fieldPanel.add(btnretourner);
         fieldPanel.add(comboBox);
         fieldPanel.add(lblBackground);
@@ -98,7 +101,11 @@ public class FaireReclamationView {
                      ty = TypeReclamation.En_panne;
                 }
                 Reclamation re = new Reclamation(ty,strDes,rm);
-                controler.stockerReclamation(re);
+                if (controler.stockerReclamation(re)){
+                    lbIMsgC.setText("Opération réussie");
+                }else{
+                    lbIMsgC.setText("Echec");
+                }
             }
         });
 

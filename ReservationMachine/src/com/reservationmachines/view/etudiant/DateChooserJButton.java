@@ -43,9 +43,15 @@ public class DateChooserJButton extends JButton {
     private String preLabel = "";
     private String originalText = null;
     private SimpleDateFormat sdf = null;
+    private static Date dateorigi=new Date(2020, 11,7,9,30 );
 
     public DateChooserJButton() {
+       /* dateorigi.setTime(500000);
+        System.out.println(dateorigi);*/
+        //this(dateorigi);
+
         this(getNowDate());
+      //  System.out.println(dateorigi);
     }
 
     public DateChooserJButton(String dateString) {
@@ -287,7 +293,7 @@ public class DateChooserJButton extends JButton {
             hourLabel.setForeground(controlTextColor);
             result.add(hourLabel);
 
-            minuteSpin = new JSpinner(new SpinnerNumberModel(currentMinute, 0, 59, 1));
+            minuteSpin = new JSpinner(new SpinnerNumberModel(currentMinute, 0, 60, 10));
             minuteSpin.setPreferredSize(new Dimension(35, 20));
             minuteSpin.setName("Minute");
             minuteSpin.addChangeListener(this);
