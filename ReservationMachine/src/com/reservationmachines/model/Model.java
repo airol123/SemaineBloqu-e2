@@ -361,9 +361,25 @@ public class Model extends AbstractModel {
 	}
 
 	@Override
-	public boolean misAjourInBD(String stremail, String strRePwd) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean misAjourInBD(String stremail, String strRePwd,String id) {
+		String sql = "update etudiant set emaile=?,mdpe=? where ide = ?";			
+		int nbe=0;
+		try {
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, stremail);
+			pstmt.setString(2, strRePwd);
+			pstmt.setInt(3, Integer.parseInt(id));
+			nbe=pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(nbe==0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	@Override
@@ -453,7 +469,7 @@ public class Model extends AbstractModel {
 				resultat.getString("emaila")
 			);
 			
-			System.out.println("Je suis là !");
+			System.out.println("Je suis lï¿½ !");
 		} catch (Exception e) {e.printStackTrace();}
 		
 		return admin;
@@ -543,5 +559,81 @@ public class Model extends AbstractModel {
 		}
 		
 	}
+
+	@Override
+	public boolean stockerReclamation(Reclamation re) {
+		int n=0;
+		int n2=0;
+		String sqlinsertrec="INSERT INTO reclamation (idr,typer, descriptionr) VALUES (?,?,?);";
+		int idr=this.trouverMaxReclamation();
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertrec);
+			pstmt.setInt(1,idr);
+			pstmt.setString(2, String.valueOf(re.getType()));
+			pstmt.setString(3, re.getDescription());
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
+		System.out.println(re.getRm().getEtudiant().getIdentifiant()+"---------");
+		System.out.println(re.getRm().getNomMachine()+"+++++++");
+		System.out.println(this.trouverNumeroM(re.getRm().getNomMachine())+"////////");
+		n2=this.insertConcerner(idr,re.getRm().getEtudiant().getIdentifiant(),this.trouverNumeroM(re.getRm().getNomMachine()));
+		if (n2==1 && n==1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	private int trouverMaxReclamation() {
+		String sql="SELECT max(reservationmachine.reclamation.IDR) FROM reservationmachine.reclamation";
+		int nbIDR=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs =pstmt.executeQuery(sql);
+		while (rs.next()) {
+			nbIDR=rs.getInt(1);
+			nbIDR=nbIDR+1;
+		}
+		rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return nbIDR;
+	}
 	
+	private int insertConcerner(int idr,String ide,int idm) {
+		String sql="INSERT INTO concerner (idr,ide, idm) VALUES (?,?,?);";
+		int nbexe=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1,idr);
+		pstmt.setInt(2, Integer.parseInt(ide));
+		pstmt.setInt(3, idm);
+		nbexe=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}	
+		return  nbexe;
+	}
+	
+	private int trouverNumeroM(String nomm) {
+		String sql="select * from machine where machine.NOMM='"+nomm+"';";
+		int idm=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs =pstmt.executeQuery(sql);
+		if(rs.next()) {
+			idm=Integer.parseInt(rs.getString("machine.IDM"));
+		}
+		rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}	
+		return idm;
+	}
 }
