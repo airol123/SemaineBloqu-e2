@@ -3,14 +3,13 @@ package com.reservationmachines.controler;
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.Admin;
 import com.reservationmachines.model.EtatMachine;
+import com.reservationmachines.model.EtatSalle;
 import com.reservationmachines.model.Etudiant;
-import com.reservationmachines.model.Machine;
 import com.reservationmachines.model.ResponsableTP;
+import com.reservationmachines.model.Salle;
 
 
 public class AdminControler extends Controler {
-
-	private AbstractModel model;
 	
 	public AdminControler(AbstractModel model) {
 		super(model);
@@ -38,14 +37,39 @@ public class AdminControler extends Controler {
 	}
 
 	public void ajouterMachineSalle(String nomMachine, String nomSalle) {
-		Machine machine = new Machine(nomMachine, EtatMachine.DISPONIBLE);
+		//Machine machine = new Machine(nomMachine, EtatMachine.DISPONIBLE);
 		model.setMachineSalle(nomMachine, nomSalle);
+	}
+	
+	public String getPrenom() {
+		return model.getAdmin(id).getPrenom();
+	}
+	
+	public String getEmail() {
+		return model.getAdmin(id).getEmail();
+	}
+
+	public String getIdentifiant() {
+		return model.getAdmin(id).getIdentifiant();
+	}
+
+	public String getNom() {
+		return model.getAdmin(id).getNom();
+	}
+	
+	public void ajouterSalle(String nomS) {
+		Salle salle = new Salle(nomS, EtatSalle.DISPONIBLE);
+		model.ajoutSalle(nomS);
 
 	}
 
-	public String[] getListeNomSalle(){
-		String[] s=null;
-		return s;
-
+	public String getMotDePasse() {
+		return model.getAdmin(id).getMdp();
 	}
+
+
+	/*public String[] getListeNomSalle() {
+		return model.getListeNomSalle();
+	}*/
+
 }
