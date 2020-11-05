@@ -1,20 +1,10 @@
 package com.reservationmachines.view.responsabletp;
 
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -43,7 +33,13 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		setTitle("Consulter les r\u00E9servations des salles de TP");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 673, 378);
-		contentPane = new JPanel();
+		contentPane = new JPanel(){
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon img = new ImageIcon("ReservationMachine/images/background2.jpg");
+				img.paintIcon(this, g, 0, 0);
+			}};
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -64,6 +60,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
 				
 		JPanel panel = new JPanel();
+		panel.setOpaque(false);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.anchor = GridBagConstraints.WEST;
 		gbc_panel.fill = GridBagConstraints.VERTICAL;
@@ -78,6 +75,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		panel.setLayout(gbl_panel);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setOpaque(false);
 		panel_1.setBorder(null);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
@@ -168,8 +166,9 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		panel_3.add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
+		table.setOpaque(false);
 		scrollPane.setColumnHeaderView(table);
-		
+
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.insets = new Insets(0, 0, 0, 5);
@@ -221,7 +220,8 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_cbHeureDebut.gridy = 1;
 		panel_2.add(cbHeureDebut, gbc_cbHeureDebut);
 		cbHeureDebut.addActionListener(this);
-		
+		panel_2.setOpaque(false);
+		panel_3.setOpaque(false);
 		updateJTable();
 		
 		setVisible(true);
@@ -262,7 +262,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		String heureDebut = cbHeureDebut.getSelectedItem().toString();
 		String heureFin = cbHeureFin.getSelectedItem().toString();
 		
-		// Si toutes les valeurs sont renseignées
+		// Si toutes les valeurs sont renseignï¿½es
 		if(!(date.equals("") && heureDebut.equals("") && heureFin.equals(""))) {
 			Object[][] objects = controler.getValeursSallesDisponibles(date, heureDebut, heureFin);
 			this.table.setModel(new DefaultTableModel(objects, controler.getEnteteSallesDisponibles()));
@@ -278,7 +278,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		// Suppression du jour
 		date = date.substring(5);
 		
-		// Récupération des données de la date
+		// Rï¿½cupï¿½ration des donnï¿½es de la date
 		String jour = date.split("/")[0];
 		String mois = date.split("/")[1];
 		String annee = date.split("/")[2];

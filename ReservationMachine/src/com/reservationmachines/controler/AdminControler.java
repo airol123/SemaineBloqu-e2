@@ -93,30 +93,30 @@ public class AdminControler extends Controler {
 	public Object[][]  getCompteE(){
 		ArrayList<Etudiant> etudiants = model.getTousLesEtudiant();
 		ArrayList<ResponsableTP> respTPs = model.getTousLesRespTP();
-		
-		int nbLignesResp=respTPs.size();	
+
+		int nbLignesResp=respTPs.size();
 		int nbLignesEtu = etudiants.size();
 		int nbLignesTotal=nbLignesResp+nbLignesEtu;
-		
+
 		int nbColonnes = model.getEnteteReservationMachine().length;
-		Object[][] objects = new Object[nbLignesTotal][nbColonnes];		
-		
-		for(int i = 0 ; i < nbLignesResp ; i++) { 
+		Object[][] objects = new Object[nbLignesTotal][nbColonnes];
+
+		for(int i = 0 ; i < nbLignesResp ; i++) {
 			objects[i][0] = "Responsable TP";
-			objects[i][1] = respTPs.get(i).getIdentifiant(); 
-			objects[i][2] =	respTPs.get(i).getNom(); 
-			objects[i][3] = respTPs.get(i).getPrenom(); 
+			objects[i][1] = respTPs.get(i).getIdentifiant();
+			objects[i][2] =	respTPs.get(i).getNom();
+			objects[i][3] = respTPs.get(i).getPrenom();
 		}
-		for(int x = nbLignesResp ; x < nbLignesTotal ; x++) { 
+		for(int x = nbLignesResp ; x < nbLignesTotal ; x++) {
 			int y=x-nbLignesResp;
 			objects[x][0] = "Etudaint";
-			objects[x][1] = etudiants.get(y).getIdentifiant(); 
-			objects[x][2] =	etudiants.get(y).getNom(); 
-			objects[x][3] = etudiants.get(y).getPrenom(); 
+			objects[x][1] = etudiants.get(y).getIdentifiant();
+			objects[x][2] =	etudiants.get(y).getNom();
+			objects[x][3] = etudiants.get(y).getPrenom();
 		}
 		return objects;
 	}
-	
+
 	private String idModifierCurrent;
 	public void id(String id) {
 		this.idModifierCurrent=id;
@@ -133,7 +133,7 @@ public class AdminControler extends Controler {
 		return typeModifierCurrent;
 	}
 
-	
+
 	public String[][] getReclamation() {
 		return model.getReclamations(model.getAdmin(id).getIdentifiant());
 	}

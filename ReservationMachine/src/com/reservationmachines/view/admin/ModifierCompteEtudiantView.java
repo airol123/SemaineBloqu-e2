@@ -27,7 +27,7 @@ public class ModifierCompteEtudiantView {
     private JLabel lbPrenom = new JLabel("Prenom");
     private JPasswordField txtPwdC = new JPasswordField();
     private JPasswordField txtRePwdC = new JPasswordField();
-    private JTextField txtIdentif = new JTextField();
+    private JLabel identifiant = new JLabel();
 
     private JTextField txtNom = new JTextField();
     private JTextField txtPrenom = new JTextField();
@@ -67,14 +67,14 @@ public class ModifierCompteEtudiantView {
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
         //Définir le texte de l'étiquette en rouge
-
+identifiant.setText(controler.getIdModifierCurrent());
         lbIMsgC.setForeground(Color.RED);
         lbIMsgC.setBounds(450, 85, 200, 25);
 
         lbNom.setBounds(340,150,100,30);
         lbIdenti.setBounds(340,110,100,30);
         txtNom.setBounds(450,150,220,30);
-        txtIdentif.setBounds(450,110,220,30);
+        identifiant.setBounds(450,110,220,30);
 
         lbPrenom.setBounds(340,190,100,30);
         txtPrenom.setBounds(450,190,220,30);
@@ -94,7 +94,7 @@ public class ModifierCompteEtudiantView {
 
         fieldPanel.add(lbemail);
         fieldPanel.add(lbIdenti);
-        fieldPanel.add(txtIdentif);
+        fieldPanel.add(identifiant);
         fieldPanel.add(lblPwdC);
         fieldPanel.add(lbRePwdC);
 
@@ -127,7 +127,7 @@ public class ModifierCompteEtudiantView {
                 txtRePwdC.setText("");
                 txtPrenom.setText("");
                 txtNom.setText("");
-                txtIdentif.setText("");
+                identifiant.setText("");
 
 
             }
@@ -167,7 +167,7 @@ public class ModifierCompteEtudiantView {
                     return;
                 }
 
-                String strIdenti = new String(txtIdentif.getText());
+                String strIdenti = new String(identifiant.getText());
                 if (strIdenti == null || strIdenti.equals("")) {
 
                     lbIMsgC.setText("Identifiant is empty");
