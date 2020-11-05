@@ -9,7 +9,7 @@ public abstract class AbstractModel {
 	public abstract ArrayList<ReservationMachine> getValeursReservationMachine(String idSalle);
 	public abstract void creerCompteEtudiant(Etudiant etudiant);
 	public abstract void creerCompteResponsableTP(ResponsableTP responsableTP) ;
-	public abstract void setMachineSalle(String nomMachine, String nomSalle);
+	public abstract void setMachineSalle(Machine machine);
 	public abstract void ajoutSalle(String nomSalle);
 	public abstract boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp);
 	public abstract boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp);
@@ -52,8 +52,5 @@ public abstract class AbstractModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	public String[] getListeNomSalle() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract String[] getListeNomSalle();
 }
