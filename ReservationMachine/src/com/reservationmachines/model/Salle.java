@@ -14,7 +14,12 @@ public class Salle {
 	public Salle(String nomSalle) {
 		this.nomSalle = nomSalle;
 	}
-
+	
+	public Salle(String nomSalle, int capacite) {
+		this.nomSalle = nomSalle;
+		this.capacite = capacite;
+	}
+	
 	public Salle(String nomSalle, int capacite, ArrayList<Machine> machines) {
 		this.nomSalle = nomSalle;
 		this.capacite = capacite;
