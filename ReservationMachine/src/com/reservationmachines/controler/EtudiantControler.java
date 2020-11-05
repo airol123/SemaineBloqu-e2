@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import com.reservationmachines.model.*;
 
@@ -68,32 +69,28 @@ public class EtudiantControler extends Controler {
 	}
 
 	public boolean enregistrerReservation(String salle,String dateD,String dateF){
-    	//1.get arraylist de Machine disponible
-		//2. if(arraylist.size!=null){
-		//  affecter une machine
-		//  return true
-		//}
-		//3.else{ return false;}
+    	//get arraylist de Machine disponible
+		ArrayList<Machine> machines = model.trouverMDisponible(salle,dateD,dateF);
+		//System.out.println(machines.size()+"---*1*--");
+		//System.out.println(machines.get(0).getNomMachine()+"---*2*--");
+		//System.out.println(machines.get(1).getNomMachine()+"---*3*--");
+		int n=machines.size();
+		//Si il y une ou des machines
+		if(n!=0){
+		//Affecter une machine disponible aleatoirement a cet etudiant
+			Etudiant etudiant=model.getEtudiant(this.trouverEtudiantId());
+			Random rand = new Random();			
+	    	int numI = rand.nextInt(n);
+	        //System.out.println(numI);
+	        Boolean enrM =model.affecterReservationM(machines.get(numI),etudiant,dateD,dateF);			
+			return true;
+		}
+		//Sinon
+		else{ 
+			return false;	
+		}
 
-
-		dateD = dateD + ":00";
-		DateTimeFormatter fommatter1 =DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime dateTime1  = LocalDateTime.parse(dateD, fommatter1);//datetime: 2020-11-05T08:06
-		//System.out.println("datetime: "+dateTime1);
-		Timestamp timestamp = Timestamp.valueOf(dateTime1);//timestamp: 2020-11-05 08:06:00.0
-		//System.out.println("timestamp: "+timestamp);
-
-
-
-		/*DateTime time = new DateTime(new Date());
-		Date date = time.toDate();
-		DateTime time2 = new DateTime(System.currentTimeMillis());
-		time2.getMillis();*/
-		return false;
 	}
-
-
-
 
 	public boolean supprimerReservation(ReservationMachine reservationMachine) {
 		boolean sup= model.supprimerRservation(reservationMachine);
