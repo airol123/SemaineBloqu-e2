@@ -5,15 +5,14 @@ import java.util.ArrayList;
 public class Salle {
 	private String nomSalle;
 	private int capacite;
-	private EtatSalle etatSalle;
+//	private EtatSalle etatSalle;
 	private ArrayList<Machine> machines;
 
 	public Salle() {
 	}
 
-	public Salle(String nomSalle, EtatSalle etatSalle) {
+	public Salle(String nomSalle) {
 		this.nomSalle = nomSalle;		
-		this.etatSalle = etatSalle;
 	}
 
 	private void sysout() {
@@ -21,10 +20,9 @@ public class Salle {
 
 	}
 
-	public Salle(String nomSalle, int capacite, EtatSalle etatSalle, ArrayList<Machine> machines) {
+	public Salle(String nomSalle, int capacite, ArrayList<Machine> machines) {
 		this.nomSalle = nomSalle;
 		this.capacite = capacite;
-		this.etatSalle = etatSalle;
 		this.machines = machines;
 	}
 
@@ -34,10 +32,6 @@ public class Salle {
 
 	public int getCapacite() {
 		return capacite;
-	}
-
-	public EtatSalle getEtatSalle() {
-		return etatSalle;
 	}
 
 	public ArrayList<Machine> getMachines() {
@@ -50,10 +44,6 @@ public class Salle {
 
 	public void setCapacite(int capacite) {
 		this.capacite = capacite;
-	}
-
-	public void setEtatSalle(EtatSalle etatSalle) {
-		this.etatSalle = etatSalle;
 	}
 
 	public void setMachines(ArrayList<Machine> machines) {

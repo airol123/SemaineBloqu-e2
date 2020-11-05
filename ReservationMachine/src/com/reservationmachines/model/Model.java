@@ -117,6 +117,7 @@ public class Model extends AbstractModel {
 	public void ajoutSalle(String nomSalle){
         try {
 		Connection con =BD.getConnection();
+		
 		PreparedStatement sql = con.prepareStatement( "insert into salle(noms) values(?);");
 		sql.setString(1, nomSalle);
 		sql.executeUpdate();		
@@ -457,6 +458,36 @@ public class Model extends AbstractModel {
 		} catch (Exception e) {e.printStackTrace();}
 		
 		return admin;
+	}
+	
+	// get tableau des salles 
+	@Override
+	public String[][] getSalles() {
+		String[][] strings = null;
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT noms, count(*) as capacite "+
+					"FROM salle s, machine m "+
+					"where s.ids = m.ids "+
+					"group by s.ids, s.noms;");
+			ResultSet rs=pstmt.executeQuery();
+			rs.last();
+			int nbLignes = rs.getRow();
+			rs.absolute(0);
+			int nbColonnes = 2;
+			strings = new String[nbLignes][nbColonnes];
+			int i = 0;
+			while(rs.next()) {
+				strings[i][0] = rs.getString("noms");
+				strings[i][1] = rs.getString("capacite");
+				i++;
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		
+		return strings;
 	}
 
 	/*

@@ -58,9 +58,11 @@ public class AdminControler extends Controler {
 	}
 	
 	public void ajouterSalle(String nomS) {
-		Salle salle = new Salle(nomS, EtatSalle.DISPONIBLE);
 		model.ajoutSalle(nomS);
-
+	}
+	
+	public String[][] getSalle() {
+		return model.getSalles();
 	}
 
 	public String getMotDePasse() {
