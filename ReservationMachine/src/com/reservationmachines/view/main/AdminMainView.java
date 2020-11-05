@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.main.AppMain;
 import com.reservationmachines.view.admin.ConsulterReclamationView;
-import com.reservationmachines.view.admin.AjouterMachineSalleView;
 import com.reservationmachines.view.admin.ConsulterCompte;
 import com.reservationmachines.view.admin.ConsulterSalle;
 
@@ -113,6 +112,7 @@ public class AdminMainView {
 	    btnMachine.addActionListener(new ActionListener(){
 	        public void actionPerformed(ActionEvent e) {
 	            jFrame.dispose();
+	            //
 	        }
 	    });
 	    

@@ -64,7 +64,8 @@ public class ConsulterCompte extends JFrame {
         btnAjouter = new JButton("Ajouter");
         btnAjouter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                CreerCompteView am = new CreerCompteView(controler);
+                dispose();
+                CreerCompteEtudientView am = new CreerCompteEtudientView(controler);
                 am.setVisible(true);
             }
         });
@@ -76,7 +77,7 @@ public class ConsulterCompte extends JFrame {
         btnModifier.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 dispose();
-                ModifierCompteView mce = new ModifierCompteView(controler);
+                ModifierCompteEtudiantView mce = new ModifierCompteEtudiantView(controler);
                 mce.getjFrame().setVisible(true);
             }
         });

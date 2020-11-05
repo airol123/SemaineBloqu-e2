@@ -12,7 +12,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class AjouterMachineSalleView extends JFrame implements ActionListener {
 
@@ -64,21 +63,15 @@ public class AjouterMachineSalleView extends JFrame implements ActionListener {
 		contentPane.add(lblMotDePasse);
 		
 		btnAnnuler = new JButton("Annuler");
-		btnAnnuler.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-			}
-		});
 		btnAnnuler.setBounds(127, 121, 97, 23);
 		contentPane.add(btnAnnuler);
 		
 		cbSalle = new JComboBox<>();
-		String[] listeNomSalle = controler.getListeNomSalle();
+		//String[] listeNomSalle = controler.getListeNomSalle();
 		
-		cbSalle.setModel(new DefaultComboBoxModel(listeNomSalle));
+		//cbSalle.setModel(listeNomSalle);
 		cbSalle.setBounds(147, 77, 147, 23);
 		contentPane.add(cbSalle);
-		this.setVisible(true);
 	}
 
 	@Override
