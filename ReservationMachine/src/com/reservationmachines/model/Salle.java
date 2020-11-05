@@ -34,6 +34,10 @@ public class Salle {
 		this.machines = machines;
 	}
 
+	public Salle(String nomSalle) {
+		this.nomSalle = nomSalle;
+	}
+
 	public String getNomSalle() {
 		return nomSalle;
 	}
