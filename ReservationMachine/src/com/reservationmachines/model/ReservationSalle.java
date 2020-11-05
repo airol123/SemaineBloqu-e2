@@ -24,6 +24,14 @@ public class ReservationSalle extends Reservation {
 		this.heureFin = heureFin;
 	}
 	
+	public ReservationSalle(ResponsableTP respTP, Salle salle, GroupeTP groupe, Date date, Timestamp heureDebut) {
+		this.responsableTP = respTP;
+		this.salle = salle;
+		this.groupeTP = groupe;
+		this.date = date;
+		this.heureDebut = heureDebut;
+	}
+
 	public String getNomCours() {
 		return nomCours;
 	}
@@ -53,5 +61,8 @@ public class ReservationSalle extends Reservation {
 	}
 	public String getCapacite() {
 		return String.valueOf(this.salle.getCapacite());
+	}
+	public GroupeTP getGroupeTP() {
+		return this.groupeTP;
 	}
 }
