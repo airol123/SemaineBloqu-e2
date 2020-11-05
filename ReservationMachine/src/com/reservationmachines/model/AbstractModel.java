@@ -22,5 +22,7 @@ public abstract class AbstractModel {
 	public abstract boolean misAjourInBD(String stremail, String strRePwd);
 	public abstract ArrayList<ReservationMachine> getReservationMachineE(String etudiant);
 	public abstract ArrayList<Salle> getToutesLesSalles();
+	public abstract Admin getAdmin(String numAdmin);
 
 }
+

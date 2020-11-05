@@ -1,6 +1,7 @@
 package com.reservationmachines.main;
 
 import com.reservationmachines.model.AbstractModel;
+import com.reservationmachines.model.BD;
 import com.reservationmachines.model.Model;
 import com.reservationmachines.view.main.SeConnecterView;
 import com.reservationmachines.controler.EtudiantControler;

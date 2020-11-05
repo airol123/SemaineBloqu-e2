@@ -198,6 +198,21 @@ public class Model extends AbstractModel {
 		return restp;
 	}
 
+	
+	public String[] getListeNomSalle() throws SQLException {
+		ArrayList<String> listeNomSalle = new ArrayList<>();
+		String sqlnomSalle= "select noms from salle";
+        Connection con =BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sqlnomSalle);
+		ResultSet rs=pstmt.executeQuery();
+		while (rs.next()) {
+			listeNomSalle.add(rs.getString("noms"));
+		}
+		rs.close();  
+		
+		return listeNomSalle.toArray(new String[0]);
+	}
+
 	@Override
 	public boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp) {
 		String querySQL = "SELECT idE FROM Etudiant " +
@@ -397,6 +412,7 @@ public class Model extends AbstractModel {
 		return reservations;
 	}
 
+
 	@Override
 	public ArrayList<Salle> getToutesLesSalles() {
 		ArrayList<Salle> salles = new ArrayList<Salle>();
@@ -414,6 +430,33 @@ public class Model extends AbstractModel {
 			e3.printStackTrace();
 		}		
 		return salles;
+	}
+
+	
+	@Override
+	public Admin getAdmin(String numAdmin) {
+		String querySQL = "SELECT * FROM Admin WHERE idA = '" + numAdmin + "';";
+		Admin admin = null;
+		// Vï¿½rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			
+			admin = new Admin(
+				resultat.getString("ida"),
+				resultat.getString("mdpa"),
+				resultat.getString("noma"),
+				resultat.getString("prenoma"),
+				resultat.getString("emaila")
+			);
+			
+			System.out.println("Je suis là !");
+		} catch (Exception e) {e.printStackTrace();}
+		
+		return admin;
 	}
 
 	/*
@@ -450,6 +493,6 @@ public class Model extends AbstractModel {
 			return "";
 		}
 	}
-	
 	*/
+	
 }
