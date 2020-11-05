@@ -1,22 +1,12 @@
 package com.reservationmachines.view.responsabletp;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
+import javax.swing.*;
+
 import com.reservationmachines.controler.ResponsableTPControler;
 
-import javax.swing.JTable;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import javax.swing.SwingConstants;
+import java.awt.*;
 import javax.swing.table.TableCellRenderer;
 
-import java.awt.Component;
-import java.awt.Font;
-import javax.swing.JScrollPane;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -63,8 +53,13 @@ public class ConsulterReservationSalleView extends JFrame {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 2;
 		getContentPane().add(scrollPane, gbc_scrollPane);
-
-		table_1 = new JTable();
+		table_1 = new JTable(){
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				ImageIcon img = new ImageIcon("ReservationMachine/images/background2.jpg");
+				img.paintIcon(this, g, 0, 0);
+			}};
 		scrollPane.setViewportView(table_1);
 
 		updateTable();
@@ -79,10 +74,10 @@ public class ConsulterReservationSalleView extends JFrame {
 		// Si toutes les valeurs sont renseign�es
 		this.table_1 = new JTable(controler.getValeursSallesReservees(), controler.getEnteteSallesReservees());
 		// Pour dire que les cellules contenant des boutons doivent afficher le bouton
-		this.table_1.getColumn("R�servations machines").setCellEditor(new ButtonEditor(this, controler));
-		this.table_1.getColumn("R�servations machines").setCellRenderer(new ButtonRenderer());
-		this.table_1.getColumn("Annuler une r�servation").setCellEditor(new ButtonEditor(this, controler));
-		this.table_1.getColumn("Annuler une r�servation").setCellRenderer(new ButtonRenderer());
+		this.table_1.getColumn("R\u00E9servations machines").setCellEditor(new ButtonEditor(this, controler));
+		this.table_1.getColumn("R\u00E9servations machines").setCellRenderer(new ButtonRenderer());
+		this.table_1.getColumn("Annuler une r\u00E9servation").setCellEditor(new ButtonEditor(this, controler));
+		this.table_1.getColumn("Annuler une r\u00E9servation").setCellRenderer(new ButtonRenderer());
 		scrollPane.setViewportView(table_1);
 	}
 }
