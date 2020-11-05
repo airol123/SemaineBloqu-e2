@@ -77,13 +77,25 @@ public class Model extends AbstractModel {
 
 	@Override
 	public void creerCompteEtudiant(Etudiant etudiant) {
-		// TODO Auto-generated method stub
+		this.inscrireEtudiant(etudiant);
 		
 	}
 	
 	@Override
 	public void creerCompteResponsableTP(ResponsableTP responsableTP) {
-		
+		int n=0;
+		String sqlinsertetu="INSERT INTO resptp (ide,mdpe, emaile,nome, prenome) VALUES (?,?,?,?,?);";
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertetu);
+
+			pstmt.setInt(1,Integer.parseInt(responsableTP.getIdentifiant()));
+			pstmt.setString(2, responsableTP.mdp);
+			pstmt.setString(3, responsableTP.email);
+			pstmt.setString(4, responsableTP.nom);
+			pstmt.setString(5, responsableTP.prenom);
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
 	}
 	
 
