@@ -10,6 +10,7 @@ public abstract class AbstractModel {
 	public abstract void creerCompteEtudiant(Etudiant etudiant);
 	public abstract void creerCompteResponsableTP(ResponsableTP responsableTP) ;
 	public abstract void setMachineSalle(String nomMachine, String nomSalle);
+	public abstract void ajoutSalle(String nomSalle);
 	public abstract boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp);
 	public abstract boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp);
 	public abstract boolean verifierMotDePasseAdmin(String idAdmin, String mdp);
@@ -31,35 +32,21 @@ public abstract class AbstractModel {
 	public abstract String[] recupererNomTP(String id);
 	public abstract ArrayList<ReservationSalle> getValeursReservees(String id);
 	public abstract String[] getEnteteSallesReservees();
-	public abstract void annulerReservationSalle(String idSalle);
-	public abstract void annulerToutesReservationsMachinesSalle(String idSalle);
+	public abstract boolean annulerReservationSalle(ReservationSalle reservationSalle);
+	public abstract boolean annulerToutesReservationsMachinesSalle(ReservationSalle reservationSalle);
 	public abstract ArrayList<ReservationMachine> getReservationMachineE(String etudiant);
 	public abstract ArrayList<Salle> getToutesLesSalles();
 	public abstract Admin getAdmin(String numAdmin);
 	public abstract String[][] getReclamations(String identifiant);
 	public abstract void traiterReclamation(String description);
 	public abstract boolean stockerReclamation(Reclamation re);
-	public abstract String[][] getSalles();
-	public abstract void ajoutSalle(String nomSalle);
-	public abstract void supprimerSalle(String nomSalle);
-	public Etudiant seConnecter(String ide) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Admin seConnecterAdmin(String ida) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public ResponsableTP seConnecterResponsable(String idres) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public String[] getListeNomSalle() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract Etudiant seConnecter(String ide) throws SQLException;
+	public abstract Admin seConnecterAdmin(String ida) throws SQLException;
+	public abstract ResponsableTP seConnecterResponsable(String idres) throws SQLException;
+	public abstract String[] getListeNomSalle() throws SQLException;
 	public abstract boolean supprimerRservation(ReservationMachine reservationMachine);
 	public abstract ArrayList<Machine> trouverMDisponible(String salle, String dateD, String dateF);
 	public abstract Boolean affecterReservationM(Machine machine, Etudiant etudiant, String dateD, String dateF);
-	public abstract boolean miseAJourcompteE(String identifiant, String nom, String prenom, String email, String rePwd);
+	public abstract String[][] getSalles();
+	public abstract void supprimerSalle(String nomS);
 }

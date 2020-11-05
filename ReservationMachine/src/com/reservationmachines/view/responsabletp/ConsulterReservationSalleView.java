@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class ConsulterReservationSalleView extends JFrame {
 
@@ -73,14 +74,14 @@ public class ConsulterReservationSalleView extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 	}
-
-	private void updateTable() {
+	
+	protected void updateTable() {
 		// Si toutes les valeurs sont renseignées
 		this.table_1 = new JTable(controler.getValeursSallesReservees(), controler.getEnteteSallesReservees());
 		// Pour dire que les cellules contenant des boutons doivent afficher le bouton
-		this.table_1.getColumn("Réservations machines").setCellEditor(new ButtonEditor(controler));
+		this.table_1.getColumn("Réservations machines").setCellEditor(new ButtonEditor(this, controler));
 		this.table_1.getColumn("Réservations machines").setCellRenderer(new ButtonRenderer());
-		this.table_1.getColumn("Annuler une réservation").setCellEditor(new ButtonEditor(controler));
+		this.table_1.getColumn("Annuler une réservation").setCellEditor(new ButtonEditor(this, controler));
 		this.table_1.getColumn("Annuler une réservation").setCellRenderer(new ButtonRenderer());
 		scrollPane.setViewportView(table_1);
 	}
@@ -89,8 +90,6 @@ public class ConsulterReservationSalleView extends JFrame {
 class ButtonRenderer extends JButton implements TableCellRenderer {
 
 	private static final long serialVersionUID = 1L;
-	
-	public ButtonRenderer() {}
 	
 	// Gestion du comportement de chaque bouton selon sa colonne et sa ligne
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean isFocus, int row, int col) {
@@ -104,10 +103,12 @@ class ButtonEditor extends DefaultCellEditor {
 
 	private static final long serialVersionUID = 1L;
 	private ResponsableTPControler controler;
+	public ConsulterReservationSalleView currentView;
 	
-	public ButtonEditor(ResponsableTPControler controler) {
+	public ButtonEditor(ConsulterReservationSalleView currentView, ResponsableTPControler controler) {
 		// Par défaut, ce type d'objet travaille avec un JCheckBox
 		super(new JCheckBox());
+		this.currentView = currentView;
 		this.controler = controler;
 	}
 
@@ -141,8 +142,15 @@ class ButtonEditor extends DefaultCellEditor {
 	    	// En fonction de la colonne et de la ligne
 			if(column == 8) {
 				new ConsulterReservationMachineView(table.getValueAt(row, 6).toString(), controler);
-			} else if(column == 9) {
-				new AnnulerReservationSalleView(table.getValueAt(row, 6).toString(), controler);
+			} else if(column == 9) {	
+				HashMap<String, String> values = new HashMap<String, String>();
+				values.put("strHeureDebut", table.getValueAt(row, 4).toString());
+				values.put("strDate", table.getValueAt(row, 3).toString());
+				values.put("nomSalle", table.getValueAt(row, 6).toString());
+				values.put("nomGroupeTP", table.getValueAt(row, 2).toString());
+				values.put("nomFormation", table.getValueAt(row, 1).toString());
+				
+				new AnnulerReservationSalleView(values, currentView, table.getValueAt(row, 6).toString(), controler);
 			}
 	    }
 	}
