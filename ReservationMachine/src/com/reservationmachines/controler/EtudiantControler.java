@@ -83,7 +83,12 @@ public class EtudiantControler extends Controler {
 	    	int numI = rand.nextInt(n);
 	        //System.out.println(numI);
 	        Boolean enrM =model.affecterReservationM(machines.get(numI),etudiant,dateD,dateF);			
-			return true;
+			if(enrM){
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		//Sinon
 		else{ 
@@ -135,4 +140,5 @@ public class EtudiantControler extends Controler {
 	public String getMotDePasse() {
 		return model.getEtudiant(id).getMdp();
 	}
+	
 }

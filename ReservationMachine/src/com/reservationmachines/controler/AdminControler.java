@@ -40,7 +40,12 @@ public class AdminControler extends Controler {
 		model.setMachineSalle(nomMachine, nomSalle);
 	}
 	public boolean misAjourInBD(String identifiant,String nom,String prenom ,String email, String rePwd){
-		return false;
+		boolean mis=model.miseAJourcompteE(identifiant,nom,prenom,email,rePwd);
+		if(mis) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	public String getPrenom() {
 		return model.getAdmin(id).getPrenom();

@@ -27,10 +27,10 @@ public class ModifierCompteEtudiantView {
     private JLabel lbPrenom = new JLabel("Prenom");
     private JPasswordField txtPwdC = new JPasswordField();
     private JPasswordField txtRePwdC = new JPasswordField();
-    private JPasswordField txtIdentif = new JPasswordField();
+    private JTextField txtIdentif = new JTextField();
 
-    private JPasswordField txtNom = new JPasswordField();
-    private JPasswordField txtPrenom = new JPasswordField();
+    private JTextField txtNom = new JTextField();
+    private JTextField txtPrenom = new JTextField();
     private JButton okbtn = new JButton("Valider");
     private JButton resetlbtn = new JButton("réinitialiser");
     private JButton btnreturn = new JButton("Annuler");
@@ -69,7 +69,7 @@ public class ModifierCompteEtudiantView {
         //Définir le texte de l'étiquette en rouge
 
         lbIMsgC.setForeground(Color.RED);
-        lbIMsgC.setBounds(450, 120, 200, 25);
+        lbIMsgC.setBounds(450, 85, 200, 25);
 
         lbNom.setBounds(340,150,100,30);
         lbIdenti.setBounds(340,110,100,30);
@@ -167,7 +167,7 @@ public class ModifierCompteEtudiantView {
                     return;
                 }
 
-                String strIdenti = new String(txtIdentif.getPassword());
+                String strIdenti = new String(txtIdentif.getText());
                 if (strIdenti == null || strIdenti.equals("")) {
 
                     lbIMsgC.setText("Identifiant is empty");
