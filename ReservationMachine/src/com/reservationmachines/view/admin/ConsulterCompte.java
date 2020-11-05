@@ -60,7 +60,7 @@ public class ConsulterCompte extends JFrame {
                 }
         ));
         scrollPane.setViewportView(table);
-
+        
         btnAjouter = new JButton("Ajouter");
         btnAjouter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -73,12 +73,17 @@ public class ConsulterCompte extends JFrame {
         contentPane.add(btnAjouter);
 
 
-        btnModifier = new JButton("Modifier");
+        btnModifier = new JButton("<html>Modifier<br>Etudiant</html>");
         btnModifier.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 dispose();
                 ModifierCompteEtudiantView mce = new ModifierCompteEtudiantView(controler);
                 mce.getjFrame().setVisible(true);
+                int count=table.getSelectedRow();
+        		String id=table.getValueAt(count,1).toString();
+        		String type=table.getValueAt(count,0).toString();
+                controler.id(id);
+                controler.type(type);
             }
         });
         btnModifier.setBounds(170, 400, 100, 23);

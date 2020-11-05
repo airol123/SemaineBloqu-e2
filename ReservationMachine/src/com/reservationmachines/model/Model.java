@@ -462,9 +462,10 @@ public class Model extends AbstractModel {
 			admin = new Admin(
 				resultat.getString("ida"),
 				resultat.getString("mdpa"),
+				resultat.getString("emaila"),
 				resultat.getString("noma"),
-				resultat.getString("prenoma"),
-				resultat.getString("emaila")
+				resultat.getString("prenoma")
+				
 			);
 			
 		} catch (Exception e) {e.printStackTrace();}
@@ -1161,6 +1162,52 @@ public class Model extends AbstractModel {
 		else {
 			return true;
 		}		
+	}
+
+	@Override
+	public ArrayList<Etudiant> getTousLesEtudiant() {
+		ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
+		String sqletu = "select * from etudiant ";		
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqletu);			
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Etudiant etu=new Etudiant();
+				etu.setNom(rs.getString("nome"));	
+				etu.setPrenom(rs.getString("prenome"));
+				etu.setEmail(rs.getString("emaile"));
+				etu.setIdentifiant(rs.getString("ide"));
+				etu.setMdp(rs.getString("mdpe"));			
+				etudiants.add(etu);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}		
+		return etudiants;
+	}
+
+	@Override
+	public ArrayList<ResponsableTP> getTousLesRespTP() {
+		ArrayList<ResponsableTP> respTPs = new ArrayList<ResponsableTP>();
+		String sqlrespTPs = "select * from resptp ";		
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlrespTPs);			
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				ResponsableTP resp=new ResponsableTP();
+				resp.setNom(rs.getString("NOMR"));	
+				resp.setPrenom(rs.getString("PRENOMR"));
+				resp.setEmail(rs.getString("EMAILR"));
+				resp.setIdentifiant(rs.getString("IDResp"));
+				resp.setMdp(rs.getString("MDPR"));			
+				respTPs.add(resp);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}		
+		return respTPs;
 	}
 	
 
