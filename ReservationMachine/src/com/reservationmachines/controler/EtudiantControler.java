@@ -95,8 +95,14 @@ public class EtudiantControler extends Controler {
 
 
 
-	public static void supprimerReservation(ReservationMachine reservationMachine) {
-        //supprimer cette reservation dans BD
+	public boolean supprimerReservation(ReservationMachine reservationMachine) {
+		boolean sup= model.supprimerRservation(reservationMachine);
+		if(sup) {
+    		return true;
+    	}
+    	else {
+    		 return false;
+    	} 
     }
 
     public boolean stockerReclamation(Reclamation re) {

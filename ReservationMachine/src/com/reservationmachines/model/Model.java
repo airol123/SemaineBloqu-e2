@@ -47,7 +47,7 @@ public class Model extends AbstractModel {
 				Salle salle =new Salle();
 				salle.setNomSalle(idSalle);
 				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
 				
 				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
 				Timestamp d = null;
@@ -411,7 +411,7 @@ public class Model extends AbstractModel {
 				Salle salle =new Salle();
 				salle.setNomSalle(rs.getString("noms"));
 				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
 				Timestamp d = null;
@@ -880,5 +880,41 @@ public class Model extends AbstractModel {
 			e.printStackTrace();
 		}	
 		return idm;
+	}
+
+	@Override
+	public boolean supprimerRservation(ReservationMachine reservationMachine) {
+		int n=0;
+		String sql ="DELETE reserverm FROM reserverm,machine where reserverm.IDM=machine.IDM and reserverm.IDE=? and machine.NOMM=? and reserverm.HEUREDEBUTM=? and reserverm.DATEM=?;"; 
+		try { 
+			Connection con = BD.getConnection(); PreparedStatement pstmt =  con.prepareStatement(sql); 
+			pstmt.setInt(1,  Integer.parseInt(reservationMachine.getEtudiant().identifiant));
+			pstmt.setString(2, reservationMachine.getMachine().getNomMachine());
+				  
+			Date reserdebut=new Date(reservationMachine.getHeureDebut().getTime());
+			System.out.println(reserdebut+"----");
+			SimpleDateFormat formattimed = new SimpleDateFormat("yyyy-MM-dd"); 
+			SimpleDateFormat formattimeh = new SimpleDateFormat("HH:mm:ss"); 
+			String heuredebut=formattimeh.format(reserdebut);
+			String date=formattimed.format(reserdebut);
+			
+			pstmt.setString(3, heuredebut); 
+			pstmt.setString(4, date); 
+			n=pstmt.executeUpdate();
+			
+		}catch (Exception e) { e.printStackTrace(); }
+		if (n==1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		/*
+		 * //java.sql.Date heuredebut = new java.sql.Date(heure); try { Date
+		 * dateR=formattimeh.parse(date); Date heuredebut = formattimeh.parse(heure);
+		 * System.out.println(heuredebut+"--test--"); } catch (ParseException e) {
+		 * e.printStackTrace(); } System.out.println(date+"--d--");
+		 * System.out.println(heure+"--h--");
+		 */	
 	}
 }
