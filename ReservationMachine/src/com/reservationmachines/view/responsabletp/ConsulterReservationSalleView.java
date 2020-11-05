@@ -76,13 +76,13 @@ public class ConsulterReservationSalleView extends JFrame {
 	}
 	
 	protected void updateTable() {
-		// Si toutes les valeurs sont renseignées
+		// Si toutes les valeurs sont renseignï¿½es
 		this.table_1 = new JTable(controler.getValeursSallesReservees(), controler.getEnteteSallesReservees());
 		// Pour dire que les cellules contenant des boutons doivent afficher le bouton
-		this.table_1.getColumn("Réservations machines").setCellEditor(new ButtonEditor(this, controler));
-		this.table_1.getColumn("Réservations machines").setCellRenderer(new ButtonRenderer());
-		this.table_1.getColumn("Annuler une réservation").setCellEditor(new ButtonEditor(this, controler));
-		this.table_1.getColumn("Annuler une réservation").setCellRenderer(new ButtonRenderer());
+		this.table_1.getColumn("Rï¿½servations machines").setCellEditor(new ButtonEditor(this, controler));
+		this.table_1.getColumn("Rï¿½servations machines").setCellRenderer(new ButtonRenderer());
+		this.table_1.getColumn("Annuler une rï¿½servation").setCellEditor(new ButtonEditor(this, controler));
+		this.table_1.getColumn("Annuler une rï¿½servation").setCellRenderer(new ButtonRenderer());
 		scrollPane.setViewportView(table_1);
 	}
 }
@@ -106,18 +106,18 @@ class ButtonEditor extends DefaultCellEditor {
 	public ConsulterReservationSalleView currentView;
 	
 	public ButtonEditor(ConsulterReservationSalleView currentView, ResponsableTPControler controler) {
-		// Par défaut, ce type d'objet travaille avec un JCheckBox
+		// Par dï¿½faut, ce type d'objet travaille avec un JCheckBox
 		super(new JCheckBox());
 		this.currentView = currentView;
 		this.controler = controler;
 	}
 
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-		// Création du bouton
+		// Crï¿½ation du bouton
 		JButton button = new JButton(table.getValueAt(row, column).toString());
 		button.setOpaque(true);
 		
-		// Création du listener
+		// Crï¿½ation du listener
 		ButtonListener bl = new ButtonListener();	
 		bl.setRow(row);
 		bl.setColumn(column);
@@ -138,7 +138,7 @@ class ButtonEditor extends DefaultCellEditor {
 	    public void setTable(JTable table) {this.table = table;}
 
 	    public void actionPerformed(ActionEvent event) {
-	    	// Affectation du comportement approprié à chaque bouton
+	    	// Affectation du comportement appropriï¿½ ï¿½ chaque bouton
 	    	// En fonction de la colonne et de la ligne
 			if(column == 8) {
 				new ConsulterReservationMachineView(table.getValueAt(row, 6).toString(), controler);
