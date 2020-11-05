@@ -67,6 +67,7 @@ public class AjouterMachineSalleView extends JFrame implements ActionListener {
 		btnAnnuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
+				new ConsulterMachine(controler);	
 			}
 		});
 		btnAnnuler.setBounds(127, 121, 97, 23);
@@ -90,6 +91,7 @@ public class AjouterMachineSalleView extends JFrame implements ActionListener {
 		}
 		if(e.getSource().equals(btnAnnuler)) {
 			this.dispose();
+			
 		}
 		
 	}
