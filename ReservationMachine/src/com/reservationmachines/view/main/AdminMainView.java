@@ -114,10 +114,7 @@ public class AdminMainView {
 	    btnMachine.addActionListener(new ActionListener(){
 	        public void actionPerformed(ActionEvent e) {
 	            jFrame.dispose();
-<<<<<<< HEAD
 	            new ConsulterMachine(controler);	            
-=======
->>>>>>> parent of d4398a6... Revert "Merge branch 'xingtian' into develop"
 	        }
 	    });
 	    
