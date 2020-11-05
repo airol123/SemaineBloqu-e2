@@ -22,7 +22,8 @@ public class EtudiantControler extends Controler {
     }
 
     public boolean misAjourInBD(String stremail, String strRePwd) {
-		return model.misAjourInBD(stremail, strRePwd);
+    	String id = trouverEtudiantId();
+		return model.misAjourInBD(stremail, strRePwd, id);
     }
 
 
@@ -91,15 +92,14 @@ public class EtudiantControler extends Controler {
 		return false;
 	}
 
-
-
-
-	public static void supprimerReservation(ReservationMachine reservationMachine) {
-        //supprimer cette reservation dans BD
+	public boolean supprimerReservation(ReservationMachine reservationMachine) {
+		boolean sup= model.supprimerRservation(reservationMachine);
+		return sup;
     }
 
-    public static void stockerReclamation(Reclamation re) {
-        //stocker la reclamation dans BD
+    public boolean stockerReclamation(Reclamation re) {
+    	boolean sto= model.stockerReclamation(re);
+        return false;
     }
 
 	public void methode(String strident) {
