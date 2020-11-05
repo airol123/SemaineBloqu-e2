@@ -21,12 +21,12 @@ public class ModifierCompteEtudiantView {
     private JTextField txtemail = new JTextField();
     private JLabel lblPwdC = new JLabel("Mot de passe");
     private JLabel lbRePwdC = new JLabel("Vérifier MDP");
-    private JLabel lbidenti = new JLabel("Identifiant");
+
     private JLabel lbNom = new JLabel("Nom");
     private JLabel lbPrenom = new JLabel("Prenom");
     private JPasswordField txtPwdC = new JPasswordField();
     private JPasswordField txtRePwdC = new JPasswordField();
-    private JPasswordField txtIdenti = new JPasswordField();
+
     private JPasswordField txtNom = new JPasswordField();
     private JPasswordField txtPrenom = new JPasswordField();
     private JButton okbtn = new JButton("Valider");
@@ -69,22 +69,21 @@ public class ModifierCompteEtudiantView {
         lbIMsgC.setForeground(Color.RED);
         lbIMsgC.setBounds(450, 120, 200, 25);
 
-        lbemail.setBounds(340,150,100,30);
-        txtemail.setBounds(450,150,220,30);
-        lblPwdC.setBounds(340,190,100,30);
-        lbidenti.setBounds(340,270,100,30);
-        lbNom.setBounds(340,310,100,30);
-        lbPrenom.setBounds(340,350,100,30);
-        txtPwdC.setBounds(450,190,220,30);
-        lbRePwdC.setBounds(340,230,100,30);
-        txtRePwdC.setBounds(450,230,220,30);
-        txtIdenti.setBounds(450,270,220,30);
-        txtNom.setBounds(450,310,220,30);
-        txtPrenom.setBounds(450,350,220,30);
+        lbNom.setBounds(340,150,100,30);
+        txtNom.setBounds(450,150,220,30);
 
-        okbtn.setBounds(340,400,110,30);
-        resetlbtn.setBounds(450,400,110,30);
-        btnreturn.setBounds(560,400,110,30);
+        lbPrenom.setBounds(340,190,100,30);
+        txtPrenom.setBounds(450,190,220,30);
+        lbemail.setBounds(340,230,100,30);
+        txtemail.setBounds(450,230,220,30);
+        lblPwdC.setBounds(340,270,100,30);
+        txtPwdC.setBounds(450,270,220,30);
+        lbRePwdC.setBounds(340,310,100,30);
+        txtRePwdC.setBounds(450,310,220,30);
+
+        okbtn.setBounds(340,360,110,30);
+        resetlbtn.setBounds(450,360,110,30);
+        btnreturn.setBounds(560,360,110,30);
 
         fieldPanel.add(titre);
         fieldPanel.add(lbIMsgC);
@@ -92,14 +91,12 @@ public class ModifierCompteEtudiantView {
         fieldPanel.add(lbemail);
         fieldPanel.add(lblPwdC);
         fieldPanel.add(lbRePwdC);
-        fieldPanel.add(lbidenti);
+
         fieldPanel.add(lbNom);
         fieldPanel.add(lbPrenom);
-
         fieldPanel.add(txtemail);
         fieldPanel.add(txtPwdC);
         fieldPanel.add(txtRePwdC);
-        fieldPanel.add(txtIdenti);
         fieldPanel.add(txtNom);
         fieldPanel.add(txtPrenom);
         fieldPanel.add(okbtn);
@@ -148,11 +145,7 @@ public class ModifierCompteEtudiantView {
                     lbIMsgC.setText("email is empty");
                     return;
                 }
-                String stridenti = txtIdenti.getText();
-                if (stridenti == null || stridenti.equals("")) {
-                    lbIMsgC.setText("Identifiant is empty");
-                    return;
-                }
+
                 String strNom = txtNom.getText();
                 if (strNom == null || strNom.equals("")) {
                     lbIMsgC.setText("Nom is empty");
@@ -186,7 +179,7 @@ public class ModifierCompteEtudiantView {
                     return;
                 }
 
-                if (controler.misAjourInBD(stridenti,strNom,strPrenom ,stremail, strRePwd)){
+                if (controler.misAjourInBD(strNom,strPrenom ,stremail, strRePwd)){
                     lbIMsgC.setText("Successful");
                 }else{
                     lbIMsgC.setText("échec");
