@@ -41,7 +41,7 @@ public class AjouterMachineSalleView extends JFrame implements ActionListener {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Ajout de la machine");
-		lblNewLabel.setFont(new Font("宋体", Font.PLAIN, 24));
+		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 24));
 		lblNewLabel.setBounds(20, 15, 330, 28);
 		contentPane.add(lblNewLabel);
 		
@@ -67,7 +67,7 @@ public class AjouterMachineSalleView extends JFrame implements ActionListener {
 		btnAnnuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
-				new ConsulterMachine(controler);	
+				new ConsulterMachine(controler,null);	
 			}
 		});
 		btnAnnuler.setBounds(127, 121, 97, 23);
@@ -88,10 +88,11 @@ public class AjouterMachineSalleView extends JFrame implements ActionListener {
 			controler.ajouterMachineSalle(
 				nom.getText(), (String)cbSalle.getSelectedItem()
 			);
+			this.dispose();
+			new ConsulterMachine(controler, null);
 		}
 		if(e.getSource().equals(btnAnnuler)) {
-			this.dispose();
-			
+			this.dispose();			
 		}
 		
 	}

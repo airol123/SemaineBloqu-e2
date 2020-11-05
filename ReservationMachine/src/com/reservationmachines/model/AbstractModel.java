@@ -51,5 +51,7 @@ public abstract class AbstractModel {
 	public abstract void supprimerSalle(String nomS);
 	public abstract boolean miseAJourcompteE(String identifiant, String nom, String prenom, String email, String rePwd);
 	public abstract void setMachineSalle(Machine machine);
-	public abstract String[][] getMachines(String nomS);}
+	public abstract String[][] getMachines(String nomS);
+	public abstract void supprimerMachine(String nomM);
+	}
 

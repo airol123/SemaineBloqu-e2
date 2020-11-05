@@ -1222,7 +1222,6 @@ public class Model extends AbstractModel {
 					+ "and s.noms = ?;");
 				pstmt.setString(1, nomS);
 			}
-			System.out.println(pstmt);
 			ResultSet rs=pstmt.executeQuery();
 			rs.last();
 			int nbLignes = rs.getRow();
@@ -1241,4 +1240,23 @@ public class Model extends AbstractModel {
 		}		
 		return strings;
 	}
+	
+	@Override
+	public void supprimerMachine(String nomM) {
+		try {
+		Connection con =BD.getConnection();
+		PreparedStatement sql = con.prepareStatement( "select idm from machine where nomm=?;");
+		sql.setString(1, nomM);
+		ResultSet res = sql.executeQuery();
+		res.next();
+		int idM = res.getInt(1);		
+		
+		sql = con.prepareStatement( "UPDATE machine SET IDS=null,ETATM = 'INDISPONIBLE' WHERE IDM=?;");
+		sql.setInt(1, idM);
+		sql.executeUpdate();		
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }	
+	}
+	
 }

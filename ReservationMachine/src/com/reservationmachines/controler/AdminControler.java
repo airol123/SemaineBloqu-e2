@@ -88,6 +88,10 @@ public class AdminControler extends Controler {
 		return model.getMachines(nomS);
 	}
 	
+	public void supprimerMachine(String nomM) {
+		model.supprimerMachine(nomM) ;
+	}
+	
 	public Object[][]  getCompteE(){
 		Object[][] t=null;
 		return t;

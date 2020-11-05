@@ -80,8 +80,11 @@ public class ConsulterMachine extends JFrame {
 				int row = table.getSelectedRow();
 				if (row!=-1) {					
 					String nomM = (String)table.getValueAt(row , 1);
-//					controler.supprimerMachine(nomS);
-					System.out.println(nomM);
+					controler.supprimerMachine(nomM);
+					table.setModel(new DefaultTableModel(
+							controler.getMachine(nomS),
+							new String[] {"Salle", "Machine", "Etat"}
+						));
 				}				
 			}
 		});
