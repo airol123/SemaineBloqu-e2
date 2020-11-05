@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -34,11 +35,12 @@ public class ConsulterReservationMachineView extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Liste des machines dans la Salle " + idSalle);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(BorderLayout.NORTH, lblNewLabel);
 		
 		// Margin autour du label
 		Border border = lblNewLabel.getBorder();
-		Border margin = new EmptyBorder(10, 50, 10, 10);
+		Border margin = new EmptyBorder(10, 10, 10, 10);
 		lblNewLabel.setBorder(new CompoundBorder(border, margin));
 		
 		setVisible(true);
