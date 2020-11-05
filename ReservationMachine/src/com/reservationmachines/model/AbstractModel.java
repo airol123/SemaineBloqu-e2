@@ -19,12 +19,13 @@ public abstract class AbstractModel {
 	public abstract boolean inscrireEtudiant(Etudiant etudiant);
 	public abstract ArrayList<String> recupererNomsFormations();
 	public abstract ArrayList<GroupeTP> recupererNomsGroupesTP(String idFormation);
-	public abstract boolean misAjourInBD(String stremail, String strRePwd);
+	public abstract boolean misAjourInBD(String stremail, String strRePwd,String id);
 	public abstract ArrayList<ReservationMachine> getReservationMachineE(String etudiant);
 	public abstract ArrayList<Salle> getToutesLesSalles();
 	public abstract Admin getAdmin(String numAdmin);
 	public abstract String[][] getReclamations(String identifiant);
 	public abstract void traiterReclamation(String description);
+	public abstract boolean stockerReclamation(Reclamation re);
 
 }
 

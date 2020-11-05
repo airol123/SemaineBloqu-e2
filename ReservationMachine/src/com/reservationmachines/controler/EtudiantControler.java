@@ -23,7 +23,8 @@ public class EtudiantControler extends Controler {
     }
 
     public boolean misAjourInBD(String stremail, String strRePwd) {
-		return model.misAjourInBD(stremail, strRePwd);
+    	String id = trouverEtudiantId();
+		return model.misAjourInBD(stremail, strRePwd,id);
     }
 
 
@@ -98,8 +99,14 @@ public class EtudiantControler extends Controler {
         //supprimer cette reservation dans BD
     }
 
-    public static void stockerReclamation(Reclamation re) {
-        //stocker la reclamation dans BD
+    public boolean stockerReclamation(Reclamation re) {
+    	boolean sto= model.stockerReclamation(re);
+    	if(sto) {
+    		return true;
+    	}
+    	else {
+    		 return false;
+    	}      
     }
 
 	public void methode(String strident) {
