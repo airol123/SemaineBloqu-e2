@@ -112,6 +112,18 @@ public class Model extends AbstractModel {
 	public void setMachineSalle(String nomMachine, String nomSalle){
 		
 	};
+	
+	// ajouter une nouvelle salle
+	public void ajoutSalle(String nomSalle){
+        try {
+		Connection con =BD.getConnection();
+		PreparedStatement sql = con.prepareStatement( "insert into salle(noms) values(?);");
+		sql.setString(1, nomSalle);
+		sql.executeUpdate();		
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }		
+	};
 
 	//Trouver une etudiant selon son identifiant
 	public Etudiant seConnecter(String ide) throws SQLException {
