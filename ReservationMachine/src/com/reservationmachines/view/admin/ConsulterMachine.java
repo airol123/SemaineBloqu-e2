@@ -23,7 +23,7 @@ public class ConsulterMachine extends JFrame {
 	private JTable table;
 	private AdminControler controler;
 
-	public ConsulterMachine(AdminControler controler) {
+	public ConsulterMachine(AdminControler controler, String nomS) {
 		this.controler = controler;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,11 +43,8 @@ public class ConsulterMachine extends JFrame {
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Salle", "Machine", "Etat"
-			}
+			controler.getMachine(nomS),
+			new String[] {"Salle", "Machine", "Etat"}
 		));
 		scrollPane.setViewportView(table);
 		

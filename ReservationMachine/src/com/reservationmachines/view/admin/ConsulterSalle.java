@@ -118,6 +118,18 @@ public class ConsulterSalle extends JFrame {
 			}
 		});
 		
+		btnConsulter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nomS = null;
+				int row = table.getSelectedRow();
+				if (row!=-1) {					
+					nomS = (String)table.getValueAt(row , 0);		
+				}	
+	            jFrame.dispose();
+	            new ConsulterMachine(controler,nomS);	           
+			}
+		});
+			
 		
 	}
 }

@@ -1179,27 +1179,66 @@ public class Model extends AbstractModel {
 			sql.setString(3, machine.getNomMachine());
 			sql.setString(4, machine.getEtatMachine());
 			sql.executeUpdate();		
-	        } catch (SQLException throwables) {
-	            throwables.printStackTrace();
-	        }		
-		};
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }		
+	};
 		
-		private int trouverMaxMachine() {
-			String sql="SELECT max(idm) FROM machine";
-			int nbIDM=0;
-			try {
-			Connection con = BD.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			ResultSet rs =pstmt.executeQuery(sql);
-			while (rs.next()) {
-				nbIDM=rs.getInt(1);
-				nbIDM++;
-			}
-			rs.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			return nbIDM;
+	private int trouverMaxMachine() {
+		String sql="SELECT max(idm) FROM machine";
+		int nbIDM=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs =pstmt.executeQuery(sql);
+		while (rs.next()) {
+			nbIDM=rs.getInt(1);
+			nbIDM++;
 		}
+		rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}		
+		return nbIDM;
+	}
+
+	// get tableau des machines
+	@Override
+	public String[][] getMachines(String nomS) {
+		String[][] strings = null;
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt;
+			if (nomS==null) {
+				pstmt = con.prepareStatement(
+						"select s.noms, m.nomm, m.etatm "
+						+ "from salle s, machine m "
+						+ "where s.ids = m.ids;");
+			} else {
+				pstmt = con.prepareStatement(
+					"select s.noms, m.nomm, m.etatm "
+					+ "from salle s, machine m "
+					+ "where s.ids = m.ids "
+					+ "and s.noms = ?;");
+				pstmt.setString(1, nomS);
+			}
+			System.out.println(pstmt);
+			ResultSet rs=pstmt.executeQuery();
+			rs.last();
+			int nbLignes = rs.getRow();
+			rs.absolute(0);
+			int nbColonnes = 3;
+			strings = new String[nbLignes][nbColonnes];
+			int i = 0;
+			while(rs.next()) {
+				strings[i][0] = rs.getString("noms");
+				strings[i][1] = rs.getString("nomm");
+				strings[i][2] = rs.getString("etatm");
+				i++;
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}		
+		return strings;
+	}
 }
