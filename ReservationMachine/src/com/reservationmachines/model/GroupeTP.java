@@ -13,7 +13,16 @@ public class GroupeTP {
 		this.etudiants = null;
 	}
 	
+	public GroupeTP(String nomGroupeTP, String nomFormation) {
+		this(nomGroupeTP);
+		this.nomFormation = nomFormation;
+	}
+
 	public String getNomGroupe() {
 		return this.nomGroupe;
+	}
+
+	public String getNomFormation() {
+		return this.nomFormation;
 	}
 }

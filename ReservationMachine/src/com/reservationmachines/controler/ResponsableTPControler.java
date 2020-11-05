@@ -2,7 +2,10 @@ package com.reservationmachines.controler;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 
@@ -160,11 +163,41 @@ public class ResponsableTPControler extends Controler {
 		return model.getPrenomResponsableTP(this.id);
 	}
 
-	public void annulerReservationSalle(String idSalle) {
-		model.annulerReservationSalle(idSalle);
+	public boolean annulerReservationSalle(HashMap<String, String> values) {
+		ResponsableTP respTP = new ResponsableTP(id);
+		Salle salle = new Salle(values.get("nomSalle"));
+		GroupeTP groupe = new GroupeTP(values.get("nomGroupeTP"), values.get("nomFormation"));
+		Date date = Date.valueOf(values.get("strDate"));
+		
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	    long parsedDate = 0;
+		
+	    try {
+			parsedDate = dateFormat.parse(values.get("strDate") + " " + values.get("strHeureDebut")).getTime();
+		} catch (ParseException e) {}
+		
+		Timestamp heureDebut = new Timestamp(parsedDate);
+		
+		ReservationSalle reservationSalle = new ReservationSalle(respTP, salle, groupe, date, heureDebut);
+		return model.annulerReservationSalle(reservationSalle);
 	}
 	
-	public void annulerToutesReservationsMachinesSalle(String idSalle) {
-		model.annulerToutesReservationsMachinesSalle(idSalle);
+	public boolean annulerToutesReservationsMachinesSalle(HashMap<String, String> values) {
+		ResponsableTP respTP = new ResponsableTP(id);
+		Salle salle = new Salle(values.get("nomSalle"));
+		GroupeTP groupe = new GroupeTP(values.get("nomGroupeTP"), values.get("nomFormation"));
+		Date date = Date.valueOf(values.get("strDate"));
+		
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	    long parsedDate = 0;
+		
+	    try {
+			parsedDate = dateFormat.parse(values.get("strDate") + " " + values.get("strHeureDebut")).getTime();
+		} catch (ParseException e) {}
+		
+		Timestamp heureDebut = new Timestamp(parsedDate);
+		
+		ReservationSalle reservationSalle = new ReservationSalle(respTP, salle, groupe, date, heureDebut);
+		return model.annulerToutesReservationsMachinesSalle(reservationSalle);
 	}
 }

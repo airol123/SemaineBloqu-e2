@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.TimeZone;
 
 public class Model extends AbstractModel {
@@ -466,7 +467,6 @@ public class Model extends AbstractModel {
 				resultat.getString("emaila")
 			);
 			
-			System.out.println("Je suis l� !");
 		} catch (Exception e) {e.printStackTrace();}
 		
 		return admin;
@@ -492,8 +492,6 @@ public class Model extends AbstractModel {
 				"	)\r\n" + 
 				"GROUP BY NomS, S.IdS;\r\n" + 
 				";";
-		
-		System.out.println(querySQL);
 
 		// V�rifier si la valeur existe dans la table
 		try {
@@ -675,9 +673,9 @@ public class Model extends AbstractModel {
 				Salle salle = new Salle(resultat.getString("NomS"), resultat.getInt("Capacite"));
 				GroupeTP groupeTP = new GroupeTP(resultat.getString("NomG"));
 				String formation = resultat.getString("NomF");
-				Date date = resultat.getDate("Dates");
-				Timestamp heureDebut = resultat.getTimestamp("HeureDebuts");
-				Timestamp heureFin = resultat.getTimestamp("HeureFins");
+				Date date = resultat.getDate("Dates", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
+				Timestamp heureDebut = resultat.getTimestamp("HeureDebuts", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
+				Timestamp heureFin = resultat.getTimestamp("HeureFins", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
 				
 				ReservationSalle reservation = new ReservationSalle(nomCours, responsableTP, salle, groupeTP, formation, date, heureDebut, heureFin);
 				
@@ -714,15 +712,77 @@ public class Model extends AbstractModel {
 
 	// Retirer la réservation de la salle "idSalle" (NomS)
 	@Override
-	public void annulerReservationSalle(String idSalle) {
-		// TODO Auto-generated method stub
+	public boolean annulerReservationSalle(ReservationSalle reservationSalle) {
+		String querySQL = 
+			"DELETE FROM ReserverS\r\n" + 
+			"WHERE UNIX_TIMESTAMP(HeureDebuts) = UNIX_TIMESTAMP(CAST(? AS TIME))\r\n" + 
+			"	AND UNIX_TIMESTAMP(Dates) = UNIX_TIMESTAMP(CAST(? AS DATE))\r\n" + 
+			"    AND IdResp = ?\r\n" + 
+			"    AND IdS = ?\r\n" + 
+			"    AND IdG = ?\r\n" + 
+			";";
 		
+		try {
+			String idResp = reservationSalle.getResponsableTP().identifiant;
+			int idS = chercherIdSalle(reservationSalle.getSalle());
+			int idG = chercherIdGroupeTP(reservationSalle.getGroupeTP());
+			
+			Connection connection = BD.getConnection();
+			PreparedStatement statement = connection.prepareStatement(querySQL);
+			statement.setString(1, reservationSalle.getHeureDebut());
+			statement.setString(2, reservationSalle.getDate());
+			statement.setString(3, idResp);
+			statement.setInt(4, idS);
+			statement.setInt(5, idG);
+			
+			return (statement.executeUpdate() == 1) ? true : false;
+		} catch (SQLException e) {return false;}
+	}
+
+	private int chercherIdGroupeTP(GroupeTP groupeTP) {
+		String querySQL = 
+			"SELECT IdG\r\n" + 
+			"FROM Groupe G, Formation F\r\n" + 
+			"WHERE G.NomG LIKE ?\r\n" + 
+			"	AND F.NomF LIKE ?\r\n" + 
+			"    AND G.IdF = F.IdF\r\n" + 
+			";";
+		
+		try {
+			Connection connection = BD.getConnection();
+			PreparedStatement statement = connection.prepareStatement(querySQL);
+			statement.setString(1, groupeTP.getNomGroupe());
+			statement.setString(2, groupeTP.getNomFormation());
+			
+			ResultSet result = statement.executeQuery();
+			result.next();
+			
+			return result.getInt("IdG");
+		} catch (SQLException e) {e.printStackTrace(); return -1;}
+	}
+
+	private int chercherIdSalle(Salle salle) {
+		String querySQL = 
+			"SELECT IdS\r\n" + 
+			"FROM Salle\r\n" + 
+			"WHERE NomS LIKE ?;";
+		
+		try {
+			Connection connection = BD.getConnection();
+			PreparedStatement statement = connection.prepareStatement(querySQL);
+			statement.setString(1, salle.getNomSalle());
+			
+			ResultSet result = statement.executeQuery();
+			result.next();
+			
+			return result.getInt("IdS");
+		} catch (SQLException e) {return -1;}
 	}
 
 	// Retirer toutes les réservations machine pour la salle "idSalle" (NomS)
 	@Override
-	public void annulerToutesReservationsMachinesSalle(String idSalle) {
-		
+	public boolean annulerToutesReservationsMachinesSalle(ReservationSalle reservationSalle) {
+		return false;
 	}
 	
 	/*
@@ -880,7 +940,7 @@ public class Model extends AbstractModel {
 			PreparedStatement pstmt =  con.prepareStatement(sql); 
 			pstmt.setInt(1,  Integer.parseInt(reservationMachine.getEtudiant().identifiant));
 			pstmt.setString(2, reservationMachine.getMachine().getNomMachine());
-				  
+				
 			Date reserdebut=new Date(reservationMachine.getHeureDebut().getTime());
 			System.out.println(reserdebut+"----");
 			SimpleDateFormat formattimed = new SimpleDateFormat("yyyy-MM-dd"); 
@@ -900,12 +960,12 @@ public class Model extends AbstractModel {
 			return false;
 		}
 		/*
-		 * //java.sql.Date heuredebut = new java.sql.Date(heure); try { Date
-		 * dateR=formattimeh.parse(date); Date heuredebut = formattimeh.parse(heure);
-		 * System.out.println(heuredebut+"--test--"); } catch (ParseException e) {
-		 * e.printStackTrace(); } System.out.println(date+"--d--");
-		 * System.out.println(heure+"--h--");
-		 */	
+		* //java.sql.Date heuredebut = new java.sql.Date(heure); try { Date
+		* dateR=formattimeh.parse(date); Date heuredebut = formattimeh.parse(heure);
+		* System.out.println(heuredebut+"--test--"); } catch (ParseException e) {
+		* e.printStackTrace(); } System.out.println(date+"--d--");
+		* System.out.println(heure+"--h--");
+		*/	
 	}
 
 	@Override
@@ -1048,10 +1108,11 @@ public class Model extends AbstractModel {
 		}		
 		return strings;
 	}
-	
+
 	// ajouter une nouvelle salle
+	@Override
 	public void ajoutSalle(String nomSalle){
-        try {
+		try {
 		Connection con =BD.getConnection();
 		PreparedStatement sql = con.prepareStatement( "select max(ids) from salle;");
 		ResultSet res = sql.executeQuery();
@@ -1061,24 +1122,20 @@ public class Model extends AbstractModel {
 		sql1.setInt(1, idSalle);
 		sql1.setString(2, nomSalle);
 		sql1.executeUpdate();		
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }		
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}		
 	};
-	
+
+	@Override
 	public void supprimerSalle(String nomSalle) {
-        try {
+		try {
 		Connection con =BD.getConnection();
 		PreparedStatement sql = con.prepareStatement( "DELETE FROM salle WHERE noms=?;");
 		sql.setString(1, nomSalle);
 		sql.executeUpdate();		
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }	
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}	
 	}
-	
-
-
-
-
 }
