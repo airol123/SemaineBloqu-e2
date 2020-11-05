@@ -19,8 +19,5 @@ public abstract class AbstractModel {
 	public abstract ArrayList<String> recupererNomsFormations();
 	public abstract ArrayList<GroupeTP> recupererNomsGroupesTP(String idFormation);
 	public abstract boolean misAjourInBD(String stremail, String strRePwd);
-	public abstract ArrayList<ReservationMachine> getReservationMachineE(String etudiant);
-	public abstract Admin getAdmin(String numAdmin);
 
 }
-

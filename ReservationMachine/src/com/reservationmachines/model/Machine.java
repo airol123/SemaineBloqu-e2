@@ -6,11 +6,7 @@ public class Machine {
 	private Salle salle; ///!!!
 
 
-	public Machine(String nomMachine, EtatMachine etatMachine) {
-		this.nomMachine = nomMachine;
-		this.etatMachine = etatMachine;
 
-	}
 	public Machine(String nomMachine, EtatMachine etatMachine,Salle salle) {
 		this.nomMachine = nomMachine;
 		this.etatMachine = etatMachine;

@@ -185,13 +185,9 @@ public class Inscription {
                     return;
                 }
 
-                if(controler.inscrireEtudiant(strident, strPwd, strNom, strprenom, stremail)){
-                    lbIMsgC.setText("Successful");
-                }else{
-                    lbIMsgC.setText("Echec");
-                }
+                controler.inscrireEtudiant(strident, strPwd, strNom, strprenom, stremail);
                 
-
+                lbIMsgC.setText("Successful");
 
             }
         });

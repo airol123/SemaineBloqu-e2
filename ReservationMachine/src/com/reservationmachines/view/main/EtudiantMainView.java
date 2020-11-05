@@ -35,7 +35,7 @@ public class EtudiantMainView {
     private EtudiantControler controler;
     
     public EtudiantMainView(EtudiantControler controler) { //
-        this.controler = controler;
+         this.controler = controler;
 
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
@@ -50,6 +50,7 @@ public class EtudiantMainView {
         //Définir le formulaire pour qu'il soit visible
         jFrame.setVisible(true);
     }
+    
     public void init() {
         lblBackground.setIcon(icon); // Définir l'icône à afficher par le composant d'étiquette
         lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
