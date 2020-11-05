@@ -42,6 +42,7 @@ public class ModifierCompteEtudiantView {
     private AdminControler controler;
 
     public ModifierCompteEtudiantView(AdminControler controler) {//
+
         this.controler=controler;
         titre.setFont(font);
         titre.setBounds(390,20,300,40);

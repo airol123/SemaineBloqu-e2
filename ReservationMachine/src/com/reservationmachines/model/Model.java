@@ -75,25 +75,6 @@ public class Model extends AbstractModel {
 		
 		return reservations;
 	}
-
-
-	@Override
-	public void creerCompteEtudiant(Etudiant etudiant) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void creerCompteResponsableTP(ResponsableTP responsableTP) {
-		
-	}
-	
-
-	// ajouter une nouvelle machine et l’affecter à une salle
-	@Override
-	public void setMachineSalle(String nomMachine, String nomSalle){
-		
-	};
 	
 	//Trouver une etudiant selon son identifiant
 	@Override
@@ -744,115 +725,6 @@ public class Model extends AbstractModel {
 	}
 	
 	*/
-
-	// get liste des reclamations qui sont traitees par un admin
-	@Override
-	public String[][] getReclamations(String identifiant) {
-		String[][] strings = null;
-		String sqlreservationm = "select ide,idm,typer,descriptionr from concerner,reclamation,traiter "
-				+ "where traiter.ida=? and traiter.idr=reclamation.idr "
-				+ "and reclamation.idr=concerner.idr "
-				+ "and reclamation.etatr='EN_COURS'"; 
-		try{
-			Connection con =BD.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
-			pstmt.setInt(1, Integer.parseInt(identifiant));
-			ResultSet rs=pstmt.executeQuery();
-			rs.last();
-			int nbLignes = rs.getRow();
-			rs.absolute(0);
-			int nbColonnes = 4;
-			strings = new String[nbLignes][nbColonnes];
-			int i = 0;
-			while(rs.next()) {
-				strings[i][0] = rs.getString("ide");
-				strings[i][1] = rs.getString("idm");
-				strings[i][2] = rs.getString("typer");
-				strings[i][3] = rs.getString("descriptionr");
-				i++;
-			}
-		}catch (Exception e3) {
-			e3.printStackTrace();
-		}
-		
-		return strings;
-	}
-
-	// changer l'etat d'une reclamation de 'EN_COURS' a 'TRAITEE'
-	@Override
-	public void traiterReclamation(String description) {
-		
-		String sql = "UPDATE reclamation SET ETATR = 'TRAITEE' WHERE reclamation.descriptionr=\""+description+"\""; 
-		try{
-			Connection con =BD.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.executeUpdate();
-		}catch (Exception e3) {
-			e3.printStackTrace();
-		}
-		
-	}
-
-	@Override
-	public boolean stockerReclamation(Reclamation re) {
-		int n=0;
-		int n2=0;
-		String sqlinsertrec="INSERT INTO reclamation (idr,typer, descriptionr,etatr) VALUES (?,?,?,'EN_COURS');";
-		int idr=this.trouverMaxReclamation();
-		try {
-			Connection con =BD.getConnection();
-			PreparedStatement pstmt = con.prepareStatement(sqlinsertrec);
-			pstmt.setInt(1,idr);
-			pstmt.setString(2, String.valueOf(re.getType()));
-			pstmt.setString(3, re.getDescription());
-			n=pstmt.executeUpdate();
-		} catch (Exception e) {e.printStackTrace();}
-		//System.out.println(re.getRm().getEtudiant().getIdentifiant()+"---------");
-		//System.out.println(re.getRm().getNomMachine()+"+++++++");
-		//System.out.println(this.trouverNumeroM(re.getRm().getNomMachine())+"////////");
-		n2=this.insertConcerner(idr,re.getRm().getEtudiant().getIdentifiant(),this.trouverNumeroM(re.getRm().getNomMachine()));
-		if (n2==1 && n==1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	
-	private int trouverMaxReclamation() {
-		String sql="SELECT max(reservationmachine.reclamation.IDR) FROM reservationmachine.reclamation";
-		int nbIDR=0;
-		try {
-		Connection con = BD.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(sql);
-		ResultSet rs =pstmt.executeQuery(sql);
-		while (rs.next()) {
-			nbIDR=rs.getInt(1);
-			nbIDR=nbIDR+1;
-		}
-		rs.close();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		return nbIDR;
-	}
-	
-	private int insertConcerner(int idr,String ide,int idm) {
-		String sql="INSERT INTO concerner (idr,ide, idm) VALUES (?,?,?);";
-		int nbexe=0;
-		try {
-		Connection con = BD.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(sql);
-		pstmt.setInt(1,idr);
-		pstmt.setInt(2, Integer.parseInt(ide));
-		pstmt.setInt(3, idm);
-		nbexe=pstmt.executeUpdate();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}	
-		return  nbexe;
-	}
 	
 	private int trouverNumeroM(String nomm) {
 		String sql="select * from machine where machine.NOMM='"+nomm+"';";
@@ -1077,8 +949,190 @@ public class Model extends AbstractModel {
         }	
 	}
 	
+	@Override
+	public void creerCompteEtudiant(Etudiant etudiant) {
+		this.inscrireEtudiant(etudiant);
+		
+	}
+	
+	@Override
+	public void creerCompteResponsableTP(ResponsableTP responsableTP) {
+		int n=0;
+		String sqlinsertetu="INSERT INTO resptp (ide,mdpe, emaile,nome, prenome) VALUES (?,?,?,?,?);";
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertetu);
 
+			pstmt.setInt(1,Integer.parseInt(responsableTP.getIdentifiant()));
+			pstmt.setString(2, responsableTP.mdp);
+			pstmt.setString(3, responsableTP.email);
+			pstmt.setString(4, responsableTP.nom);
+			pstmt.setString(5, responsableTP.prenom);
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
+	}
+	
 
+	// ajouter une nouvelle machine et l’affecter à une salle
+	@Override
+	public void setMachineSalle(Machine machine){
+		Salle salle = machine.getSalle();
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement sql = con.prepareStatement( "INSERT INTO machine(IDM, IDS, NOMM, ETATM) VALUES (?, ?, ?, ?)");
+			sql.setInt(1, this.trouverMaxMachine());
+			sql.setInt(2, this.getIDS(salle));
+			sql.setString(3, machine.getNomMachine());
+			sql.setString(4, machine.getEtatMachine());
+			sql.executeUpdate();		
+	        } catch (SQLException throwables) {
+	            throwables.printStackTrace();
+	        }		
+		};
+	
+	// get liste des reclamations qui sont traitees par un admin
+	@Override
+	public String[][] getReclamations(String identifiant) {
+		String[][] strings = null;
+		String sqlreservationm = "select ide,idm,typer,descriptionr from concerner,reclamation,traiter "
+				+ "where traiter.ida=? and traiter.idr=reclamation.idr "
+				+ "and reclamation.idr=concerner.idr "
+				+ "and reclamation.etatr='EN_COURS'"; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
+			pstmt.setInt(1, Integer.parseInt(identifiant));
+			ResultSet rs=pstmt.executeQuery();
+			rs.last();
+			int nbLignes = rs.getRow();
+			rs.absolute(0);
+			int nbColonnes = 4;
+			strings = new String[nbLignes][nbColonnes];
+			int i = 0;
+			while(rs.next()) {
+				strings[i][0] = rs.getString("ide");
+				strings[i][1] = rs.getString("idm");
+				strings[i][2] = rs.getString("typer");
+				strings[i][3] = rs.getString("descriptionr");
+				i++;
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		
+		return strings;
+	}
 
+	// changer l'etat d'une reclamation de 'EN_COURS' a 'TRAITEE'
+	@Override
+	public void traiterReclamation(String description) {
+		
+		String sql = "UPDATE reclamation SET ETATR = 'TRAITEE' WHERE reclamation.descriptionr=\""+description+"\""; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public boolean stockerReclamation(Reclamation re) {
+		int n=0;
+		int n2=0;
+		String sqlinsertrec="INSERT INTO reclamation (idr,typer, descriptionr,etatr) VALUES (?,?,?,'EN_COURS');";
+		int idr=this.trouverMaxReclamation();
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertrec);
+			pstmt.setInt(1,idr);
+			pstmt.setString(2, String.valueOf(re.getType()));
+			pstmt.setString(3, re.getDescription());
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
+		//System.out.println(re.getRm().getEtudiant().getIdentifiant()+"---------");
+		//System.out.println(re.getRm().getNomMachine()+"+++++++");
+		//System.out.println(this.trouverNumeroM(re.getRm().getNomMachine())+"////////");
+		n2=this.insertConcerner(idr,re.getRm().getEtudiant().getIdentifiant(),this.trouverNumeroM(re.getRm().getNomMachine()));
+		if (n2==1 && n==1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private int trouverMaxReclamation() {
+		String sql="SELECT max(reservationmachine.reclamation.IDR) FROM reservationmachine.reclamation";
+		int nbIDR=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs =pstmt.executeQuery(sql);
+		while (rs.next()) {
+			nbIDR=rs.getInt(1);
+			nbIDR=nbIDR+1;
+		}
+		rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return nbIDR;
+	}
+	
+	private int trouverMaxMachine() {
+		String sql="SELECT max(idm) FROM machine";
+		int nbIDM=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs =pstmt.executeQuery(sql);
+		while (rs.next()) {
+			nbIDM=rs.getInt(1);
+			nbIDM++;
+		}
+		rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return nbIDM;
+	}
+	
+	private int insertConcerner(int idr,String ide,int idm) {
+		String sql="INSERT INTO concerner (idr,ide, idm) VALUES (?,?,?);";
+		int nbexe=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1,idr);
+		pstmt.setInt(2, Integer.parseInt(ide));
+		pstmt.setInt(3, idm);
+		nbexe=pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}	
+		return  nbexe;
+	}
+	
+	private int trouverNumeroM(String nomm) {
+		String sql="select * from machine where machine.NOMM='"+nomm+"';";
+		int idm=0;
+		try {
+		Connection con = BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs =pstmt.executeQuery(sql);
+		if(rs.next()) {
+			idm=Integer.parseInt(rs.getString("machine.IDM"));
+		}
+		rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}	
+		return idm;
+	}
 
 }

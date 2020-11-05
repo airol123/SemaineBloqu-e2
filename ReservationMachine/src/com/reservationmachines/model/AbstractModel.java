@@ -54,10 +54,7 @@ public abstract class AbstractModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	public String[] getListeNomSalle() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract String[] getListeNomSalle();
 	public abstract boolean supprimerRservation(ReservationMachine reservationMachine);
 	public abstract ArrayList<Machine> trouverMDisponible(String salle, String dateD, String dateF);
 	public abstract Boolean affecterReservationM(Machine machine, Etudiant etudiant, String dateD, String dateF);
