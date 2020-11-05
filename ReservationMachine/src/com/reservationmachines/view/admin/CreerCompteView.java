@@ -92,6 +92,11 @@ public class CreerCompteView extends JFrame implements ActionListener {
 		contentPane.add(lblPrenom);
 		
 		btnAnnuler = new JButton("Annuler");
+		btnAnnuler.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		btnAnnuler.setBounds(127, 200, 97, 23);
 		contentPane.add(btnAnnuler);
 		
@@ -145,8 +150,5 @@ public class CreerCompteView extends JFrame implements ActionListener {
 							);
 				}
 			}
-		if(e.getSource().equals(btnAnnuler)) {
-			this.dispose();
-		}
 	}
 }
