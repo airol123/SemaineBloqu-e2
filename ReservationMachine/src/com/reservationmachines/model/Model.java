@@ -95,19 +95,6 @@ public class Model extends AbstractModel {
 	public void setMachineSalle(String nomMachine, String nomSalle){
 		
 	};
-
-	// ajouter une nouvelle salle
-	@Override
-	public void ajoutSalle(String nomSalle) {
-        try {
-		Connection con =BD.getConnection();
-		PreparedStatement sql = con.prepareStatement( "insert into salle(noms) values(?);");
-		sql.setString(1, nomSalle);
-		sql.executeUpdate();		
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }		
-	};
 	
 	//Trouver une etudiant selon son identifiant
 	@Override
@@ -1123,6 +1110,7 @@ public class Model extends AbstractModel {
 	}
 
 	// ajouter une nouvelle salle
+	@Override
 	public void ajoutSalle(String nomSalle){
 		try {
 		Connection con =BD.getConnection();
@@ -1139,6 +1127,7 @@ public class Model extends AbstractModel {
 		}		
 	};
 
+	@Override
 	public void supprimerSalle(String nomSalle) {
 		try {
 		Connection con =BD.getConnection();
