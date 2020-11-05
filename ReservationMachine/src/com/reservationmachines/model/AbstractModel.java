@@ -40,6 +40,9 @@ public abstract class AbstractModel {
 	public abstract String[][] getReclamations(String identifiant);
 	public abstract void traiterReclamation(String description);
 	public abstract boolean stockerReclamation(Reclamation re);
+	public abstract String[][] getSalles();
+	public abstract void ajoutSalle(String nomSalle);
+	public abstract void supprimerSalle(String nomSalle);
 	public Etudiant seConnecter(String ide) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
