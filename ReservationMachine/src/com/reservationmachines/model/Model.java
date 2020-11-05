@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 public class Model extends AbstractModel {
 
@@ -21,6 +22,11 @@ public class Model extends AbstractModel {
 		return new String[] {"Machine", "état de la machine", "Nom étudiant", "Prénom étudiant"};
 	}
 	
+	public Model() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public ArrayList<ReservationMachine> getValeursReservationMachine(String idSalle) {
 		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
@@ -32,7 +38,7 @@ public class Model extends AbstractModel {
 			ResultSet rs=pstmt.executeQuery();
 			while(rs.next()) {
 				Etudiant etu=new Etudiant();
-				etu.setNom(rs.getString("nome"));	
+				etu.setNom(rs.getString("nome"));
 				etu.setPrenom(rs.getString("prenome"));
 				etu.setEmail(rs.getString("emaile"));
 				etu.setIdentifiant(String.valueOf(rs.getInt("ide")));
@@ -40,8 +46,8 @@ public class Model extends AbstractModel {
 				Salle salle =new Salle();
 				salle.setNomSalle(idSalle);
 				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");	
-				
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+
 				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
 				Timestamp d = null;
 				try {
@@ -49,7 +55,7 @@ public class Model extends AbstractModel {
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
-				
+
 				String sdf=rs.getString("datem")+" "+rs.getString("heurefinm");
 				Timestamp f = null;
 				try {
@@ -107,7 +113,7 @@ public class Model extends AbstractModel {
 		
 	};
 
-	
+	//Trouver une etudiant selon son identifiant
 	public Etudiant seConnecter(String ide) throws SQLException {
 		Etudiant etu=null;
 		String sqletudiant = "select * from etudiant where ide=? and etate='valide'";
@@ -151,8 +157,8 @@ public class Model extends AbstractModel {
 		else {
 			System.out.println("Il y a pas de cet etudiant");
 		}
-		rs.close();  
-		
+		rs.close();
+
 		return admin;
 	}
 	
@@ -180,10 +186,25 @@ public class Model extends AbstractModel {
 		return restp;
 	}
 
+	
+	public String[] getListeNomSalle() throws SQLException {
+		ArrayList<String> listeNomSalle = new ArrayList<>();
+		String sqlnomSalle= "select noms from salle";
+        Connection con =BD.getConnection();
+		PreparedStatement pstmt = con.prepareStatement(sqlnomSalle);
+		ResultSet rs=pstmt.executeQuery();
+		while (rs.next()) {
+			listeNomSalle.add(rs.getString("noms"));
+		}
+		rs.close();  
+		
+		return listeNomSalle.toArray(new String[0]);
+	}
+
 	@Override
 	public boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp) {
 		String querySQL = "SELECT idE FROM Etudiant " +
-				"WHERE idE = '" + numEtudiant + "' AND mdpE = '" + mdp + "';";
+				"WHERE idE = '" + numEtudiant + "' AND mdpE = '" + mdp + "' AND EtatE='valide';";
 
 		// V�rifier si la valeur existe dans la table
 		try {
@@ -253,7 +274,7 @@ public class Model extends AbstractModel {
 				resultat.getString("emaile")
 			);
 			
-			System.out.println("Je suis l� !");
+			System.out.println("Je suis l� !");
 		} catch (Exception e) {e.printStackTrace();}
 		
 		return etudiant;
@@ -261,7 +282,25 @@ public class Model extends AbstractModel {
 
 	@Override
 	public boolean inscrireEtudiant(Etudiant etudiant) {
-		return false;
+		int n=0;
+		String sqlinsertetu="INSERT INTO etudiant (ide,mdpe, emaile,nome, prenome, etate) VALUES (?,?,?,?,?,'attente');";
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertetu);
+
+			pstmt.setInt(1,Integer.parseInt(etudiant.getIdentifiant()));
+			pstmt.setString(2, etudiant.mdp);
+			pstmt.setString(3, etudiant.email);
+			pstmt.setString(4, etudiant.nom);
+			pstmt.setString(5, etudiant.prenom);
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
+		if (n==1) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	@Override
@@ -274,7 +313,7 @@ public class Model extends AbstractModel {
 			Statement statement;
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
-			
+
 			ArrayList<String> formations = new ArrayList<String>();
 			while(resultat.next()) {
 				formations.add(resultat.getString(1));
@@ -315,6 +354,78 @@ public class Model extends AbstractModel {
 		return false;
 	}
 
+	@Override
+	public ArrayList<ReservationMachine> getReservationMachineE(String etudiant) {
+		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
+		String sqlreservationm = "select * from salle,machine,reserverm,etudiant where etudiant.IDE=? and salle.IDS=machine.IDS and machine.IDM=reserverm.IDM and reserverm.IDE=etudiant.IDE "; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
+			pstmt.setInt(1, Integer.parseInt(etudiant));
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Etudiant etu=new Etudiant();
+				etu.setNom(rs.getString("nome"));
+				etu.setPrenom(rs.getString("prenome"));
+				etu.setEmail(rs.getString("emaile"));
+				etu.setIdentifiant(etudiant);
+				etu.setMdp(rs.getString("mdpe"));
+				Salle salle =new Salle();
+				salle.setNomSalle(rs.getString("noms"));
+				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+
+				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
+				Timestamp d = null;
+				try {
+					d = new Timestamp(dateFormat.parse(sdd).getTime());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+
+				String sdf=rs.getString("datem")+" "+rs.getString("heurefinm");
+				Timestamp f = null;
+				try {
+					f = new Timestamp(dateFormat.parse(sdf).getTime());
+				} catch (ParseException e2) {
+					e2.printStackTrace();
+				}
+				
+				reservations.add(new ReservationMachine(etu, mac, d, f));
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		
+		return reservations;
+	}
+
+	
+	@Override
+	public Admin getAdmin(String numAdmin) {
+		String querySQL = "SELECT * FROM Admin WHERE idA = '" + numAdmin + "';";
+		Admin admin = null;
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			
+			admin = new Admin(
+				resultat.getString("ida"),
+				resultat.getString("mdpa"),
+				resultat.getString("noma"),
+				resultat.getString("prenoma"),
+				resultat.getString("emaila")
+			);
+			
+			System.out.println("Je suis l� !");
+		} catch (Exception e) {e.printStackTrace();}
+		
+		return admin;
+	}
 	/*
 	@Override
 	public String getPrenomResponsableTP(String idResponsableTP) {
@@ -349,6 +460,6 @@ public class Model extends AbstractModel {
 			return "";
 		}
 	}
-	
 	*/
+	
 }

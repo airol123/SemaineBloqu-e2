@@ -1,11 +1,9 @@
 package com.reservationmachines.controler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.reservationmachines.model.AbstractModel;
-import com.reservationmachines.model.Etudiant;
-import com.reservationmachines.model.Reclamation;
-import com.reservationmachines.model.ReservationMachine;
+import com.reservationmachines.model.*;
 
 public class EtudiantControler extends Controler {
 
@@ -43,16 +41,31 @@ public class EtudiantControler extends Controler {
         return etudiant;
     }
 
-    public ReservationMachine[] trouverToutesLesReservation(Etudiant etudiant) {
-        ReservationMachine[] rm = null;
+	public String trouverEtudiantId() {
+		String etudiantId =null;
+		etudiantId = model.getEtudiant(id).getIdentifiant();
+		return etudiantId;
+	}
+
+    public ReservationMachine[] trouverToutesLesReservation(String etudiant) {      
+        ArrayList<ReservationMachine> reservations = model.getReservationMachineE(etudiant);
+        int nbreservation=reservations.size();
+        ReservationMachine[] rm = new ReservationMachine[nbreservation];
+        for(int i = 0 ; i < nbreservation ; i++) {
+        	rm[i]=reservations.get(i);
+		}        
         return rm;
     }
+	public ArrayList<Salle> trouverToutesLesSalles(){
+		ArrayList<Salle> salles=new ArrayList<>();
+		return salles;
+	}
 
-    public void supprimerReservation(ReservationMachine reservationMachine) {
+    public static void supprimerReservation(ReservationMachine reservationMachine) {
         //supprimer cette reservation dans BD
     }
 
-    public void stockerReclamation(Reclamation re) {
+    public static void stockerReclamation(Reclamation re) {
         //stocker la reclamation dans BD
     }
 
