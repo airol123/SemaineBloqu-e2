@@ -1076,6 +1076,30 @@ public class Model extends AbstractModel {
             throwables.printStackTrace();
         }	
 	}
+
+	@Override
+	public boolean miseAJourcompteE(String identifiant, String nom, String prenom, String email, String rePwd) {
+		String sql = "update etudiant set emaile=?,mdpe=?,nome=?, prenome=? where ide = ?";			
+		int nbexe=0;
+		try {
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, email);
+			pstmt.setString(2, rePwd);
+			pstmt.setString(3, nom);
+			pstmt.setString(4, prenom);
+			pstmt.setInt(5, Integer.parseInt(identifiant));
+			nbexe=pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(nbexe==0) {
+			return false;
+		}
+		else {
+			return true;
+		}		
+	}
 	
 
 
