@@ -67,7 +67,7 @@ public class ModifierCompteEtudiantView {
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(null);
         //Définir le texte de l'étiquette en rouge
-identifiant.setText(controler.getIdModifierCurrent());
+        identifiant.setText(controler.getIdModifierCurrent());
         lbIMsgC.setForeground(Color.RED);
         lbIMsgC.setBounds(450, 85, 200, 25);
 

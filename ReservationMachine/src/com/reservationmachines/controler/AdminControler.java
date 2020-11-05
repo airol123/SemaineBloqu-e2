@@ -120,14 +120,17 @@ public class AdminControler extends Controler {
 	private String idModifierCurrent;
 	public void id(String id) {
 		this.idModifierCurrent=id;
+		System.out.println("------id-----"+idModifierCurrent);
 	}
 	public String getIdModifierCurrent() {
 		return idModifierCurrent;
+		
 	}
 
 	private String typeModifierCurrent;
 	public void type(String type) {
 		this.typeModifierCurrent=type;
+		System.out.println("------type-----"+typeModifierCurrent);
 	}
 	public String getTypeModifierCurrent() {
 		return typeModifierCurrent;
