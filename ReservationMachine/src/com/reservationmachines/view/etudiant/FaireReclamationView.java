@@ -26,8 +26,8 @@ public class FaireReclamationView {
 
     // background && font
     private JLabel lblBackground = new JLabel();
-    private URL resource = this.getClass().getResource("images/background2.jpg");
-    private ImageIcon icon = new ImageIcon("images/background2.jpg");
+    private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
+    private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
     private ReservationMachine rm;
 	protected EtudiantControler controler;
@@ -89,7 +89,7 @@ public class FaireReclamationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String strDes=descri.getText();
-                Enum ty;
+                TypeReclamation ty;
                 //String t=comboBox.getSelectedItem().toString();
                 int index=comboBox.getSelectedIndex();
                 if (index==1){

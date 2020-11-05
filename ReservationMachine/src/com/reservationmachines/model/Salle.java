@@ -15,6 +15,15 @@ public class Salle {
 		this.nomSalle = nomSalle;
 		this.capacite = capacite;
 	}
+
+	public Salle(String nomSalle) {
+		this.nomSalle = nomSalle;
+	}
+
+	public Salle(String nomSalle, EtatSalle etatSalle) {
+		this.nomSalle = nomSalle;
+		this.etatSalle = etatSalle;
+	}
 	
 	public Salle(String nomSalle, int capacite, EtatSalle etatSalle) {
 		this.nomSalle = nomSalle;
@@ -22,20 +31,11 @@ public class Salle {
 		this.etatSalle = etatSalle;
 	}
 
-	private void sysout() {
-	// TODO Auto-generated method stub
-
-	}
-
 	public Salle(String nomSalle, int capacite, EtatSalle etatSalle, ArrayList<Machine> machines) {
 		this.nomSalle = nomSalle;
 		this.capacite = capacite;
 		this.etatSalle = etatSalle;
 		this.machines = machines;
-	}
-
-	public Salle(String nomSalle) {
-		this.nomSalle = nomSalle;
 	}
 
 	public String getNomSalle() {

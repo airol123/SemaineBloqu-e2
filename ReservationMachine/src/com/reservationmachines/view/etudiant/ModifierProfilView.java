@@ -31,13 +31,14 @@ public class ModifierProfilView {
 
     // background && font
     private JLabel lblBackground = new JLabel();
-    private URL resource = this.getClass().getResource("images/background2.jpg");
-    private ImageIcon icon = new ImageIcon("images/background2.jpg");
+    private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
+    private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
     private Font font=new Font("Arial",Font.BOLD,36);
 
 	private EtudiantControler controler;
-	
+
     public ModifierProfilView(EtudiantControler controler) {//
+        this.controler=controler;
         titre.setFont(font);
         titre.setBounds(390,20,300,40);
         jFrame.setBounds(600, 200, 1010, 550);
@@ -152,9 +153,14 @@ public class ModifierProfilView {
                     return;
                 }
 
-                controler.misAjourInBD(stremail, strRePwd);
-                
-                lbIMsgC.setText("Successful");
+                if (controler.misAjourInBD(stremail, strRePwd)){
+                    lbIMsgC.setText("Successful");
+                }else{
+                    lbIMsgC.setText("échec");
+                }
+
+
+
 
             }
         });
