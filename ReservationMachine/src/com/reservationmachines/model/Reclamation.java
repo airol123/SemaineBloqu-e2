@@ -13,4 +13,16 @@ public class Reclamation {
         this.description = description;
         this.rm = rm;
     }
+
+	public TypeReclamation getType() {
+		return type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public ReservationMachine getRm() {
+		return rm;
+	}
 }
