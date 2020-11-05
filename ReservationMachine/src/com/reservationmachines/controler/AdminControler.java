@@ -1,10 +1,14 @@
 package com.reservationmachines.controler;
 
+import java.util.ArrayList;
+
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.Admin;
 import com.reservationmachines.model.EtatMachine;
 import com.reservationmachines.model.EtatSalle;
 import com.reservationmachines.model.Etudiant;
+import com.reservationmachines.model.Reclamation;
+import com.reservationmachines.model.ReservationMachine;
 import com.reservationmachines.model.ResponsableTP;
 import com.reservationmachines.model.Salle;
 
@@ -70,6 +74,17 @@ public class AdminControler extends Controler {
 	public Object[][]  getCompteE(){
 		Object[][] t=null;
 		return t;
+	}
+
+
+	public String[][] getReclamation() {
+		return model.getReclamations(model.getAdmin(id).getIdentifiant());
+	}
+
+
+	public void traiterReclamation(String description) {
+		model.traiterReclamation(description);
+		
 	}
 
 
