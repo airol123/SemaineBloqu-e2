@@ -119,7 +119,18 @@ public class ConsulterCompte extends JFrame {
         btnSupprimer = new JButton("Supprimer");
         btnSupprimer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-
+            	int count=table.getSelectedRow();
+        		String id=table.getValueAt(count,1).toString();
+        		String type=table.getValueAt(count,0).toString();
+                controler.id(id);
+                controler.type(type);
+                controler.supprimerCompte();
+                table.setModel(new DefaultTableModel(
+        				controler.getCompteE(),
+        				new String[] {
+        						"Tpye", "Identifiant", "Nom", "Prenom"
+        				}
+        				));
             }
         });
         btnSupprimer.setBounds(290, 400, 100, 23);

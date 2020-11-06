@@ -1456,6 +1456,46 @@ public class Model extends AbstractModel {
         return dispo;
 	}
 
+	@Override
+	public boolean supprimerCompteR(String id) {
+		String sql = "DELETE FROM `reservationmachine`.`resptp` WHERE (`IDResp` = ?);";
+		int nbexe=0;
+		try {
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(id));
+			nbexe=pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(nbexe==0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean supprimerCompteE(String id) {
+		String sql = "DELETE FROM `reservationmachine`.`etudiant` WHERE (`IDE` = ?);";
+		int nbexe=0;
+		try {
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(id));
+			nbexe=pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(nbexe==0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 
 
 

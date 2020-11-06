@@ -98,6 +98,22 @@ public class AdminControler extends Controler {
 	public void supprimerMachine(String nomM) {
 		model.supprimerMachine(nomM) ;
 	}
+	
+	public boolean supprimerCompte() {	
+		boolean sup=false;
+		if(this.getTypeModifierCurrent().equals("Etudaint")) {
+			sup=model.supprimerCompteE(this.idModifierCurrent);
+			System.out.println("etu"+sup);
+		}else if(this.getTypeModifierCurrent().equals("Responsable TP")) {
+			sup=model.supprimerCompteR(this.idModifierCurrent);
+			System.out.println("resp"+sup);
+		}
+		if(sup) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
 	public Object[][]  getCompteE(){
 		ArrayList<Etudiant> etudiants = model.getTousLesEtudiant();
