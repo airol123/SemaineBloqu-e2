@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public abstract class AbstractModel {
 	
 	public abstract String[] getEnteteReservationMachine();
-	public abstract ArrayList<ReservationMachine> getValeursReservationMachine(String idSalle);
+	public abstract ArrayList<ReservationMachine> getValeursReservationMachine(String nomSalle, String date, String heureDebut, String heureFin);
 	public abstract void creerCompteEtudiant(Etudiant etudiant);
 	public abstract void creerCompteResponsableTP(ResponsableTP responsableTP) ;
 	public abstract void setMachineSalle(String nomMachine, String nomSalle);
@@ -28,12 +28,12 @@ public abstract class AbstractModel {
 	public abstract String[] getReservationsSallesHeuresDebuts(String heureFin);
 	public abstract String[] getReservationsSallesHeuresFins();
 	public abstract String[] getReservationsSallesHeuresFins(String heureDebut);
-	public abstract void reserverSalle(ReservationSalle reservationSalle);
+	public abstract boolean reserverSalle(ReservationSalle reservationSalle);
 	public abstract String[] recupererNomTP(String id);
 	public abstract ArrayList<ReservationSalle> getValeursReservees(String id);
 	public abstract String[] getEnteteSallesReservees();
 	public abstract boolean annulerReservationSalle(ReservationSalle reservationSalle);
-	public abstract boolean annulerToutesReservationsMachinesSalle(ReservationSalle reservationSalle);
+	public abstract int annulerToutesReservationsMachinesSalle(ReservationSalle reservationSalle);
 	public abstract ArrayList<ReservationMachine> getReservationMachineE(String etudiant);
 	public abstract ArrayList<Salle> getToutesLesSalles();
 	public abstract Admin getAdmin(String numAdmin);
