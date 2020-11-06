@@ -1255,7 +1255,7 @@ public class Model extends AbstractModel {
 
 	@Override
 	public Boolean estDisponibleSalle(String salle, String dateD, String dateF) {
-		Boolean dispo=false;
+		Boolean dispo=true;
         dateD = dateD + ":00";
         DateTimeFormatter fommatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime1 = LocalDateTime.parse(dateD, fommatter1);//datetime: 2020-11-05T08:06
@@ -1281,9 +1281,9 @@ public class Model extends AbstractModel {
         //System.out.println(heurefin+"--2--");
         //System.out.println(date+"--3--");
 
-        String sql = "select distinct salle.NOMS \r\n "+
-        			"from salle \r\n"+
-        			"where salle.IDS in \r\n"+
+        String sql = "select distinct SALLE.NOMS \r\n "+
+        			"from SALLE \r\n"+
+        			"where SALLE.IDS in \r\n"+
 	        		"	(select RESERVERS.IDS \r\n"+
 	        		"	from RESERVERS \r\n"+
 	        		"	where (RESERVERS.DATES='"+date+"' and RESERVERS.HEUREDEBUTS >= '"+heuredebut+"'and RESERVERS.HEUREDEBUTS <='"+heurefin+"') \r\n"+
@@ -1299,14 +1299,18 @@ public class Model extends AbstractModel {
                 salles.add(rs.getString("NOMS"));
             }
             rs.close();
-            System.out.println("size"+salles.size());
+            
             int i=0;
-            while(i<salles.size()) {
-            	if(salles.get(i).toString()==salle) {
+            boolean trouve=false;
+            while(i<salles.size()&& trouve==false) {
+            	System.out.println("salle:"+salles.get(i).toString());
+            	if(salle.equals(salles.get(i).toString())) {
             		dispo=false;
+            		trouve=true;
             	}else {
             		dispo=true;
             	}
+            	i++;
             }
         } catch (Exception e) {
             e.printStackTrace();
