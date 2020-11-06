@@ -31,7 +31,7 @@ public class ConsulterReservationMachineView extends JFrame {
 		JTable table = new JTable(new DefaultTableModel(controler.getValeursReservationMachine(values), controler.getEnteteReservationMachine()));
 		JScrollPane scrollPane = new JScrollPane(table);
 		getContentPane().add(BorderLayout.CENTER, scrollPane);
-		
+
 		JLabel lblNewLabel = new JLabel("Liste des machines réservées de la salle " + values.get("nomS"));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -41,12 +41,12 @@ public class ConsulterReservationMachineView extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(BorderLayout.NORTH, lblNewLabel);
-		
+
 		// Margin autour du label
 		Border border = lblNewLabel.getBorder();
 		Border margin = new EmptyBorder(10, 10, 10, 10);
 		lblNewLabel.setBorder(new CompoundBorder(border, margin));
-		
+
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();

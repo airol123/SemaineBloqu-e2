@@ -39,13 +39,13 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 	private JComboBox<String> cbNomTP;
 
 	private ResponsableTPControler controler;
-	
+
 	/**
 	 * Create the frame.
 	 */
 	public ReserverSalleView(ResponsableTPControler controler) {
 		this.controler = controler;
-		
+
 		setTitle("Consulter les r\u00E9servations des salles de TP");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 673, 378);
@@ -58,7 +58,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbl_contentPane.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		JLabel lblNewLabel = new JLabel("Listes des salles r\u00E9serv\u00E9es");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -68,7 +68,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
-				
+
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.anchor = GridBagConstraints.WEST;
@@ -82,7 +82,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(null);
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
@@ -97,7 +97,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbl_panel_1.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Groupe de TP");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -108,7 +108,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 0;
 		panel_1.add(lblNewLabel_1, gbc_lblNewLabel_1);
-		
+
 		cbFormation = new JComboBox<String>(controler.recupererFormations());
 		GridBagConstraints gbc_cbFormation = new GridBagConstraints();
 		gbc_cbFormation.gridwidth = 2;
@@ -118,7 +118,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_cbFormation.gridy = 1;
 		panel_1.add(cbFormation, gbc_cbFormation);
 		cbFormation.addActionListener(this);
-		
+
 		String currentFormation = cbFormation.getSelectedItem().toString();
 		cbGroupeTP = new JComboBox<String>(controler.recupererGroupeTP(currentFormation));
 		GridBagConstraints gbc_cbGroupeTP = new GridBagConstraints();
@@ -129,7 +129,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_cbGroupeTP.gridy = 2;
 		panel_1.add(cbGroupeTP, gbc_cbGroupeTP);
 		cbGroupeTP.addActionListener(this);
-		
+
 		cbNomTP = new JComboBox<String>(controler.recupererNomTP());
 		cbNomTP.setEditable(true);
 		GridBagConstraints gbc_cbNomTP = new GridBagConstraints();
@@ -139,7 +139,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_cbNomTP.gridx = 1;
 		gbc_cbNomTP.gridy = 2;
 		panel_1.add(cbNomTP, gbc_cbNomTP);
-		
+
 		JPanel panel_3 = new JPanel();
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
 		gbc_panel_3.gridheight = 2;
@@ -153,7 +153,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbl_panel_3.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_3.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_3.setLayout(gbl_panel_3);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Liste des salles disponibles");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -163,7 +163,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_lblNewLabel_2.gridx = 0;
 		gbc_lblNewLabel_2.gridy = 0;
 		panel_3.add(lblNewLabel_2, gbc_lblNewLabel_2);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 3;
@@ -172,10 +172,10 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		panel_3.add(scrollPane, gbc_scrollPane);
-		
+
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		
+
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 		gbc_panel_2.insets = new Insets(0, 0, 0, 5);
@@ -189,11 +189,11 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbl_panel_2.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel_2.setLayout(gbl_panel_2);
-		
+
 		JLabel lblHoraires = new JLabel("Horaires");
 		lblHoraires.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHoraires.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		
+
 		GridBagConstraints gbc_lblHoraires = new GridBagConstraints();
 		gbc_lblHoraires.gridwidth = 2;
 		gbc_lblHoraires.insets = new Insets(0, 0, 5, 0);
@@ -201,7 +201,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_lblHoraires.gridx = 0;
 		gbc_lblHoraires.gridy = 0;
 		panel_2.add(lblHoraires, gbc_lblHoraires);
-				
+
 		cbDate = new JComboBox<String>(controler.getReservationsSallesDates());
 		GridBagConstraints gbc_cbDate = new GridBagConstraints();
 		gbc_cbDate.insets = new Insets(0, 0, 5, 5);
@@ -210,7 +210,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_cbDate.gridy = 2;
 		panel_2.add(cbDate, gbc_cbDate);
 		cbDate.addActionListener(this);
-		
+
 		cbHeureFin = new JComboBox<String>(controler.getReservationsSallesHeuresFins());
 		GridBagConstraints gbc_cbHeureFin = new GridBagConstraints();
 		gbc_cbHeureFin.fill = GridBagConstraints.BOTH;
@@ -218,7 +218,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_cbHeureFin.gridy = 3;
 		panel_2.add(cbHeureFin, gbc_cbHeureFin);
 		cbHeureFin.addActionListener(this);
-		
+
 		cbHeureDebut = new JComboBox<String>(controler.getReservationsSallesHeuresDebuts());
 		GridBagConstraints gbc_cbHeureDebut = new GridBagConstraints();
 		gbc_cbHeureDebut.insets = new Insets(0, 0, 5, 0);
@@ -227,9 +227,9 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		gbc_cbHeureDebut.gridy = 1;
 		panel_2.add(cbHeureDebut, gbc_cbHeureDebut);
 		cbHeureDebut.addActionListener(this);
-		
+
 		updateJTable();
-		
+
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();
@@ -247,7 +247,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		} else if(e.getSource().equals(cbHeureDebut)) {
 			String currentHeureDebut = cbHeureDebut.getSelectedItem().toString();
 			String currentHeureFin = cbHeureFin.getSelectedItem().toString();
-			
+
 			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(controler.getReservationsSallesHeuresFins(currentHeureDebut));
 			if(model.getIndexOf(currentHeureFin) != -1) model.setSelectedItem(currentHeureFin);
 			cbHeureFin.setModel(model);
@@ -259,7 +259,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 			if(model.getIndexOf(currentHeureDebut) != -1) model.setSelectedItem(currentHeureDebut);
 			cbHeureDebut.setModel(model);	
 		}
-		
+
 		updateJTable();
 	}
 
@@ -267,7 +267,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		String date = formatSQLDate(cbDate.getSelectedItem().toString());
 		String heureDebut = cbHeureDebut.getSelectedItem().toString();
 		String heureFin = cbHeureFin.getSelectedItem().toString();
-		
+
 		// Si toutes les valeurs sont renseign�es
 		if(!(date.equals("") || heureDebut.equals("") || heureFin.equals("") || cbNomTP.equals(""))) {
 			Object[][] objects = controler.getValeursSallesDisponibles(date, heureDebut, heureFin);
@@ -278,7 +278,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(this, "Merci de renseigner tous les champs nécéssaire avant de sélectionner une salle !", "Attention", JOptionPane.WARNING_MESSAGE);
 		}
 	}
-	
+
 	/**
 	 * Convertit une date "EEE dd/MM/yyyy" en "dd/MM/yyyy"
 	 * @param date
@@ -287,97 +287,97 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 	public String formatSQLDate(String date) {
 		// Suppression du jour
 		date = date.substring(5);
-		
+
 		// R�cup�ration des donn�es de la date
 		String jour = date.split("/")[0];
 		String mois = date.split("/")[1];
 		String annee = date.split("/")[2];
-		
+
 		// Raccord avant return pour avoir le format AAAA-MM-JJ
-        return String.join("-", new String[] {annee, mois, jour});
+		return String.join("-", new String[] {annee, mois, jour});
 	}
-	
+
 	class ButtonRenderer extends JButton implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
-		
+
 		// Gestion du comportement de chaque bouton selon sa colonne et sa ligne
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean isFocus, int row, int col) {
 			this.setText("Sélectionner");	
 			return this;
 		}
-		
+
 	}
 
 	class ButtonEditor extends DefaultCellEditor {
 		private static final long serialVersionUID = 1L;
 		private ResponsableTPControler controler;
 		private ReserverSalleView mainView;
-		
+
 		public ButtonEditor(ReserverSalleView mainView, ResponsableTPControler controler) {
 			// Par d�faut, ce type d'objet travaille avec un JCheckBox
 			super(new JCheckBox());
 			this.mainView = mainView;
 			this.controler = controler;
 		}
-	
+
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 			// Cr�ation du bouton
 			JButton button = new JButton("Sélectionner");
 			button.setOpaque(true);
-			
+
 			// Cr�ation du listener
 			ButtonListener bl = new ButtonListener();	
 			bl.setRow(row);
 			bl.setColumn(column);
 			bl.setTable(table);
-			
+
 			// Affectation du listener au bouton
 			button.addActionListener(bl);
-			
+
 			return button;
 		}
-			
+
 		class ButtonListener implements ActionListener {        
-		    private int column, row;
-		    private JTable table;
-	
-		    public void setColumn(int column) {this.column = column;}
-		    public void setRow(int row) {this.row = row;}
-		    public void setTable(JTable table) {this.table = table;}
-	
-		    public void actionPerformed(ActionEvent event) {
-		    	// Affectation du comportement appropri� � chaque bouton
-		    	// En fonction de la colonne et de la ligne
-		    	if(column == 2) {
-		    		// Si tous les champs sont renseignés
-			    	if(cbNomTP.getItemCount() > 0 || !cbNomTP.getEditor().getItem().equals("")) {
-				    	String nomSalle = table.getValueAt(row, 0).toString();
-				    	String nomGroupe = mainView.cbGroupeTP.getSelectedItem().toString();
-				    	String formation = mainView.cbFormation.getSelectedItem().toString();
-				    	String dateArg = mainView.formatSQLDate(mainView.cbDate.getSelectedItem().toString());
-				    	String heureDebutArg = mainView.cbHeureDebut.getSelectedItem().toString();
-				    	String heureFinArg = mainView.cbHeureFin.getSelectedItem().toString();
-				    	String nomCours = mainView.cbNomTP.getSelectedItem().toString();
-				    	
-				    	if(JOptionPane.showConfirmDialog(mainView,
-				    			"Confirmer vous que vous souhaitez réserver le salle " + nomSalle + " pour le cours de '" + nomCours + " (" + formation + ")'\r\nprévu le " +
-				    			mainView.cbDate.getSelectedItem().toString() + " entre " + heureDebutArg + " et " + heureFinArg + " ?",
-				    			"Confirmation de réservation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)
-				    		== JOptionPane.YES_OPTION) {
-				    		if(controler.reserverSalle(nomSalle, nomGroupe, formation, dateArg, heureDebutArg, heureFinArg, nomCours)) {
-				    			JOptionPane.showMessageDialog(mainView, "Réservation effectuée avec succès !", "Confirmation de réservation", JOptionPane.INFORMATION_MESSAGE);
-				    			mainView.updateJTable();
-				    		}
-				    		else {
-				    			JOptionPane.showMessageDialog(mainView, "Echec lors de la demande de réservation !", "Message d'erreur", JOptionPane.ERROR_MESSAGE);
-				    		}
-				    	}
+			private int column, row;
+			private JTable table;
+
+			public void setColumn(int column) {this.column = column;}
+			public void setRow(int row) {this.row = row;}
+			public void setTable(JTable table) {this.table = table;}
+
+			public void actionPerformed(ActionEvent event) {
+				// Affectation du comportement appropri� � chaque bouton
+				// En fonction de la colonne et de la ligne
+				if(column == 2) {
+					// Si tous les champs sont renseignés
+					if(cbNomTP.getItemCount() > 0 || !cbNomTP.getEditor().getItem().equals("")) {
+						String nomSalle = table.getValueAt(row, 0).toString();
+						String nomGroupe = mainView.cbGroupeTP.getSelectedItem().toString();
+						String formation = mainView.cbFormation.getSelectedItem().toString();
+						String dateArg = mainView.formatSQLDate(mainView.cbDate.getSelectedItem().toString());
+						String heureDebutArg = mainView.cbHeureDebut.getSelectedItem().toString();
+						String heureFinArg = mainView.cbHeureFin.getSelectedItem().toString();
+						String nomCours = mainView.cbNomTP.getSelectedItem().toString();
+
+						if(JOptionPane.showConfirmDialog(mainView,
+								"Confirmer vous que vous souhaitez réserver le salle " + nomSalle + " pour le cours de '" + nomCours + " (" + formation + ")'\r\nprévu le " +
+										mainView.cbDate.getSelectedItem().toString() + " entre " + heureDebutArg + " et " + heureFinArg + " ?",
+										"Confirmation de réservation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)
+								== JOptionPane.YES_OPTION) {
+							if(controler.reserverSalle(nomSalle, nomGroupe, formation, dateArg, heureDebutArg, heureFinArg, nomCours)) {
+								JOptionPane.showMessageDialog(mainView, "Réservation effectuée avec succès !", "Confirmation de réservation", JOptionPane.INFORMATION_MESSAGE);
+								mainView.updateJTable();
+							}
+							else {
+								JOptionPane.showMessageDialog(mainView, "Echec lors de la demande de réservation !", "Message d'erreur", JOptionPane.ERROR_MESSAGE);
+							}
+						}
 					} else {
 						JOptionPane.showMessageDialog(mainView, "Merci de renseigner tous les champs nécéssaire avant de sélectionner une salle !", "Attention", JOptionPane.WARNING_MESSAGE);
 					}
-		    	}
-		    }
+				}
+			}
 		}
 	}
 }
