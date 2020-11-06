@@ -7,8 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JButton;
-
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.GroupeTP;
 import com.reservationmachines.model.ReservationMachine;
@@ -33,8 +31,9 @@ public class ResponsableTPControler extends Controler {
 	}
 
 	// Convertit les valeurs des rï¿½servations en donnï¿½es pour le JTable
-	public Object[][] getValeursReservationMachine(String idSalle) {
-		ArrayList<ReservationMachine> reservations = model.getValeursReservationMachine(idSalle);
+	public Object[][] getValeursReservationMachine(HashMap<String, String> values) {
+		ArrayList<ReservationMachine> reservations = model.getValeursReservationMachine(
+				values.get("nomS"), values.get("heureDebut"), values.get("heureFin"), values.get("date"));
 		int nbLignes = reservations.size();
 		int nbColonnes = model.getEnteteReservationMachine().length;
 		Object[][] objects = new Object[nbLignes][nbColonnes];
@@ -85,28 +84,36 @@ public class ResponsableTPControler extends Controler {
 		ArrayList<Salle> salles = model.getValeursSallesDisponibles(date, heureDebut, heureFin);
 		int nbLignes = salles.size();
 		int nbColonnes = model.getEnteteReservationMachine().length;
-		Object[][] objects = new Object[nbLignes][nbColonnes];
+		Object[][] objects = new Object[nbLignes][nbColonnes + 1];
 		
 		for(int i = 0 ; i < nbLignes ; i++) {
 			objects[i][0] = salles.get(i).getNomSalle();
 			objects[i][1] = salles.get(i).getCapacite();
-			
-			JButton myButton = new JButton("Sélectionner");
-			objects[i][2] = myButton;
+			objects[i][2] = "SÃ©lectionner";
 		}
 		
 		return objects;
 	}
 
-	public void reserverSalle(String nomSalle, String nomGroupe, String formation, String dateArg, String heureDebutArg, String heureFinArg, String nomCours) {
+	public boolean reserverSalle(String nomSalle, String nomGroupe, String formation, String dateArg, String heureDebutArg, String heureFinArg, String nomCours) {
 		ResponsableTP responsableTP = new ResponsableTP(this.id);
 		Salle salle = new Salle(nomSalle);
-		GroupeTP groupeTP = new GroupeTP(nomGroupe);
+		GroupeTP groupeTP = new GroupeTP(nomGroupe, formation);
 		Date date = Date.valueOf(dateArg);
-		Timestamp heureDebut = Timestamp.valueOf(heureDebutArg);
-		Timestamp heureFin = Timestamp.valueOf(heureFinArg);
+
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	    long parseHeureDebut = 0;
+	    long parseHeureFin = 0;
 		
-		model.reserverSalle(new ReservationSalle(nomCours, responsableTP, salle, groupeTP, formation, date, heureDebut, heureFin));
+	    try {
+			parseHeureDebut = dateFormat.parse(dateArg + " " + heureDebutArg).getTime();
+			parseHeureFin = dateFormat.parse(dateArg + " " + heureFinArg).getTime();
+		} catch (ParseException e) {}
+		
+		Timestamp heureDebut = new Timestamp(parseHeureDebut);
+		Timestamp heureFin = new Timestamp(parseHeureFin);
+		
+		return model.reserverSalle(new ReservationSalle(nomCours, responsableTP, salle, groupeTP, formation, date, heureDebut, heureFin));
 	}
 
 	public String[] getEnteteSallesDisponibles() {
@@ -148,7 +155,7 @@ public class ResponsableTPControler extends Controler {
 			objects[i][5] = reservations.get(i).getHeureFin();
 			objects[i][6] = reservations.get(i).getNomSalle();
 			objects[i][7] = reservations.get(i).getCapacite();
-			objects[i][8] = "Voir l'état des machines";
+			objects[i][8] = "Voir l'Ã©tat des machines";
 			objects[i][9] = "Annuler";
 		}
 		
@@ -182,22 +189,24 @@ public class ResponsableTPControler extends Controler {
 		return model.annulerReservationSalle(reservationSalle);
 	}
 	
-	public boolean annulerToutesReservationsMachinesSalle(HashMap<String, String> values) {
+	public int annulerToutesReservationsMachinesSalle(HashMap<String, String> values) {
 		ResponsableTP respTP = new ResponsableTP(id);
 		Salle salle = new Salle(values.get("nomSalle"));
 		GroupeTP groupe = new GroupeTP(values.get("nomGroupeTP"), values.get("nomFormation"));
 		Date date = Date.valueOf(values.get("strDate"));
 		
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-	    long parsedDate = 0;
+	    long parsedDate = 0, parsedDate2 = 0;
 		
 	    try {
 			parsedDate = dateFormat.parse(values.get("strDate") + " " + values.get("strHeureDebut")).getTime();
+			parsedDate2 = dateFormat.parse(values.get("strDate") + " " + values.get("strHeureDebut")).getTime();
 		} catch (ParseException e) {}
 		
 		Timestamp heureDebut = new Timestamp(parsedDate);
+		Timestamp heureFin = new Timestamp(parsedDate2);
 		
-		ReservationSalle reservationSalle = new ReservationSalle(respTP, salle, groupe, date, heureDebut);
+		ReservationSalle reservationSalle = new ReservationSalle(respTP, salle, groupe, date, heureDebut, heureFin);
 		return model.annulerToutesReservationsMachinesSalle(reservationSalle);
 	}
 }
