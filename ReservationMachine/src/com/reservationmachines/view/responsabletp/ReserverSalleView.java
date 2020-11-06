@@ -1,5 +1,6 @@
 package com.reservationmachines.view.responsabletp;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,16 +8,21 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import com.reservationmachines.controler.ResponsableTPControler;
 
@@ -168,7 +174,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		panel_3.add(scrollPane, gbc_scrollPane);
 		
 		table = new JTable();
-		scrollPane.setColumnHeaderView(table);
+		scrollPane.setViewportView(table);
 		
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
@@ -239,7 +245,6 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		} else if(e.getSource().equals(cbDate)) {
 			updateJTable();
 		} else if(e.getSource().equals(cbHeureDebut)) {
-			updateJTable();
 			String currentHeureDebut = cbHeureDebut.getSelectedItem().toString();
 			String currentHeureFin = cbHeureFin.getSelectedItem().toString();
 			
@@ -247,14 +252,15 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 			if(model.getIndexOf(currentHeureFin) != -1) model.setSelectedItem(currentHeureFin);
 			cbHeureFin.setModel(model);
 		} else if(e.getSource().equals(cbHeureFin)) {
-			//updateJTable();
 			String currentHeureDebut = cbHeureDebut.getSelectedItem().toString();
 			String currentHeureFin = cbHeureFin.getSelectedItem().toString();
 
 			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(controler.getReservationsSallesHeuresDebuts(currentHeureFin));
 			if(model.getIndexOf(currentHeureDebut) != -1) model.setSelectedItem(currentHeureDebut);
-			cbHeureDebut.setModel(model);
+			cbHeureDebut.setModel(model);	
 		}
+		
+		updateJTable();
 	}
 
 	public void updateJTable() {
@@ -262,10 +268,14 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		String heureDebut = cbHeureDebut.getSelectedItem().toString();
 		String heureFin = cbHeureFin.getSelectedItem().toString();
 		
-		// Si toutes les valeurs sont renseign�es
-		if(!(date.equals("") && heureDebut.equals("") && heureFin.equals(""))) {
+		// Si toutes les valeurs sont renseign�es
+		if(!(date.equals("") || heureDebut.equals("") || heureFin.equals("") || cbNomTP.equals(""))) {
 			Object[][] objects = controler.getValeursSallesDisponibles(date, heureDebut, heureFin);
 			this.table.setModel(new DefaultTableModel(objects, controler.getEnteteSallesDisponibles()));
+			this.table.getColumn("Réserver").setCellEditor(new ButtonEditor(this, controler));
+			this.table.getColumn("Réserver").setCellRenderer(new ButtonRenderer());
+		} else {
+			JOptionPane.showMessageDialog(this, "Merci de renseigner tous les champs nécéssaire avant de sélectionner une salle !", "Attention", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -278,12 +288,96 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		// Suppression du jour
 		date = date.substring(5);
 		
-		// R�cup�ration des donn�es de la date
+		// R�cup�ration des donn�es de la date
 		String jour = date.split("/")[0];
 		String mois = date.split("/")[1];
 		String annee = date.split("/")[2];
 		
 		// Raccord avant return pour avoir le format AAAA-MM-JJ
         return String.join("-", new String[] {annee, mois, jour});
+	}
+	
+	class ButtonRenderer extends JButton implements TableCellRenderer {
+
+		private static final long serialVersionUID = 1L;
+		
+		// Gestion du comportement de chaque bouton selon sa colonne et sa ligne
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean isFocus, int row, int col) {
+			this.setText("Sélectionner");	
+			return this;
+		}
+		
+	}
+
+	class ButtonEditor extends DefaultCellEditor {
+		private static final long serialVersionUID = 1L;
+		private ResponsableTPControler controler;
+		private ReserverSalleView mainView;
+		
+		public ButtonEditor(ReserverSalleView mainView, ResponsableTPControler controler) {
+			// Par d�faut, ce type d'objet travaille avec un JCheckBox
+			super(new JCheckBox());
+			this.mainView = mainView;
+			this.controler = controler;
+		}
+	
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+			// Cr�ation du bouton
+			JButton button = new JButton("Sélectionner");
+			button.setOpaque(true);
+			
+			// Cr�ation du listener
+			ButtonListener bl = new ButtonListener();	
+			bl.setRow(row);
+			bl.setColumn(column);
+			bl.setTable(table);
+			
+			// Affectation du listener au bouton
+			button.addActionListener(bl);
+			
+			return button;
+		}
+			
+		class ButtonListener implements ActionListener {        
+		    private int column, row;
+		    private JTable table;
+	
+		    public void setColumn(int column) {this.column = column;}
+		    public void setRow(int row) {this.row = row;}
+		    public void setTable(JTable table) {this.table = table;}
+	
+		    public void actionPerformed(ActionEvent event) {
+		    	// Affectation du comportement appropri� � chaque bouton
+		    	// En fonction de la colonne et de la ligne
+		    	if(column == 2) {
+		    		// Si tous les champs sont renseignés
+			    	if(cbNomTP.getItemCount() > 0 || !cbNomTP.getEditor().getItem().equals("")) {
+				    	String nomSalle = table.getValueAt(row, 0).toString();
+				    	String nomGroupe = mainView.cbGroupeTP.getSelectedItem().toString();
+				    	String formation = mainView.cbFormation.getSelectedItem().toString();
+				    	String dateArg = mainView.formatSQLDate(mainView.cbDate.getSelectedItem().toString());
+				    	String heureDebutArg = mainView.cbHeureDebut.getSelectedItem().toString();
+				    	String heureFinArg = mainView.cbHeureFin.getSelectedItem().toString();
+				    	String nomCours = mainView.cbNomTP.getSelectedItem().toString();
+				    	
+				    	if(JOptionPane.showConfirmDialog(mainView,
+				    			"Confirmer vous que vous souhaitez réserver le salle " + nomSalle + " pour le cours de '" + nomCours + " (" + formation + ")'\r\nprévu le " +
+				    			mainView.cbDate.getSelectedItem().toString() + " entre " + heureDebutArg + " et " + heureFinArg + " ?",
+				    			"Confirmation de réservation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)
+				    		== JOptionPane.YES_OPTION) {
+				    		if(controler.reserverSalle(nomSalle, nomGroupe, formation, dateArg, heureDebutArg, heureFinArg, nomCours)) {
+				    			JOptionPane.showMessageDialog(mainView, "Réservation effectuée avec succès !", "Confirmation de réservation", JOptionPane.INFORMATION_MESSAGE);
+				    			mainView.updateJTable();
+				    		}
+				    		else {
+				    			JOptionPane.showMessageDialog(mainView, "Echec lors de la demande de réservation !", "Message d'erreur", JOptionPane.ERROR_MESSAGE);
+				    		}
+				    	}
+					} else {
+						JOptionPane.showMessageDialog(mainView, "Merci de renseigner tous les champs nécéssaire avant de sélectionner une salle !", "Attention", JOptionPane.WARNING_MESSAGE);
+					}
+		    	}
+		    }
+		}
 	}
 }
