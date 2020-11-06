@@ -68,37 +68,45 @@ public class EtudiantControler extends Controler {
 		return salles;
 	}
 
-	public boolean enregistrerReservation(String salle,String dateD,String dateF){
-    	//get arraylist de Machine disponible
-		ArrayList<Machine> machines = model.trouverMDisponible(salle,dateD,dateF);
-		//System.out.println(machines.size()+"---*1*--");
-		//System.out.println(machines.get(0).getNomMachine()+"---*2*--");
-		//System.out.println(machines.get(1).getNomMachine()+"---*3*--");
-		int n=machines.size();
-		System.out.println("n: "+n);
-		for (int i = 0; i < machines.size(); i++) {
-			System.out.println("M :"+i+machines.get(i).getNomMachine());
-		}
-		//Si il y une ou des machines
-		if(n!=0){
-		//Affecter une machine disponible aleatoirement a cet etudiant
-			Etudiant etudiant=model.getEtudiant(this.trouverEtudiantId());
-			Random rand = new Random();			
-	    	int numI = rand.nextInt(n);
-			System.out.println("numI "+numI);
-	        //System.out.println(numI);
-	        Boolean enrM =model.affecterReservationM(machines.get(numI),etudiant,dateD,dateF);			
-			if(enrM){
-				return true;
+	public int enregistrerReservation(String salle,String dateD,String dateF){
+		
+		Boolean salleReserver=model.estDisponibleSalle(salle,dateD,dateF);
+		if(salleReserver==false) {
+			return 1;
+		}else {
+			//get arraylist de Machine disponible
+			ArrayList<Machine> machines = model.trouverMDisponible(salle,dateD,dateF);
+			//System.out.println(machines.size()+"---*1*--");
+			//System.out.println(machines.get(0).getNomMachine()+"---*2*--");
+			//System.out.println(machines.get(1).getNomMachine()+"---*3*--");
+			int n=machines.size();
+			System.out.println("n: "+n);
+			for (int i = 0; i < machines.size(); i++) {
+				System.out.println("M :"+i+machines.get(i).getNomMachine());
 			}
-			else {
-				return false;
+			//Si il y une ou des machines
+			if(n!=0){
+			//Affecter une machine disponible aleatoirement a cet etudiant
+				Etudiant etudiant=model.getEtudiant(this.trouverEtudiantId());
+				Random rand = new Random();			
+		    	int numI = rand.nextInt(n);
+				System.out.println("numI "+numI);
+		        //System.out.println(numI);
+		        Boolean enrM =model.affecterReservationM(machines.get(numI),etudiant,dateD,dateF);			
+				if(enrM){
+					return 2;
+				}
+				else {
+					return 3;
+				}
 			}
+			//Sinon
+			else{ 
+				return 4;	
+			}	
 		}
-		//Sinon
-		else{ 
-			return false;	
-		}
+		
+    	
 
 	}
 

@@ -54,4 +54,5 @@ public abstract class AbstractModel {
 	public abstract ArrayList<ResponsableTP> getTousLesRespTP();
 	public abstract boolean miseAJourcompteR(String identifiant, String nom, String prenom, String email,
 			String rePwd);
+	public abstract Boolean estDisponibleSalle(String salle, String dateD, String dateF);
 }

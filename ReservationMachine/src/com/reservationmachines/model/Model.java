@@ -1233,6 +1233,7 @@ public class Model extends AbstractModel {
 	public ArrayList<ResponsableTP> getTousLesRespTP() {
 		ArrayList<ResponsableTP> respTPs = new ArrayList<ResponsableTP>();
 		String sqlrespTPs = "select * from resptp ";
+		
 		try{
 			Connection con =BD.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sqlrespTPs);
@@ -1250,6 +1251,67 @@ public class Model extends AbstractModel {
 			e.printStackTrace();
 		}
 		return respTPs;
+	}
+
+	@Override
+	public Boolean estDisponibleSalle(String salle, String dateD, String dateF) {
+		Boolean dispo=false;
+        dateD = dateD + ":00";
+        DateTimeFormatter fommatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateTime1 = LocalDateTime.parse(dateD, fommatter1);//datetime: 2020-11-05T08:06
+        //System.out.println("datetime: "+dateTime1);
+        Timestamp timestamp1 = Timestamp.valueOf(dateTime1);//timestamp: 2020-11-05 08:06:00.0
+        //System.out.println("timestamp: "+timestamp);
+
+        dateF = dateF + ":00";
+        LocalDateTime dateTime2 = LocalDateTime.parse(dateF, fommatter1);//datetime: 2020-11-05T08:06
+        //System.out.println("datetime: "+dateTime1);
+        Timestamp timestamp2 = Timestamp.valueOf(dateTime2);//timestamp: 2020-11-05 08:06:00.0
+        //System.out.println("timestamp: "+timestamp);
+
+        Date reserdebut = new Date(timestamp1.getTime());
+        Date reserfin = new Date(timestamp2.getTime());
+        //System.out.println(reserdebut+"----");
+        SimpleDateFormat formattimed = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formattimeh = new SimpleDateFormat("HH:mm:ss");
+        String heuredebut = formattimeh.format(reserdebut);
+        String heurefin = formattimeh.format(reserfin);
+        String date = formattimed.format(reserdebut);
+        //System.out.println(heuredebut+"--1--");
+        //System.out.println(heurefin+"--2--");
+        //System.out.println(date+"--3--");
+
+        String sql = "select distinct salle.NOMS \r\n "+
+        			"from salle \r\n"+
+        			"where salle.IDS in \r\n"+
+	        		"	(select RESERVERS.IDS \r\n"+
+	        		"	from RESERVERS \r\n"+
+	        		"	where (RESERVERS.DATES='"+date+"' and RESERVERS.HEUREDEBUTS >= '"+heuredebut+"'and RESERVERS.HEUREDEBUTS <='"+heurefin+"') \r\n"+
+	        		"	or (RESERVERS.DATES='"+date+"' and RESERVERS.HEUREFINS >= '"+heuredebut+"'and RESERVERS.HEUREFINS  <='"+heurefin+"') \r\n"+
+	        		"	or (RESERVERS.DATES='"+date+"' and RESERVERS.HEUREDEBUTS<='"+heuredebut+"'and RESERVERS.HEUREFINS  >='"+heurefin+"'));";
+        try {
+            Connection con = BD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            ArrayList<String> salles = new ArrayList<String>();
+            
+            while (rs.next()) {
+                salles.add(rs.getString("NOMS"));
+            }
+            rs.close();
+            System.out.println("size"+salles.size());
+            int i=0;
+            while(i<salles.size()) {
+            	if(salles.get(i).toString()==salle) {
+            		dispo=false;
+            	}else {
+            		dispo=true;
+            	}
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dispo;
 	}
 
 
