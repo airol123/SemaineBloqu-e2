@@ -103,7 +103,7 @@ public class ConsulterCompte extends JFrame {
         		String type=table.getValueAt(count,0).toString();
                 controler.id(id);
                 controler.type(type);
-                ModifierCompteEtudiantView mce = new ModifierCompteEtudiantView(controler);
+                ModifierCompteView mce = new ModifierCompteView(controler);
                 mce.getjFrame().setVisible(true);
 
             }
