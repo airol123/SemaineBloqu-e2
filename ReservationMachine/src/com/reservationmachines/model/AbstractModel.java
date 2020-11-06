@@ -9,7 +9,6 @@ public abstract class AbstractModel {
 	public abstract ArrayList<ReservationMachine> getValeursReservationMachine(String nomSalle, String date, String heureDebut, String heureFin);
 	public abstract void creerCompteEtudiant(Etudiant etudiant);
 	public abstract void creerCompteResponsableTP(ResponsableTP responsableTP) ;
-	public abstract void setMachineSalle(String nomMachine, String nomSalle);
 	public abstract void ajoutSalle(String nomSalle);
 	public abstract boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp);
 	public abstract boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp);
