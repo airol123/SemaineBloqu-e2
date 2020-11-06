@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class AbstractModel {
-	
+
 	public abstract String[] getEnteteReservationMachine();
 	public abstract ArrayList<ReservationMachine> getValeursReservationMachine(String nomSalle, String date, String heureDebut, String heureFin);
 	public abstract void creerCompteEtudiant(Etudiant etudiant);
@@ -53,5 +53,5 @@ public abstract class AbstractModel {
 	public abstract void setMachineSalle(Machine machine);
 	public abstract String[][] getMachines(String nomS);
 	public abstract void supprimerMachine(String nomM);
-	}
+}
 

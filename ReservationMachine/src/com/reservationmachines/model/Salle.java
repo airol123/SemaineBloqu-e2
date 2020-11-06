@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Salle {
 	private String nomSalle;
 	private int capacite;
-//	private EtatSalle etatSalle;
+	//	private EtatSalle etatSalle;
 	private ArrayList<Machine> machines;
 
 	public Salle() {
@@ -14,12 +14,12 @@ public class Salle {
 	public Salle(String nomSalle) {
 		this.nomSalle = nomSalle;
 	}
-	
+
 	public Salle(String nomSalle, int capacite) {
 		this.nomSalle = nomSalle;
 		this.capacite = capacite;
 	}
-	
+
 	public Salle(String nomSalle, int capacite, ArrayList<Machine> machines) {
 		this.nomSalle = nomSalle;
 		this.capacite = capacite;

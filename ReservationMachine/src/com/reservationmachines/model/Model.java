@@ -24,27 +24,27 @@ public class Model extends AbstractModel {
 	protected final static String HEURE_RESERVATION_SALLE_MIN = "08:00";
 	protected final static String HEURE_RESERVATION_SALLE_MAX = "20:00";
 	protected final static String FREQUENCE_RESERVATION_EN_HEURE = "01:30";
-	
+
 	@Override
 	public String[] getEnteteReservationMachine() {
 		return new String[] {"Machine", "État de la machine", "Nom étudiant", "Prénom étudiant"};
 	}
-	
+
 	@Override
 	public ArrayList<ReservationMachine> getValeursReservationMachine(String nomSalle, String date, String heureDebut, String heureFin) {
 		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
 		String sqlreservationm = 
-			"SELECT *\r\n" + 
-			"FROM Salle S, Machine M, ReserverM RM, Etudiant E\r\n" + 
-			"WHERE S.Noms = ?\r\n" + 
-			"	AND S.IdS = M.IdS\r\n" + 
-			"    AND M.IdM = RM.IdM\r\n" + 
-			"    AND RM.IdE = E.IdE\r\n" + 
-			"	AND (UNIX_TIMESTAMP(RM.HeureDebutM) < UNIX_TIMESTAMP(CAST(? AS TIME)) \r\n" + 
-			"	AND UNIX_TIMESTAMP(RM.HeureFinM) > UNIX_TIMESTAMP(CAST(? AS TIME))) \r\n" + 
-			"	AND UNIX_TIMESTAMP(RM.DateM) = UNIX_TIMESTAMP(CAST(? AS DATE))\r\n" + 
-			";";
-		
+				"SELECT *\r\n" + 
+						"FROM Salle S, Machine M, ReserverM RM, Etudiant E\r\n" + 
+						"WHERE S.Noms = ?\r\n" + 
+						"	AND S.IdS = M.IdS\r\n" + 
+						"    AND M.IdM = RM.IdM\r\n" + 
+						"    AND RM.IdE = E.IdE\r\n" + 
+						"	AND (UNIX_TIMESTAMP(RM.HeureDebutM) < UNIX_TIMESTAMP(CAST(? AS TIME)) \r\n" + 
+						"	AND UNIX_TIMESTAMP(RM.HeureFinM) > UNIX_TIMESTAMP(CAST(? AS TIME))) \r\n" + 
+						"	AND UNIX_TIMESTAMP(RM.DateM) = UNIX_TIMESTAMP(CAST(? AS DATE))\r\n" + 
+						";";
+
 		try{
 			Connection con =BD.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
@@ -52,7 +52,7 @@ public class Model extends AbstractModel {
 			pstmt.setString(2, heureFin);
 			pstmt.setString(3, heureDebut);
 			pstmt.setString(4, date);
-			
+
 			ResultSet rs=pstmt.executeQuery();
 			while(rs.next()) {
 				Etudiant etu=new Etudiant();
@@ -65,7 +65,7 @@ public class Model extends AbstractModel {
 				salle.setNomSalle(nomSalle);
 				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
-				
+
 				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
 				Timestamp d = null;
 				try {
@@ -73,7 +73,7 @@ public class Model extends AbstractModel {
 				} catch (ParseException e1) {
 					e1.printStackTrace();
 				}
-				
+
 				String sdf=rs.getString("datem")+" "+rs.getString("heurefinm");
 				Timestamp f = null;
 				try {
@@ -81,13 +81,13 @@ public class Model extends AbstractModel {
 				} catch (ParseException e2) {
 					e2.printStackTrace();
 				}
-				
+
 				reservations.add(new ReservationMachine(etu, mac, d, f));
 			}
 		}catch (Exception e3) {
 			e3.printStackTrace();
 		}
-		
+
 		return reservations;
 	}
 
@@ -95,27 +95,27 @@ public class Model extends AbstractModel {
 	@Override
 	public void creerCompteEtudiant(Etudiant etudiant) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void creerCompteResponsableTP(ResponsableTP responsableTP) {
-		
+
 	}
-	
+
 
 	// ajouter une nouvelle machine et l’affecter à une salle
 	@Override
 	public void setMachineSalle(String nomMachine, String nomSalle){
-		
+
 	};
-	
+
 	//Trouver une etudiant selon son identifiant
 	@Override
 	public Etudiant seConnecter(String ide) throws SQLException {
 		Etudiant etu=null;
 		String sqletudiant = "select * from etudiant where ide=? and etate='valide'";
-        Connection con =BD.getConnection();
+		Connection con =BD.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(sqletudiant);
 		pstmt.setInt(1, Integer. parseInt(ide));
 		ResultSet rs=pstmt.executeQuery();
@@ -132,15 +132,15 @@ public class Model extends AbstractModel {
 			System.out.println("Il y a pas de cet etudiant");
 		}
 		rs.close();  
-		
+
 		return etu;
 	}
-	
+
 	@Override
 	public Admin seConnecterAdmin(String ida) throws SQLException {
 		Admin admin=null;
 		String sqladmin = "select * from admin where ida=?";
-        Connection con =BD.getConnection();
+		Connection con =BD.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(sqladmin);
 		pstmt.setInt(1, Integer. parseInt(ida));
 		ResultSet rs=pstmt.executeQuery();
@@ -157,15 +157,15 @@ public class Model extends AbstractModel {
 			System.out.println("Il y a pas de cet etudiant");
 		}
 		rs.close();  
-		
+
 		return admin;
 	}
-	
+
 	@Override
 	public ResponsableTP seConnecterResponsable(String idres) throws SQLException {
 		ResponsableTP restp=null;
 		String sqlresp= "select * from resptp where idresp=?";
-        Connection con =BD.getConnection();
+		Connection con =BD.getConnection();
 		PreparedStatement pstmt = con.prepareStatement(sqlresp);
 		pstmt.setInt(1, Integer. parseInt(idres));
 		ResultSet rs=pstmt.executeQuery();
@@ -182,19 +182,19 @@ public class Model extends AbstractModel {
 			System.out.println("Il y a pas de cet etudiant");
 		}
 		rs.close();  
-		
+
 		return restp;
 	}
-	
+
 	@Override
 	public String[] getListeNomSalle() {
 		ArrayList<String> listeNomSalle = new ArrayList<>();
 		String sqlnomSalle= "select noms from salle";
-        Connection con =BD.getConnection();
+		Connection con =BD.getConnection();
 		PreparedStatement pstmt;
 		try {
 			pstmt = con.prepareStatement(sqlnomSalle);
-			
+
 			ResultSet rs=pstmt.executeQuery();
 			while (rs.next()) {
 				listeNomSalle.add(rs.getString("noms"));
@@ -210,7 +210,7 @@ public class Model extends AbstractModel {
 	@Override
 	public boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp) {
 		String querySQL = "SELECT idE FROM Etudiant " +
-		"WHERE idE = '" + numEtudiant + "' AND mdpE = '" + mdp + "' AND EtatE='valide';";
+				"WHERE idE = '" + numEtudiant + "' AND mdpE = '" + mdp + "' AND EtatE='valide';";
 
 		// V�rifier si la valeur existe dans la table
 		try {
@@ -260,7 +260,7 @@ public class Model extends AbstractModel {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public Etudiant getEtudiant(String numEtudiant) {
 		String querySQL = "SELECT * FROM Etudiant WHERE idE = '" + numEtudiant + "';";
@@ -272,16 +272,16 @@ public class Model extends AbstractModel {
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
 			resultat.next();
-			
+
 			etudiant = new Etudiant(
-				resultat.getString("ide"),
-				resultat.getString("mdpe"),
-				resultat.getString("nome"),
-				resultat.getString("prenome"),
-				resultat.getString("emaile")
-			);
+					resultat.getString("ide"),
+					resultat.getString("mdpe"),
+					resultat.getString("nome"),
+					resultat.getString("prenome"),
+					resultat.getString("emaile")
+					);
 		} catch (Exception e) {e.printStackTrace();}
-		
+
 		return etudiant;
 	}
 
@@ -307,7 +307,7 @@ public class Model extends AbstractModel {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public ArrayList<String> recupererNomsFormations() {
 		String querySQL = "SELECT NomF FROM Formation;";
@@ -318,7 +318,7 @@ public class Model extends AbstractModel {
 			Statement statement;
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
-			
+
 			ArrayList<String> formations = new ArrayList<String>();
 			while(resultat.next()) {
 				formations.add(resultat.getString(1));
@@ -341,12 +341,12 @@ public class Model extends AbstractModel {
 			Statement statement;
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
-			
+
 			ArrayList<GroupeTP> groupesTP = new ArrayList<GroupeTP>();
 			while(resultat.next()) {
 				groupesTP.add(new GroupeTP(resultat.getString(1)));
 			}
-			
+
 			return groupesTP;
 		} catch (Exception e) {
 			return null;
@@ -378,28 +378,28 @@ public class Model extends AbstractModel {
 	@Override
 	public String[] getReservationsSallesDates() {
 		// Initialisation � la date d'aujourd'hui
-        LocalDate day = LocalDate.now();
-        // Ex. mer. 04/11/2020
-        DateTimeFormatter date = DateTimeFormatter.ofPattern("EEE dd/MM/yyyy");
-        // Le num�ro du jour de la semaine (ex. 3 pour mercredi)
-        DateTimeFormatter dayName = DateTimeFormatter.ofPattern("e");
-        String[] result = new String[100];
-        
-        for(int i = 0 ; i < result.length ; i++) {
-        	// Si c'est samedi, on avance deux de jours
-        	if(Integer.parseInt(day.format(dayName)) == 6)
-        		day = day.plusDays(2);
-        	// Si c'est dimanche, on avance de 1 jour
-        	if(Integer.parseInt(day.format(dayName)) == 7)
-        		day = day.plusDays(1);
-        	
-        	result[i] = day.format(date);   
-        	
-        	// Jour suivant
-        	day = day.plusDays(1);
-        }
-        
-        return result;
+		LocalDate day = LocalDate.now();
+		// Ex. mer. 04/11/2020
+		DateTimeFormatter date = DateTimeFormatter.ofPattern("EEE dd/MM/yyyy");
+		// Le num�ro du jour de la semaine (ex. 3 pour mercredi)
+		DateTimeFormatter dayName = DateTimeFormatter.ofPattern("e");
+		String[] result = new String[100];
+
+		for(int i = 0 ; i < result.length ; i++) {
+			// Si c'est samedi, on avance deux de jours
+			if(Integer.parseInt(day.format(dayName)) == 6)
+				day = day.plusDays(2);
+			// Si c'est dimanche, on avance de 1 jour
+			if(Integer.parseInt(day.format(dayName)) == 7)
+				day = day.plusDays(1);
+
+			result[i] = day.format(date);   
+
+			// Jour suivant
+			day = day.plusDays(1);
+		}
+
+		return result;
 	}
 
 	@Override
@@ -438,13 +438,13 @@ public class Model extends AbstractModel {
 				} catch (ParseException e2) {
 					e2.printStackTrace();
 				}
-				
+
 				reservations.add(new ReservationMachine(etu, mac, d, f));
 			}
 		}catch (Exception e3) {
 			e3.printStackTrace();
 		}
-		
+
 		return reservations;
 	}
 
@@ -478,20 +478,20 @@ public class Model extends AbstractModel {
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
 			resultat.next();
-			
+
 			admin = new Admin(
-				resultat.getString("ida"),
-				resultat.getString("mdpa"),
-				resultat.getString("noma"),
-				resultat.getString("prenoma"),
-				resultat.getString("emaila")
-			);
-			
+					resultat.getString("ida"),
+					resultat.getString("mdpa"),
+					resultat.getString("noma"),
+					resultat.getString("prenoma"),
+					resultat.getString("emaila")
+					);
+
 		} catch (Exception e) {e.printStackTrace();}
-		
+
 		return admin;
 	}
-	
+
 	@Override
 	public ArrayList<Salle> getValeursSallesDisponibles(String date, String heureDebut, String heureFin) {
 		String querySQL = "SELECT S.NomS, COUNT(M.IdM) AS Capacite\r\n" + 
@@ -514,10 +514,10 @@ public class Model extends AbstractModel {
 				"    )\r\n" + 
 				")\r\n" + 
 				"GROUP BY S.Noms, S.IdS;\r\n";
-		
+
 		System.out.println(querySQL);
 		System.out.println(heureFin + " " + heureDebut + " " + date);
-		
+
 		// V�rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
@@ -526,13 +526,13 @@ public class Model extends AbstractModel {
 			statement.setString(2, heureDebut);
 			statement.setString(3, date);
 			ResultSet resultat = statement.executeQuery();
-			
+
 			ArrayList<Salle> salles = new ArrayList<Salle>();
-			
+
 			while(resultat.next()) {
 				salles.add(new Salle(resultat.getString("NomS"), resultat.getInt("Capacite")));
 			}
-			
+
 			return salles;
 		} catch (Exception e) {e.printStackTrace(); return null;}
 	}
@@ -551,29 +551,29 @@ public class Model extends AbstractModel {
 		int mFin = Integer.parseInt(heureFin.split(HEURE_RESERVATION_SEPARATEUR)[1]);
 		int hFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[0]);
 		int mFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[1]);
-		
+
 		do {
 			if(mDebut >= 60) {
 				mDebut = mDebut % 60;
 				hDebut++;
 			}
-			
+
 			String tmp = "";
 			// Si les heures sont inf�rieures � 10, alors on ajoute un z�ro
 			tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
 			tmp += HEURE_RESERVATION_SEPARATEUR;
 			// Si les minutes sont inf�rieures � 10, alors on ajoute un z�ro
 			tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
-			
+
 			heuresDebuts.add(tmp);
-			
+
 			hDebut = (hDebut + hFrequence) % 24;
 			mDebut = (mDebut + mFrequence);			
 		} while(hDebut % 24 < hFin - hFrequence || mDebut % 60 < mFin - mFrequence);
-		
+
 		String[] result = new String[heuresDebuts.size()];
 		for(int i = 0 ; i < heuresDebuts.size() ; i++) result[i] = heuresDebuts.get(i);
-		
+
 		return result;
 	}
 
@@ -586,32 +586,32 @@ public class Model extends AbstractModel {
 		int mFin = Integer.parseInt(HEURE_RESERVATION_SALLE_MAX.split(HEURE_RESERVATION_SEPARATEUR)[1]);
 		int hFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[0]);
 		int mFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[1]);
-		
+
 		hDebut += hFrequence;
 		mDebut += mFrequence;
-		
+
 		do {
 			if(mDebut >= 60) {
 				mDebut = mDebut % 60;
 				hDebut++;
 			}
-			
+
 			String tmp = "";
 			// Si les heures sont inf�rieures � 10, alors on ajoute un z�ro
 			tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
 			tmp += HEURE_RESERVATION_SEPARATEUR;
 			// Si les minutes sont inf�rieures � 10, alors on ajoute un z�ro
 			tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
-			
+
 			heuresDebuts.add(tmp);
-			
+
 			hDebut = (hDebut + hFrequence) % 24;
 			mDebut = (mDebut + mFrequence);			
 		} while(hDebut % 24 < hFin || mDebut % 60 <= mFin);
-		
+
 		String[] result = new String[heuresDebuts.size()];
 		for(int i = 0 ; i < heuresDebuts.size() ; i++) result[i] = heuresDebuts.get(i);
-		
+
 		return result;
 	}
 
@@ -628,14 +628,14 @@ public class Model extends AbstractModel {
 	@Override
 	public boolean reserverSalle(ReservationSalle reservationSalle) {
 		String querySQL = "INSERT INTO ReserverS VALUES (?, ?, ?, ?, ?, ?, ?);";
-		
-		
-		
+
+
+
 		// V�rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			PreparedStatement statement = connection.prepareStatement(querySQL);
-			
+
 			String heureDebut = reservationSalle.getHeureDebut();
 			String date = reservationSalle.getDate();
 			String idResp = reservationSalle.getResponsableTP().identifiant;
@@ -643,7 +643,7 @@ public class Model extends AbstractModel {
 			String heureFin = reservationSalle.getHeureFin();
 			String nomCours = reservationSalle.getNomCours();
 			int idG = chercherIdGroupeTP(reservationSalle.getGroupeTP());
-			
+
 			statement.setString(1, heureDebut);
 			statement.setString(2, date);
 			statement.setString(3, idResp);
@@ -651,7 +651,7 @@ public class Model extends AbstractModel {
 			statement.setString(5, heureFin);
 			statement.setString(6, nomCours);
 			statement.setInt(7, idG);
-			
+
 			int result = statement.executeUpdate();
 			return (result != 1) ? false : true;
 		} catch (Exception e) {e.printStackTrace(); return false;}
@@ -667,7 +667,7 @@ public class Model extends AbstractModel {
 			Statement statement;
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
-			
+
 			ArrayList<String> nomsTP = new ArrayList<String>();
 			while(resultat.next()) {
 				if(!nomsTP.contains(resultat.getString(1))) nomsTP.add(resultat.getString(1));
@@ -691,16 +691,16 @@ public class Model extends AbstractModel {
 		querySQL += "	AND G.IdG = RS.IdG\n";
 		querySQL += "	AND RS.IdResp = '" + id + "'\n";
 		querySQL += "GROUP BY NomTP, NomF, NomG, Dates, HeureDebuts, HeureFins, NomS;";
-		
+
 		// V�rifier si la valeur existe dans la table
 		try {
 			Connection connection = BD.getConnection();
 			Statement statement;
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
-			
+
 			ArrayList<ReservationSalle> reservationsSalles = new ArrayList<ReservationSalle>();
-			
+
 			while(resultat.next()) {			
 				String nomCours = resultat.getString("NomTP");
 				ResponsableTP responsableTP = new ResponsableTP(id);
@@ -710,15 +710,15 @@ public class Model extends AbstractModel {
 				Date date = resultat.getDate("Dates", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
 				Timestamp heureDebut = resultat.getTimestamp("HeureDebuts", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
 				Timestamp heureFin = resultat.getTimestamp("HeureFins", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
-				
+
 				ReservationSalle reservation = new ReservationSalle(nomCours, responsableTP, salle, groupeTP, formation, date, heureDebut, heureFin);
-				
+
 				reservationsSalles.add(reservation);
 			}
-			
+
 			return reservationsSalles;
 		} catch (Exception e) {e.printStackTrace();}
-		
+
 		return null;
 	}
 
@@ -748,19 +748,19 @@ public class Model extends AbstractModel {
 	@Override
 	public boolean annulerReservationSalle(ReservationSalle reservationSalle) {
 		String querySQL = 
-			"DELETE FROM ReserverS\r\n" + 
-			"WHERE UNIX_TIMESTAMP(HeureDebuts) = UNIX_TIMESTAMP(CAST(? AS TIME))\r\n" + 
-			"	AND UNIX_TIMESTAMP(Dates) = UNIX_TIMESTAMP(CAST(? AS DATE))\r\n" + 
-			"    AND IdResp = ?\r\n" + 
-			"    AND IdS = ?\r\n" + 
-			"    AND IdG = ?\r\n" + 
-			";";
-		
+				"DELETE FROM ReserverS\r\n" + 
+						"WHERE UNIX_TIMESTAMP(HeureDebuts) = UNIX_TIMESTAMP(CAST(? AS TIME))\r\n" + 
+						"	AND UNIX_TIMESTAMP(Dates) = UNIX_TIMESTAMP(CAST(? AS DATE))\r\n" + 
+						"    AND IdResp = ?\r\n" + 
+						"    AND IdS = ?\r\n" + 
+						"    AND IdG = ?\r\n" + 
+						";";
+
 		try {
 			String idResp = reservationSalle.getResponsableTP().identifiant;
 			int idS = chercherIdSalle(reservationSalle.getSalle());
 			int idG = chercherIdGroupeTP(reservationSalle.getGroupeTP());
-			
+
 			Connection connection = BD.getConnection();
 			PreparedStatement statement = connection.prepareStatement(querySQL);
 			statement.setString(1, reservationSalle.getHeureDebut());
@@ -768,30 +768,30 @@ public class Model extends AbstractModel {
 			statement.setString(3, idResp);
 			statement.setInt(4, idS);
 			statement.setInt(5, idG);
-			
+
 			return (statement.executeUpdate() == 1) ? true : false;
 		} catch (SQLException e) {return false;}
 	}
 
 	private int chercherIdGroupeTP(GroupeTP groupeTP) {
 		String querySQL = 
-			"SELECT IdG\r\n" + 
-			"FROM Groupe G, Formation F\r\n" + 
-			"WHERE G.NomG LIKE ?\r\n" + 
-			"	AND F.NomF LIKE ?\r\n" + 
-			"    AND G.IdF = F.IdF\r\n" + 
-			";";
-		
+				"SELECT IdG\r\n" + 
+						"FROM Groupe G, Formation F\r\n" + 
+						"WHERE G.NomG LIKE ?\r\n" + 
+						"	AND F.NomF LIKE ?\r\n" + 
+						"    AND G.IdF = F.IdF\r\n" + 
+						";";
+
 		System.out.println(groupeTP.getNomGroupe() + " " + groupeTP.getNomFormation());
-		
+
 		try {
 			Connection connection = BD.getConnection();
 			PreparedStatement statement = connection.prepareStatement(querySQL);
 			statement.setString(1, groupeTP.getNomGroupe());
 			statement.setString(2, groupeTP.getNomFormation());
-			
+
 			ResultSet result = statement.executeQuery();
-			
+
 			if(result.next()) {
 				return result.getInt("IdG");				
 			} else return -1;
@@ -800,18 +800,18 @@ public class Model extends AbstractModel {
 
 	private int chercherIdSalle(Salle salle) {
 		String querySQL = 
-			"SELECT IdS\r\n" + 
-			"FROM Salle\r\n" + 
-			"WHERE NomS LIKE ?;";
-		
+				"SELECT IdS\r\n" + 
+						"FROM Salle\r\n" + 
+						"WHERE NomS LIKE ?;";
+
 		try {
 			Connection connection = BD.getConnection();
 			PreparedStatement statement = connection.prepareStatement(querySQL);
 			statement.setString(1, salle.getNomSalle());
-			
+
 			ResultSet result = statement.executeQuery();
 			result.next();
-			
+
 			return result.getInt("IdS");
 		} catch (SQLException e) {return -1;}
 	}
@@ -820,17 +820,17 @@ public class Model extends AbstractModel {
 	@Override
 	public int annulerToutesReservationsMachinesSalle(ReservationSalle reservationSalle) {
 		String querySQL = 
-			"DELETE FROM ReserverM\r\n" + 
-			"WHERE IdM IN (\r\n" + 
-			"	SELECT M.IdM\r\n" + 
-			"    FROM Machine M, Salle S\r\n" + 
-			"    WHERE M.IdS = S.IdS\r\n" + 
-			"    AND S.NomS LIKE ?\r\n" + 
-			")\r\n" + 
-			"AND (UNIX_TIMESTAMP(HeureDebutM) < UNIX_TIMESTAMP(CAST(? AS TIME))\r\n" + 
-			"AND UNIX_TIMESTAMP(HeureFinM) > UNIX_TIMESTAMP(CAST(? AS TIME)))\r\n" + 
-			"AND UNIX_TIMESTAMP(DateM) = UNIX_TIMESTAMP(CAST(? AS DATE));";
-		
+				"DELETE FROM ReserverM\r\n" + 
+						"WHERE IdM IN (\r\n" + 
+						"	SELECT M.IdM\r\n" + 
+						"    FROM Machine M, Salle S\r\n" + 
+						"    WHERE M.IdS = S.IdS\r\n" + 
+						"    AND S.NomS LIKE ?\r\n" + 
+						")\r\n" + 
+						"AND (UNIX_TIMESTAMP(HeureDebutM) < UNIX_TIMESTAMP(CAST(? AS TIME))\r\n" + 
+						"AND UNIX_TIMESTAMP(HeureFinM) > UNIX_TIMESTAMP(CAST(? AS TIME)))\r\n" + 
+						"AND UNIX_TIMESTAMP(DateM) = UNIX_TIMESTAMP(CAST(? AS DATE));";
+
 		PreparedStatement statement;
 		try {
 			Connection connection = BD.getConnection();
@@ -839,11 +839,11 @@ public class Model extends AbstractModel {
 			statement.setString(2, reservationSalle.getHeureFin());
 			statement.setString(3, reservationSalle.getHeureDebut());
 			statement.setString(4, reservationSalle.getDate());
-			
+
 			return statement.executeUpdate();
 		} catch (SQLException e) {return 0;}
 	}
-	
+
 	/*
 	@Override
 	public String getPrenomAdmin(String idAdmin) {
@@ -861,8 +861,8 @@ public class Model extends AbstractModel {
 			return "";
 		}
 	}
-	
-	*/
+
+	 */
 
 	// get liste des reclamations qui sont traitees par un admin
 	@Override
@@ -893,14 +893,14 @@ public class Model extends AbstractModel {
 		}catch (Exception e3) {
 			e3.printStackTrace();
 		}
-		
+
 		return strings;
 	}
 
 	// changer l'etat d'une reclamation de 'EN_COURS' a 'TRAITEE'
 	@Override
 	public void traiterReclamation(String description) {
-		
+
 		String sql = "UPDATE reclamation SET ETATR = 'TRAITEE' WHERE reclamation.descriptionr=\""+description+"\""; 
 		try{
 			Connection con =BD.getConnection();
@@ -909,7 +909,7 @@ public class Model extends AbstractModel {
 		}catch (Exception e3) {
 			e3.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -937,53 +937,53 @@ public class Model extends AbstractModel {
 			return false;
 		}
 	}
-	
+
 	private int trouverMaxReclamation() {
 		String sql="SELECT max(reservationmachine.reclamation.IDR) FROM reservationmachine.reclamation";
 		int nbIDR=0;
 		try {
-		Connection con = BD.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(sql);
-		ResultSet rs =pstmt.executeQuery(sql);
-		while (rs.next()) {
-			nbIDR=rs.getInt(1);
-			nbIDR=nbIDR+1;
-		}
-		rs.close();
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rs =pstmt.executeQuery(sql);
+			while (rs.next()) {
+				nbIDR=rs.getInt(1);
+				nbIDR=nbIDR+1;
+			}
+			rs.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return nbIDR;
 	}
-	
+
 	private int insertConcerner(int idr,String ide,int idm) {
 		String sql="INSERT INTO concerner (idr,ide, idm) VALUES (?,?,?);";
 		int nbexe=0;
 		try {
-		Connection con = BD.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(sql);
-		pstmt.setInt(1,idr);
-		pstmt.setInt(2, Integer.parseInt(ide));
-		pstmt.setInt(3, idm);
-		nbexe=pstmt.executeUpdate();
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,idr);
+			pstmt.setInt(2, Integer.parseInt(ide));
+			pstmt.setInt(3, idm);
+			nbexe=pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}	
 		return  nbexe;
 	}
-	
+
 	private int trouverNumeroM(String nomm) {
 		String sql="select * from machine where machine.NOMM='"+nomm+"';";
 		int idm=0;
 		try {
-		Connection con = BD.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(sql);
-		ResultSet rs =pstmt.executeQuery(sql);
-		if(rs.next()) {
-			idm=Integer.parseInt(rs.getString("machine.IDM"));
-		}
-		rs.close();
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rs =pstmt.executeQuery(sql);
+			if(rs.next()) {
+				idm=Integer.parseInt(rs.getString("machine.IDM"));
+			}
+			rs.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}	
@@ -999,18 +999,18 @@ public class Model extends AbstractModel {
 			PreparedStatement pstmt =  con.prepareStatement(sql); 
 			pstmt.setInt(1,  Integer.parseInt(reservationMachine.getEtudiant().identifiant));
 			pstmt.setString(2, reservationMachine.getMachine().getNomMachine());
-				
+
 			Date reserdebut=new Date(reservationMachine.getHeureDebut().getTime());
 			System.out.println(reserdebut+"----");
 			SimpleDateFormat formattimed = new SimpleDateFormat("yyyy-MM-dd"); 
 			SimpleDateFormat formattimeh = new SimpleDateFormat("HH:mm:ss"); 
 			String heuredebut=formattimeh.format(reserdebut);
 			String date=formattimed.format(reserdebut);
-			
+
 			pstmt.setString(3, heuredebut); 
 			pstmt.setString(4, date); 
 			n=pstmt.executeUpdate();
-			
+
 		}catch (Exception e) { e.printStackTrace(); }
 		if (n==1) {
 			return true;
@@ -1019,12 +1019,12 @@ public class Model extends AbstractModel {
 			return false;
 		}
 		/*
-		* //java.sql.Date heuredebut = new java.sql.Date(heure); try { Date
-		* dateR=formattimeh.parse(date); Date heuredebut = formattimeh.parse(heure);
-		* System.out.println(heuredebut+"--test--"); } catch (ParseException e) {
-		* e.printStackTrace(); } System.out.println(date+"--d--");
-		* System.out.println(heure+"--h--");
-		*/	
+		 * //java.sql.Date heuredebut = new java.sql.Date(heure); try { Date
+		 * dateR=formattimeh.parse(date); Date heuredebut = formattimeh.parse(heure);
+		 * System.out.println(heuredebut+"--test--"); } catch (ParseException e) {
+		 * e.printStackTrace(); } System.out.println(date+"--d--");
+		 * System.out.println(heure+"--h--");
+		 */	
 	}
 
 	@Override
@@ -1036,13 +1036,13 @@ public class Model extends AbstractModel {
 		//System.out.println("datetime: "+dateTime1);
 		Timestamp timestamp1 = Timestamp.valueOf(dateTime1);//timestamp: 2020-11-05 08:06:00.0	
 		//System.out.println("timestamp: "+timestamp);
-		
+
 		dateF = dateF + ":00";
 		LocalDateTime dateTime2  = LocalDateTime.parse(dateF, fommatter1);//datetime: 2020-11-05T08:06
 		//System.out.println("datetime: "+dateTime1);
 		Timestamp timestamp2 = Timestamp.valueOf(dateTime2);//timestamp: 2020-11-05 08:06:00.0	
 		//System.out.println("timestamp: "+timestamp);
-		
+
 		Date reserdebut=new Date(timestamp1.getTime());
 		Date reserfin=new Date(timestamp2.getTime());
 		//System.out.println(reserdebut+"----");
@@ -1054,7 +1054,7 @@ public class Model extends AbstractModel {
 		//System.out.println(heuredebut+"--1--");
 		//System.out.println(heurefin+"--2--");
 		//System.out.println(date+"--3--");
-		
+
 		String sql="select distinct machine.IDM ,machine.NOMM,machine.ETATM \r\n" + 
 				"	from salle,machine,reserverm,etudiant \r\n" + 
 				"	where salle.NOMS=? \r\n" + 
@@ -1101,13 +1101,13 @@ public class Model extends AbstractModel {
 		//System.out.println("datetime: "+dateTime1);
 		Timestamp timestamp1 = Timestamp.valueOf(dateTime1);//timestamp: 2020-11-05 08:06:00.0	
 		//System.out.println("timestamp: "+timestamp);
-		
+
 		dateF = dateF + ":00";
 		LocalDateTime dateTime2  = LocalDateTime.parse(dateF, fommatter1);//datetime: 2020-11-05T08:06
 		//System.out.println("datetime: "+dateTime1);
 		Timestamp timestamp2 = Timestamp.valueOf(dateTime2);//timestamp: 2020-11-05 08:06:00.0	
 		//System.out.println("timestamp: "+timestamp);
-		
+
 		Date reserdebut=new Date(timestamp1.getTime());
 		Date reserfin=new Date(timestamp2.getTime());
 		//System.out.println(reserdebut+"----");
@@ -1119,7 +1119,7 @@ public class Model extends AbstractModel {
 		//System.out.println(heuredebut+"--1--");
 		//System.out.println(heurefin+"--2--");
 		//System.out.println(date+"--3--");
-		
+
 		int n=0;
 		String sqlinsertreser="INSERT INTO reserverm (ide,idm, heuredebutm , datem, heurefinm) "
 				+ "VALUES ("+Integer.parseInt(etudiant.getIdentifiant())+","+this.trouverNumeroM(machine.getNomMachine())+",'"+ heuredebut+"','"+ date+"','"+ heurefin+"');";
@@ -1147,8 +1147,8 @@ public class Model extends AbstractModel {
 			Connection con =BD.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(
 					"SELECT noms, count(m.idm) as capacite "+
-					"FROM reservationmachine.salle s left outer join reservationmachine.machine m "+
-					"on s.ids = m.ids "+
+							"FROM reservationmachine.salle s left outer join reservationmachine.machine m "+
+							"on s.ids = m.ids "+
 					"group by s.ids, s.noms;");
 			ResultSet rs=pstmt.executeQuery();
 			rs.last();
@@ -1172,15 +1172,15 @@ public class Model extends AbstractModel {
 	@Override
 	public void ajoutSalle(String nomSalle){
 		try {
-		Connection con =BD.getConnection();
-		PreparedStatement sql = con.prepareStatement( "select max(ids) from salle;");
-		ResultSet res = sql.executeQuery();
-		res.next();
-		int idSalle = res.getInt(1)+1;
-		PreparedStatement sql1 = con.prepareStatement( "insert into salle(ids,noms) values(?,?);");
-		sql1.setInt(1, idSalle);
-		sql1.setString(2, nomSalle);
-		sql1.executeUpdate();		
+			Connection con =BD.getConnection();
+			PreparedStatement sql = con.prepareStatement( "select max(ids) from salle;");
+			ResultSet res = sql.executeQuery();
+			res.next();
+			int idSalle = res.getInt(1)+1;
+			PreparedStatement sql1 = con.prepareStatement( "insert into salle(ids,noms) values(?,?);");
+			sql1.setInt(1, idSalle);
+			sql1.setString(2, nomSalle);
+			sql1.executeUpdate();		
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}		
@@ -1189,13 +1189,13 @@ public class Model extends AbstractModel {
 	@Override
 	public void supprimerSalle(String nomSalle) {
 		try {
-		Connection con =BD.getConnection();
-		PreparedStatement sql = con.prepareStatement( "DELETE FROM salle WHERE noms=?;");
-		sql.setString(1, nomSalle);
-		sql.executeUpdate();		
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }	
+			Connection con =BD.getConnection();
+			PreparedStatement sql = con.prepareStatement( "DELETE FROM salle WHERE noms=?;");
+			sql.setString(1, nomSalle);
+			sql.executeUpdate();		
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}	
 	}
 
 	@Override
@@ -1221,7 +1221,7 @@ public class Model extends AbstractModel {
 			return true;
 		}		
 	}
-	
+
 	public void setMachineSalle(Machine machine){
 		Salle salle = machine.getSalle();
 		try {
@@ -1232,23 +1232,23 @@ public class Model extends AbstractModel {
 			sql.setString(3, machine.getNomMachine());
 			sql.setString(4, machine.getEtatMachine());
 			sql.executeUpdate();		
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }		
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}		
 	};
-		
+
 	private int trouverMaxMachine() {
 		String sql="SELECT max(idm) FROM machine";
 		int nbIDM=0;
 		try {
-		Connection con = BD.getConnection();
-		PreparedStatement pstmt = con.prepareStatement(sql);
-		ResultSet rs =pstmt.executeQuery(sql);
-		while (rs.next()) {
-			nbIDM=rs.getInt(1);
-			nbIDM++;
-		}
-		rs.close();
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rs =pstmt.executeQuery(sql);
+			while (rs.next()) {
+				nbIDM=rs.getInt(1);
+				nbIDM++;
+			}
+			rs.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}		
@@ -1265,14 +1265,14 @@ public class Model extends AbstractModel {
 			if (nomS==null) {
 				pstmt = con.prepareStatement(
 						"select s.noms, m.nomm, m.etatm "
-						+ "from salle s, machine m "
-						+ "where s.ids = m.ids;");
+								+ "from salle s, machine m "
+								+ "where s.ids = m.ids;");
 			} else {
 				pstmt = con.prepareStatement(
-					"select s.noms, m.nomm, m.etatm "
-					+ "from salle s, machine m "
-					+ "where s.ids = m.ids "
-					+ "and s.noms = ?;");
+						"select s.noms, m.nomm, m.etatm "
+								+ "from salle s, machine m "
+								+ "where s.ids = m.ids "
+								+ "and s.noms = ?;");
 				pstmt.setString(1, nomS);
 			}
 			ResultSet rs=pstmt.executeQuery();
@@ -1293,23 +1293,23 @@ public class Model extends AbstractModel {
 		}		
 		return strings;
 	}
-	
+
 	@Override
 	public void supprimerMachine(String nomM) {
 		try {
-		Connection con =BD.getConnection();
-		PreparedStatement sql = con.prepareStatement( "select idm from machine where nomm=?;");
-		sql.setString(1, nomM);
-		ResultSet res = sql.executeQuery();
-		res.next();
-		int idM = res.getInt(1);		
-		
-		sql = con.prepareStatement( "UPDATE machine SET IDS=null,ETATM = 'INDISPONIBLE' WHERE IDM=?;");
-		sql.setInt(1, idM);
-		sql.executeUpdate();		
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }	
+			Connection con =BD.getConnection();
+			PreparedStatement sql = con.prepareStatement( "select idm from machine where nomm=?;");
+			sql.setString(1, nomM);
+			ResultSet res = sql.executeQuery();
+			res.next();
+			int idM = res.getInt(1);		
+
+			sql = con.prepareStatement( "UPDATE machine SET IDS=null,ETATM = 'INDISPONIBLE' WHERE IDM=?;");
+			sql.setInt(1, idM);
+			sql.executeUpdate();		
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}	
 	}
-	
+
 }
