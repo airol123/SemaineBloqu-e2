@@ -59,24 +59,20 @@ public class ConsulterSalle extends JFrame {
 		scrollPane.setViewportView(table);
 
 		JButton btnConsulter = new JButton("Consulter des machines");
-		btnConsulter.setBounds(20, 232, 173, 23);
+		btnConsulter.setBounds(100, 213, 173, 23);
 		contentPane.add(btnConsulter);
 
 		JButton btnAjouter = new JButton("Ajouter une salle");
-		btnAjouter.setBounds(203, 232, 173, 23);
+		btnAjouter.setBounds(100, 246, 173, 23);
 		contentPane.add(btnAjouter);
 
 		JButton btnSupprimer = new JButton("Supprimer une salle");
-		btnSupprimer.setBounds(203, 265, 173, 23);
+		btnSupprimer.setBounds(100, 279, 173, 23);
 		contentPane.add(btnSupprimer);
 
 		JButton btnRetour = new JButton("Retourner");
 		btnRetour.setBounds(295, 298, 93, 23);
 		contentPane.add(btnRetour);
-
-		JButton btnReservation = new JButton("R\u00E9servation de salle");
-		btnReservation.setBounds(20, 265, 173, 23);
-		contentPane.add(btnReservation);
 
 		jFrame.setVisible(true);
 
