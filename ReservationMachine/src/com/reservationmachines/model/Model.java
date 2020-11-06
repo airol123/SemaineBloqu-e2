@@ -94,14 +94,13 @@ public class Model extends AbstractModel {
 
 	@Override
 	public void creerCompteEtudiant(Etudiant etudiant) {
-		// TODO Auto-generated method stub
-
+		this.inscrireEtudiant(etudiant);
 	}
 
 	@Override
 	public void creerCompteResponsableTP(ResponsableTP responsableTP) {
 		int n=0;
-		String sqlinsertetu="INSERT INTO resptp (ide,mdpe, emaile,nome, prenome) VALUES (?,?,?,?,?);";
+		String sqlinsertetu="INSERT INTO resptp (idResp,mdpr, emailr,nomr, prenomr) VALUES (?,?,?,?,?);";
 		try {
 			Connection con =BD.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sqlinsertetu);
