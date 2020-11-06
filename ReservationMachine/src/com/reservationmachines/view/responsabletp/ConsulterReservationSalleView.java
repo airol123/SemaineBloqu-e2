@@ -24,7 +24,7 @@ import java.util.HashMap;
 public class ConsulterReservationSalleView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JTable table_1;
+	protected JTable table;
 
 	private ResponsableTPControler controler;
 	private JScrollPane scrollPane;
@@ -64,8 +64,8 @@ public class ConsulterReservationSalleView extends JFrame {
 		gbc_scrollPane.gridy = 2;
 		getContentPane().add(scrollPane, gbc_scrollPane);
 
-		table_1 = new JTable();
-		scrollPane.setViewportView(table_1);
+		table = new JTable();
+		scrollPane.setViewportView(table);
 
 		updateTable();
 
@@ -76,14 +76,14 @@ public class ConsulterReservationSalleView extends JFrame {
 	}
 	
 	protected void updateTable() {
-		// Si toutes les valeurs sont renseignées
-		this.table_1 = new JTable(controler.getValeursSallesReservees(), controler.getEnteteSallesReservees());
+		// Si toutes les valeurs sont renseignï¿½es
+		this.table = new JTable(controler.getValeursSallesReservees(), controler.getEnteteSallesReservees());
 		// Pour dire que les cellules contenant des boutons doivent afficher le bouton
-		this.table_1.getColumn("Réservations machines").setCellEditor(new ButtonEditor(this, controler));
-		this.table_1.getColumn("Réservations machines").setCellRenderer(new ButtonRenderer());
-		this.table_1.getColumn("Annuler une réservation").setCellEditor(new ButtonEditor(this, controler));
-		this.table_1.getColumn("Annuler une réservation").setCellRenderer(new ButtonRenderer());
-		scrollPane.setViewportView(table_1);
+		this.table.getColumn("RÃ©servations machines").setCellEditor(new ButtonEditor(this, controler));
+		this.table.getColumn("RÃ©servations machines").setCellRenderer(new ButtonRenderer());
+		this.table.getColumn("Annuler une rÃ©servation").setCellEditor(new ButtonEditor(this, controler));
+		this.table.getColumn("Annuler une rÃ©servation").setCellRenderer(new ButtonRenderer());
+		scrollPane.setViewportView(table);
 	}
 }
 
@@ -93,7 +93,9 @@ class ButtonRenderer extends JButton implements TableCellRenderer {
 	
 	// Gestion du comportement de chaque bouton selon sa colonne et sa ligne
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean isFocus, int row, int col) {
-		this.setText((value != null) ? value.toString() : "");		
+		if(col == 8) this.setText("Voir l'Ã©tat des machines");
+		else if(col == 9) this.setText("Annuler");		
+		
 		return this;
 	}
 	
@@ -106,18 +108,22 @@ class ButtonEditor extends DefaultCellEditor {
 	public ConsulterReservationSalleView currentView;
 	
 	public ButtonEditor(ConsulterReservationSalleView currentView, ResponsableTPControler controler) {
-		// Par défaut, ce type d'objet travaille avec un JCheckBox
+		// Par dï¿½faut, ce type d'objet travaille avec un JCheckBox
 		super(new JCheckBox());
 		this.currentView = currentView;
 		this.controler = controler;
 	}
 
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-		// Création du bouton
-		JButton button = new JButton(table.getValueAt(row, column).toString());
+		// Crï¿½ation du bouton
+		JButton button = null;
+		
+		if(column == 8) button = new JButton("Voir l'Ã©tat des machines");
+		else if(column == 9)  button = new JButton("Annuler");
+		
 		button.setOpaque(true);
 		
-		// Création du listener
+		// Crï¿½ation du listener
 		ButtonListener bl = new ButtonListener();	
 		bl.setRow(row);
 		bl.setColumn(column);
@@ -131,26 +137,32 @@ class ButtonEditor extends DefaultCellEditor {
 	
 	class ButtonListener implements ActionListener{        
 	    private int column, row;
-	    private JTable table;
+	    private JTable myTable;
 
 	    public void setColumn(int column) {this.column = column;}
 	    public void setRow(int row) {this.row = row;}
-	    public void setTable(JTable table) {this.table = table;}
+	    public void setTable(JTable table) {this.myTable = table;}
 
 	    public void actionPerformed(ActionEvent event) {
-	    	// Affectation du comportement approprié à chaque bouton
+	    	// Affectation du comportement appropriï¿½ ï¿½ chaque bouton
 	    	// En fonction de la colonne et de la ligne
 			if(column == 8) {
-				new ConsulterReservationMachineView(table.getValueAt(row, 6).toString(), controler);
+				HashMap<String, String> values = new HashMap<String, String>();
+				values.put("nomS", myTable.getValueAt(row, 6).toString());
+				values.put("heureDebut", currentView.table.getValueAt(row, 4).toString());
+				values.put("heureFin", currentView.table.getValueAt(row, 5).toString());
+				values.put("date", currentView.table.getValueAt(row, 3).toString());
+				
+				new ConsulterReservationMachineView(values, controler);
 			} else if(column == 9) {	
 				HashMap<String, String> values = new HashMap<String, String>();
-				values.put("strHeureDebut", table.getValueAt(row, 4).toString());
-				values.put("strDate", table.getValueAt(row, 3).toString());
-				values.put("nomSalle", table.getValueAt(row, 6).toString());
-				values.put("nomGroupeTP", table.getValueAt(row, 2).toString());
-				values.put("nomFormation", table.getValueAt(row, 1).toString());
+				values.put("strHeureDebut", myTable.getValueAt(row, 4).toString());
+				values.put("strDate", myTable.getValueAt(row, 3).toString());
+				values.put("nomSalle", myTable.getValueAt(row, 6).toString());
+				values.put("nomGroupeTP", myTable.getValueAt(row, 2).toString());
+				values.put("nomFormation", myTable.getValueAt(row, 1).toString());
 				
-				new AnnulerReservationSalleView(values, currentView, table.getValueAt(row, 6).toString(), controler);
+				new AnnulerReservationSalleView(values, currentView, myTable.getValueAt(row, 6).toString(), controler);
 			}
 	    }
 	}
