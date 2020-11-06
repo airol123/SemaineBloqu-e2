@@ -9,31 +9,31 @@ import com.reservationmachines.model.Salle;
 
 
 public class AdminControler extends Controler {
-	
+
 	public AdminControler(AbstractModel model) {
 		super(model);
 	}
 
 
 	public boolean creerCompteEtudiant(
-		String noEtudiant, String mdp, String email, String nom, String prenom) {
+			String noEtudiant, String mdp, String email, String nom, String prenom) {
 		Etudiant etudiant = new Etudiant(noEtudiant, mdp, email, nom, prenom);
 		model.creerCompteEtudiant(etudiant);
 		return false;
 	}
 
 	public boolean verifierMotDePasseAdmin(String idAdmin, String mdp) {
-    	if(model.verifierMotDePasseAdmin(idAdmin, mdp)) {
-    		this.connexion(idAdmin);
-    		return true;
-    	}
-    	return false;
+		if(model.verifierMotDePasseAdmin(idAdmin, mdp)) {
+			this.connexion(idAdmin);
+			return true;
+		}
+		return false;
 	}
 
 	public void creerCompteResponsableTP(
 			String id, String mdp, String email, String nom, String prenom) {
-			ResponsableTP responsableTP = new ResponsableTP(id, mdp, email, nom, prenom);
-			model.creerCompteResponsableTP(responsableTP);
+		ResponsableTP responsableTP = new ResponsableTP(id, mdp, email, nom, prenom);
+		model.creerCompteResponsableTP(responsableTP);
 	}
 
 	public void ajouterMachineSalle(String nomMachine, String nomSalle) {
@@ -52,7 +52,7 @@ public class AdminControler extends Controler {
 	public String getPrenom() {
 		return model.getAdmin(id).getPrenom();
 	}
-	
+
 	public String getEmail() {
 		return model.getAdmin(id).getEmail();
 	}
@@ -64,15 +64,15 @@ public class AdminControler extends Controler {
 	public String getNom() {
 		return model.getAdmin(id).getNom();
 	}
-	
+
 	public void ajouterSalle(String nomS) {
 		model.ajoutSalle(nomS);
 	}
-	
+
 	public String[][] getSalle() {
 		return model.getSalles();
 	}
-	
+
 	public void supprimerSalle(String nomS) {
 		model.supprimerSalle(nomS) ;
 	}
@@ -80,15 +80,15 @@ public class AdminControler extends Controler {
 	public String getMotDePasse() {
 		return model.getAdmin(id).getMdp();
 	}
-	
+
 	public String[][] getMachine(String nomS) {
 		return model.getMachines(nomS);
 	}
-	
+
 	public void supprimerMachine(String nomM) {
 		model.supprimerMachine(nomM) ;
 	}
-	
+
 	public Object[][]  getCompteE(){
 		Object[][] t=null;
 		return t;
@@ -102,7 +102,7 @@ public class AdminControler extends Controler {
 
 	public void traiterReclamation(String description) {
 		model.traiterReclamation(description);
-		
+
 	}
 
 

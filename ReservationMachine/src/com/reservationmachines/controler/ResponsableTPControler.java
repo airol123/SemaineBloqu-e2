@@ -20,12 +20,12 @@ public class ResponsableTPControler extends Controler {
 		super(model);
 	}
 
-    public static ResponsableTP trouverResponsableTP(ResponsableTP responsableTP) {
+	public static ResponsableTP trouverResponsableTP(ResponsableTP responsableTP) {
 		ResponsableTP responsableTP1=new ResponsableTP();
 		return responsableTP1;
-    }
+	}
 
-    // Renvoie l'ent�te correspondante aux r�servation des machines
+	// Renvoie l'ent�te correspondante aux r�servation des machines
 	public String[] getEnteteReservationMachine() {
 		return model.getEnteteReservationMachine();
 	}
@@ -37,42 +37,42 @@ public class ResponsableTPControler extends Controler {
 		int nbLignes = reservations.size();
 		int nbColonnes = model.getEnteteReservationMachine().length;
 		Object[][] objects = new Object[nbLignes][nbColonnes];
-		
+
 		for(int i = 0 ; i < nbLignes ; i++) {
 			objects[i][0] = reservations.get(i).getNomMachine();
 			objects[i][1] = reservations.get(i).getEtatMachine();
 			objects[i][2] = reservations.get(i).getNomEtudiant();
 			objects[i][3] = reservations.get(i).getPrenomEtudiant();
 		}
-		
+
 		return objects;
 	}
 
 	public boolean verifierMotDePasseResponsableTP(String idResponsableTP, String mdp) {
-    	if(model.verifierMotDePasseResponsableTP(idResponsableTP, mdp)) {
-    		this.connexion(idResponsableTP);
-    		return true;
-    	}
-    	return false;
+		if(model.verifierMotDePasseResponsableTP(idResponsableTP, mdp)) {
+			this.connexion(idResponsableTP);
+			return true;
+		}
+		return false;
 	}
 
 	public String[] recupererFormations() {
 		ArrayList<String> formations = model.recupererNomsFormations();
 		String[] result = new String[formations.size()];
-		
+
 		for(int i = 0 ; i < formations.size() ; i++)
 			result[i] = formations.get(i);
-		
+
 		return result;
 	}
 
 	public String[] recupererGroupeTP(String idFormation) {
 		ArrayList<GroupeTP> groupes = model.recupererNomsGroupesTP(idFormation);
 		String[] result = new String[groupes.size()];
-		
+
 		for(int i = 0 ; i < groupes.size() ; i++)
 			result[i] = groupes.get(i).getNomGroupe();
-		
+
 		return result;
 	}
 
@@ -85,13 +85,13 @@ public class ResponsableTPControler extends Controler {
 		int nbLignes = salles.size();
 		int nbColonnes = model.getEnteteReservationMachine().length;
 		Object[][] objects = new Object[nbLignes][nbColonnes + 1];
-		
+
 		for(int i = 0 ; i < nbLignes ; i++) {
 			objects[i][0] = salles.get(i).getNomSalle();
 			objects[i][1] = salles.get(i).getCapacite();
 			objects[i][2] = "Sélectionner";
 		}
-		
+
 		return objects;
 	}
 
@@ -101,18 +101,18 @@ public class ResponsableTPControler extends Controler {
 		GroupeTP groupeTP = new GroupeTP(nomGroupe, formation);
 		Date date = Date.valueOf(dateArg);
 
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-	    long parseHeureDebut = 0;
-	    long parseHeureFin = 0;
-		
-	    try {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		long parseHeureDebut = 0;
+		long parseHeureFin = 0;
+
+		try {
 			parseHeureDebut = dateFormat.parse(dateArg + " " + heureDebutArg).getTime();
 			parseHeureFin = dateFormat.parse(dateArg + " " + heureFinArg).getTime();
 		} catch (ParseException e) {}
-		
+
 		Timestamp heureDebut = new Timestamp(parseHeureDebut);
 		Timestamp heureFin = new Timestamp(parseHeureFin);
-		
+
 		return model.reserverSalle(new ReservationSalle(nomCours, responsableTP, salle, groupeTP, formation, date, heureDebut, heureFin));
 	}
 
@@ -123,7 +123,7 @@ public class ResponsableTPControler extends Controler {
 	public String[] getReservationsSallesHeuresDebuts() {
 		return model.getReservationsSallesHeuresDebuts();
 	}
-	
+
 	public String[] getReservationsSallesHeuresDebuts(String heureFin) {
 		return model.getReservationsSallesHeuresDebuts(heureFin);
 	}
@@ -145,7 +145,7 @@ public class ResponsableTPControler extends Controler {
 		int nbLignes = reservations.size();
 		int nbColonnes = model.getEnteteSallesReservees().length;
 		Object[][] objects = new Object[nbLignes][nbColonnes];
-		
+
 		for(int i = 0 ; i < nbLignes ; i++) {
 			objects[i][0] = reservations.get(i).getNomCours();
 			objects[i][1] = reservations.get(i).getNomFormation();
@@ -158,14 +158,14 @@ public class ResponsableTPControler extends Controler {
 			objects[i][8] = "Voir l'état des machines";
 			objects[i][9] = "Annuler";
 		}
-		
+
 		return objects;
 	}
 
 	public String[] getEnteteSallesReservees() {
 		return model.getEnteteSallesReservees();
 	}
-	
+
 	public String getPrenom() {
 		return model.getPrenomResponsableTP(this.id);
 	}
@@ -175,37 +175,37 @@ public class ResponsableTPControler extends Controler {
 		Salle salle = new Salle(values.get("nomSalle"));
 		GroupeTP groupe = new GroupeTP(values.get("nomGroupeTP"), values.get("nomFormation"));
 		Date date = Date.valueOf(values.get("strDate"));
-		
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-	    long parsedDate = 0;
-		
-	    try {
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		long parsedDate = 0;
+
+		try {
 			parsedDate = dateFormat.parse(values.get("strDate") + " " + values.get("strHeureDebut")).getTime();
 		} catch (ParseException e) {}
-		
+
 		Timestamp heureDebut = new Timestamp(parsedDate);
-		
+
 		ReservationSalle reservationSalle = new ReservationSalle(respTP, salle, groupe, date, heureDebut);
 		return model.annulerReservationSalle(reservationSalle);
 	}
-	
+
 	public int annulerToutesReservationsMachinesSalle(HashMap<String, String> values) {
 		ResponsableTP respTP = new ResponsableTP(id);
 		Salle salle = new Salle(values.get("nomSalle"));
 		GroupeTP groupe = new GroupeTP(values.get("nomGroupeTP"), values.get("nomFormation"));
 		Date date = Date.valueOf(values.get("strDate"));
-		
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-	    long parsedDate = 0, parsedDate2 = 0;
-		
-	    try {
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		long parsedDate = 0, parsedDate2 = 0;
+
+		try {
 			parsedDate = dateFormat.parse(values.get("strDate") + " " + values.get("strHeureDebut")).getTime();
 			parsedDate2 = dateFormat.parse(values.get("strDate") + " " + values.get("strHeureDebut")).getTime();
 		} catch (ParseException e) {}
-		
+
 		Timestamp heureDebut = new Timestamp(parsedDate);
 		Timestamp heureFin = new Timestamp(parsedDate2);
-		
+
 		ReservationSalle reservationSalle = new ReservationSalle(respTP, salle, groupe, date, heureDebut, heureFin);
 		return model.annulerToutesReservationsMachinesSalle(reservationSalle);
 	}
