@@ -51,7 +51,7 @@ public class ConsulterMachine extends JFrame {
 		scrollPane.setViewportView(table);
 
 		JButton btnAjouter = new JButton("Ajouter une machine");
-		btnAjouter.setBounds(206, 232, 173, 23);
+		btnAjouter.setBounds(10, 232, 173, 23);
 		contentPane.add(btnAjouter);
 
 		JButton btnSupprimer = new JButton("Supprimer une machine");
@@ -61,10 +61,6 @@ public class ConsulterMachine extends JFrame {
 		JButton btnRetour = new JButton("Retourner");
 		btnRetour.setBounds(492, 270, 93, 23);
 		contentPane.add(btnRetour);
-
-		JButton btnReservation = new JButton("R\u00E9servations");
-		btnReservation.setBounds(20, 232, 173, 23);
-		contentPane.add(btnReservation);
 
 		this.setVisible(true);
 
