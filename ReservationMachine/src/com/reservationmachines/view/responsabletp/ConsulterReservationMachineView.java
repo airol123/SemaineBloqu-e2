@@ -11,12 +11,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import com.reservationmachines.controler.ResponsableTPControler;
-import com.reservationmachines.model.AbstractModel;
-import com.reservationmachines.model.Model;
 
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.util.HashMap;
 
 public class ConsulterReservationMachineView extends JFrame {
 
@@ -25,16 +24,21 @@ public class ConsulterReservationMachineView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ConsulterReservationMachineView(String idSalle, ResponsableTPControler controler) {
+	public ConsulterReservationMachineView(HashMap<String, String> values, ResponsableTPControler controler) {
 		setTitle("Consulter les r\u00E9servations des machines");
 		getContentPane().setLayout(new BorderLayout());
 
-		JTable table = new JTable(new DefaultTableModel(controler.getValeursReservationMachine(idSalle), controler.getEnteteReservationMachine()));
+		JTable table = new JTable(new DefaultTableModel(controler.getValeursReservationMachine(values), controler.getEnteteReservationMachine()));
 		JScrollPane scrollPane = new JScrollPane(table);
 		getContentPane().add(BorderLayout.CENTER, scrollPane);
 		
-		JLabel lblNewLabel = new JLabel("Liste des machines dans la Salle " + idSalle);
+		JLabel lblNewLabel = new JLabel("Liste des machines réservées de la salle " + values.get("nomS"));
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		getContentPane().add(BorderLayout.NORTH, lblNewLabel);
+
+		lblNewLabel = new JLabel("Réservation pour le " + values.get("date") + " de " + values.get("heureDebut") + " à " + values.get("heureFin"));
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(BorderLayout.NORTH, lblNewLabel);
 		
@@ -47,11 +51,5 @@ public class ConsulterReservationMachineView extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		pack();
 		setLocationRelativeTo(null);
-	}
-
-	public static void main(String[] args) {
-		AbstractModel model = new Model();
-		ResponsableTPControler controler = new ResponsableTPControler(model);
-		new ConsulterReservationMachineView("ME405", controler);
 	}
 }
