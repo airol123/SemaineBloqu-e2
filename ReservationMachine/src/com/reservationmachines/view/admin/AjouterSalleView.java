@@ -15,6 +15,10 @@ import com.reservationmachines.controler.AdminControler;
 import java.awt.event.ActionEvent;
 
 public class AjouterSalleView extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame jFrame = new JFrame("Consultation des salles");
 	private JPanel contentPane;
 	private JLabel lblTitle;

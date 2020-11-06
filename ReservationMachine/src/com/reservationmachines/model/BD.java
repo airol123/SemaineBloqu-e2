@@ -57,8 +57,7 @@ public class BD {
 	}*/
     
     public static void main(String[] args) throws SQLException {
-        BD c= new BD();
-        con = c.getConnection(); 
+        con = BD.getConnection(); 
         //Pour tester
         //Etudiant e=c.seConnecter(Integer.toString(21809051));  
         //System.out.println(e.getEmail());

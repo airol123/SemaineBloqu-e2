@@ -1,10 +1,7 @@
 package com.reservationmachines.controler;
 
-import java.sql.SQLException;
-
 import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.EtatMachine;
-import com.reservationmachines.model.EtatSalle;
 import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.model.Machine;
 import com.reservationmachines.model.ResponsableTP;

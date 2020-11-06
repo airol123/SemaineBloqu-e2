@@ -5,8 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.reservationmachines.controler.AdminControler;
-import com.reservationmachines.view.main.AdminMainView;
-
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -19,6 +17,10 @@ import javax.swing.ButtonGroup;
 public class CreerCompteView extends JFrame implements ActionListener {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField identifiant;
 	private JTextField mdp;

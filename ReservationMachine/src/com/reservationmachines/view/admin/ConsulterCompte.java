@@ -14,7 +14,11 @@ import java.awt.event.ActionEvent;
 import java.net.URL;
 
 public class ConsulterCompte extends JFrame {
-    private JPanel contentPane;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
     private JTable table;
 
     private AdminControler controler;

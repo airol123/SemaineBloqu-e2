@@ -1,15 +1,11 @@
 package com.reservationmachines.view.admin;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
-import com.reservationmachines.controler.AdminControler;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
@@ -18,6 +14,10 @@ import java.awt.event.ActionEvent;
 
 public class AttentionSupprimerSalle extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFrame jFrame = new JFrame("Attention");
 	private JPanel contentPane;
 

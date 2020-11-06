@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -39,11 +40,15 @@ import javax.swing.event.ChangeListener;
         */
 public class DateChooserJButton extends JButton {
 
-    private DateChooser dateChooser = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private DateChooser dateChooser = null;
     private String preLabel = "";
     private String originalText = null;
     private SimpleDateFormat sdf = null;
-    private static Date dateorigi=new Date(2020, 11,7,9,30 );
+    private static Date dateorigi = new GregorianCalendar(2020, 11,7,9,30 ).getTime();
 
     public DateChooserJButton() {
        /* dateorigi.setTime(500000);
@@ -197,7 +202,11 @@ public class DateChooserJButton extends JButton {
      */
     private class DateChooser extends JPanel implements ActionListener, ChangeListener {
 
-        int startYear = 2019; // Année d'affichage par défaut [minimum]
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		int startYear = 2019; // Année d'affichage par défaut [minimum]
         int lastYear = 2025; // Année d'affichage par défaut [Max]
         int width = 500; // Largeur d'interface
         int height = 210; // Hauteur

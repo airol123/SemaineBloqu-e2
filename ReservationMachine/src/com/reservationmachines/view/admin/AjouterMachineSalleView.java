@@ -12,10 +12,10 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class AjouterMachineSalleView extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField nom;
 	private JLabel lblNumroEtudient;
@@ -73,10 +73,7 @@ public class AjouterMachineSalleView extends JFrame implements ActionListener {
 		btnAnnuler.setBounds(127, 121, 97, 23);
 		contentPane.add(btnAnnuler);
 		
-		cbSalle = new JComboBox<>();
-		String[] listeNomSalle = controler.getListeNomSalle();
-		
-		cbSalle.setModel(new DefaultComboBoxModel(listeNomSalle));
+		cbSalle = new JComboBox<String>(controler.getListeNomSalle());
 		cbSalle.setBounds(147, 77, 147, 23);
 		contentPane.add(cbSalle);
 		this.setVisible(true);

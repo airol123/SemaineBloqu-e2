@@ -28,7 +28,7 @@ public class ConsulterReservationView {
     private JLabel lbF = new JLabel("Fin");
     private JLabel lbFin = new JLabel();
 
-    private JList liste = new JList();
+    private JList<String> liste = new JList<String>();
 
     private JButton btnRetour = new JButton("Retourner");
     private JButton btnGuacamole = new JButton("Acceder Guacamole");
@@ -64,7 +64,7 @@ public class ConsulterReservationView {
         titre.setFont(font);
         titre.setBounds(390, 20, 300, 40);
         jFrame.setBounds(600, 200, 1010, 550);
-        liste = new JList(reserveNom);
+        liste = new JList<String>(reserveNom);
         liste.addListSelectionListener(new ListSelectionListener() {
 
             @Override
@@ -183,7 +183,7 @@ public class ConsulterReservationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.dispose();
-                ConsulterReservationView actualiser = new ConsulterReservationView(controler);
+                new ConsulterReservationView(controler);
             }
         });
         btnReclamer.addActionListener(new ActionListener() {
