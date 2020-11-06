@@ -22,7 +22,7 @@ public class ConsulterReclamationView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	
+
 	private AdminControler controler;
 	private JButton btnTraiter;
 	private JButton btnRetour;
@@ -38,24 +38,24 @@ public class ConsulterReclamationView extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Consultation des machines");
 		lblNewLabel.setBounds(10, 10, 220, 15);
 		contentPane.add(lblNewLabel);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 42, 566, 175);
 		contentPane.add(scrollPane);
-		
+
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
-			controler.getReclamation(),
-			new String[] {
-				"Etudient", "Machine", "Type", "Description"
-			}
-		));
+				controler.getReclamation(),
+				new String[] {
+						"Etudient", "Machine", "Type", "Description"
+				}
+				));
 		scrollPane.setViewportView(table);
-		
+
 		btnTraiter = new JButton("Traiter");
 		btnTraiter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -63,20 +63,20 @@ public class ConsulterReclamationView extends JFrame {
 				table.setModel(new DefaultTableModel(
 						controler.getReclamation(),
 						new String[] {
-							"Etudient", "Machine", "Type", "Description"
+								"Etudient", "Machine", "Type", "Description"
 						}
-					));
+						));
 			}
 		});
 		btnTraiter.setBounds(372, 230, 97, 23);
 		contentPane.add(btnTraiter);
-		
+
 		btnRetour = new JButton("Retour");
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
-                AdminMainView am = new AdminMainView(controler);
-                am.getjFrame().setVisible(true);
+				AdminMainView am = new AdminMainView(controler);
+				am.getjFrame().setVisible(true);
 			}
 		});
 		btnRetour.setBounds(479, 230, 97, 23);

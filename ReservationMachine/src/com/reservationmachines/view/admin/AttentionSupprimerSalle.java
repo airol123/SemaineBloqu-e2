@@ -31,13 +31,13 @@ public class AttentionSupprimerSalle extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		jFrame.setContentPane(contentPane);
-		
+
 		JLabel lblTitle = new JLabel("<html>Vueillez d'abord supprimer tous les <br> machines dans la salle<html>");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblTitle.setBounds(20, 30, 330, 80);
 		contentPane.add(lblTitle);
-		
+
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -46,7 +46,7 @@ public class AttentionSupprimerSalle extends JFrame {
 		});
 		btnNewButton.setBounds(148, 120, 93, 23);
 		contentPane.add(btnNewButton);
-		
+
 		jFrame.setVisible(true);
 	}
 }
