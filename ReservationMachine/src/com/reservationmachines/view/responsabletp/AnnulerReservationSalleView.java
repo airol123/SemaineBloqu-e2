@@ -38,6 +38,7 @@ public class AnnulerReservationSalleView {
 				int i = controler.annulerToutesReservationsMachinesSalle(values);
 				
 				String message = (annulation1) ? "L'annulation de votre réservation a bien été effectuée !" : "Une erreur s'est produite lors de la tentative d'annulation !";
+				message += "\r\n";
 				message += (i > 0) ? "Il y a eu " + i + " annulation(s) de réservation machine !" : "Pas d'annulation de réservation machine !";
 				JOptionPane.showMessageDialog(view, message);
 			} else if(annulation1) {
