@@ -16,8 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -48,8 +46,6 @@ public class DateChooserJButton extends JButton {
 	private String preLabel = "";
 	private String originalText = null;
 	private SimpleDateFormat sdf = null;
-	private static Date dateorigi = new GregorianCalendar(2020, 11,7,9,30 ).getTime();
-
 	public DateChooserJButton() {
 		/* dateorigi.setTime(500000);
         System.out.println(dateorigi);*/
@@ -220,10 +216,6 @@ public class DateChooserJButton extends JButton {
 		// controle------------------//
 		Color controlLineColor = Color.pink;
 		Color controlTextColor = Color.white;
-		Color rbFontColor = Color.white;
-		Color rbBorderColor = Color.red;
-		Color rbButtonColor = Color.pink;
-		Color rbBtFontColor = Color.red;
 		/** La boîte de dialogue qui apparaît lorsque vous cliquez sur le DateChooserButton,
 		 * le contenu du calendrier se trouve dans cette boîte de dialogue */
 		JDialog dialog;

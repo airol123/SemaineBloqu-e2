@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
-
 import com.reservationmachines.controler.AdminControler;
 import com.reservationmachines.controler.EtudiantControler;
 import com.reservationmachines.controler.ResponsableTPControler;
@@ -33,7 +31,6 @@ public class SeConnecterView {
 	//private ControlerInterface contoler=new ControlerInterface();
 	private JLabel lblBackground = new JLabel();
 	private JLabel logo = new JLabel(new ImageIcon("ReservationMachine/images/logo.png"));
-	private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
 	private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
 	private Font font=new Font("Arial",Font.BOLD,36);
 

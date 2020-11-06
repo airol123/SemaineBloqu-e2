@@ -25,8 +25,6 @@ public class ConsulterSalle extends JFrame {
 	private JFrame jFrame = new JFrame("Consultation des salles");
 	private JPanel contentPane;
 	private JTable table;
-	private AdminControler controler;
-
 	/**
 	 * Create the frame.
 	 */

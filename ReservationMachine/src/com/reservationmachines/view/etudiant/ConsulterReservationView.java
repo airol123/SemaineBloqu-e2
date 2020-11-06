@@ -10,7 +10,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 
 public class ConsulterReservationView {
     private JFrame jFrame = new JFrame("Mes reservations");
@@ -28,7 +27,7 @@ public class ConsulterReservationView {
     private JLabel lbF = new JLabel("Fin");
     private JLabel lbFin = new JLabel();
 
-    private JList liste = new JList();
+    private JList<String> liste = new JList<String>();
 
     private JButton btnRetour = new JButton("Retourner");
     private JButton btnGuacamole = new JButton("Acceder Guacamole");
@@ -38,7 +37,6 @@ public class ConsulterReservationView {
 
     // background && font
     private JLabel lblBackground = new JLabel();
-    private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
     private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
@@ -64,7 +62,7 @@ public class ConsulterReservationView {
         titre.setFont(font);
         titre.setBounds(390, 20, 300, 40);
         jFrame.setBounds(600, 200, 1010, 550);
-        liste = new JList(reserveNom);
+        liste = new JList<String>(reserveNom);
         liste.addListSelectionListener(new ListSelectionListener() {
 
             @Override
@@ -183,7 +181,7 @@ public class ConsulterReservationView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jFrame.dispose();
-                ConsulterReservationView actualiser = new ConsulterReservationView(controler);
+               new ConsulterReservationView(controler);
             }
         });
         btnReclamer.addActionListener(new ActionListener() {

@@ -23,11 +23,7 @@ public class ConsulterMachine extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
-	private AdminControler controler;
-
 	public ConsulterMachine(AdminControler controler, String nomS) {
-		this.controler = controler;
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 607, 341);
 		contentPane = new JPanel();

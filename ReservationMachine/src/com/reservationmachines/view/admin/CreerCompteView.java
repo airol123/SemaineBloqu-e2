@@ -99,7 +99,7 @@ public class CreerCompteView extends JFrame implements ActionListener {
 		btnAnnuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
-				ConsulterCompte consulterCompte =new ConsulterCompte(controler);
+				new ConsulterCompte(controler);
 			}
 		});
 		btnAnnuler.setBounds(127, 200, 97, 23);
@@ -155,7 +155,7 @@ public class CreerCompteView extends JFrame implements ActionListener {
 						);
 			}
 			this.dispose();
-			ConsulterCompte cp= new ConsulterCompte(controler);
+			new ConsulterCompte(controler);
 		}
 	}
 }

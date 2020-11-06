@@ -24,8 +24,6 @@ public class AjouterSalleView extends JFrame{
 	private JLabel lblTitle;
 	private JTextField nomS;
 	private JLabel lblNomSalle;
-	private JTextField capacite;
-	private JLabel lblCapacite;
 	private JButton btnValider;
 	private JButton btnAnnuler;
 

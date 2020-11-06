@@ -6,8 +6,6 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -37,7 +35,6 @@ public class AdminMainView {
 	private JButton btnSalle = new JButton("Gestion de salle");
 	// background && font
 	private JLabel lblBackground = new JLabel();
-	private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
 	private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
 	private Font font = new Font("Arial",Font.BOLD,36);
 	private AdminControler controler;

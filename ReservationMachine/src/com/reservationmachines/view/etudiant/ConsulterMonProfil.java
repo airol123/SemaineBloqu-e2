@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 
 public class ConsulterMonProfil {
 	private JFrame jFrame = new JFrame("Mon Profil");
@@ -29,7 +28,6 @@ public class ConsulterMonProfil {
 
 	// background && font
 	private JLabel lblBackground = new JLabel();
-	private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
 	private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
 	private Font font=new Font("Arial",Font.BOLD,36);
 

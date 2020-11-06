@@ -10,11 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.net.URL;
 
 public class EffectuerReservationMachineView {
     private JFrame jFrame=new JFrame("Reserver la machine");
-    private EtudiantControler ec;
     private Container c = jFrame.getContentPane();
     //composition
     private JLabel titre = new JLabel("Reserver la machine");
@@ -35,7 +33,6 @@ public class EffectuerReservationMachineView {
 
     // background && font
     private JLabel lblBackground = new JLabel();
-    private final URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
     private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 

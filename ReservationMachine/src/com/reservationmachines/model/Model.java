@@ -99,7 +99,6 @@ public class Model extends AbstractModel {
 
 	@Override
 	public void creerCompteResponsableTP(ResponsableTP responsableTP) {
-		int n=0;
 		String sqlinsertetu="INSERT INTO resptp (idResp,mdpr, emailr,nomr, prenomr) VALUES (?,?,?,?,?);";
 		try {
 			Connection con =BD.getConnection();
@@ -110,7 +109,7 @@ public class Model extends AbstractModel {
 			pstmt.setString(3, responsableTP.email);
 			pstmt.setString(4, responsableTP.nom);
 			pstmt.setString(5, responsableTP.prenom);
-			n=pstmt.executeUpdate();
+			pstmt.executeUpdate();
 		} catch (Exception e) {e.printStackTrace();}
 	}
 

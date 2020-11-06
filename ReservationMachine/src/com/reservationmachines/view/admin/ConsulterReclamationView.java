@@ -23,7 +23,6 @@ public class ConsulterReclamationView extends JFrame {
 	private JPanel contentPane;
 	private JTable table;
 
-	private AdminControler controler;
 	private JButton btnTraiter;
 	private JButton btnRetour;
 
@@ -31,7 +30,6 @@ public class ConsulterReclamationView extends JFrame {
 	 * Create the frame.
 	 */
 	public ConsulterReclamationView(AdminControler controler) {
-		this.controler = controler;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 300);
 		contentPane = new JPanel();

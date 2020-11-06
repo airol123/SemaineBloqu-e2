@@ -7,10 +7,6 @@ import java.io.*;
 import javax.swing.*;
 
 public class PageGuacamole {
-	private JEditorPane jep = new JEditorPane();
-
-
-
 	private JFrame frame = new JFrame("Guacamole");
 	public PageGuacamole()  {
 

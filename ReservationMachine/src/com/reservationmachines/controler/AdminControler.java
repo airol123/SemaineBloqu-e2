@@ -6,7 +6,6 @@ import com.reservationmachines.model.AbstractModel;
 import com.reservationmachines.model.EtatMachine;
 import com.reservationmachines.model.Etudiant;
 import com.reservationmachines.model.Machine;
-import com.reservationmachines.model.ReservationMachine;
 import com.reservationmachines.model.ResponsableTP;
 import com.reservationmachines.model.Salle;
 

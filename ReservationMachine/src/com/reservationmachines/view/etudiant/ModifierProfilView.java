@@ -5,11 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 
 public class ModifierProfilView {
 	private JFrame jFrame = new JFrame("ModifierProfil");
-	private EtudiantControler ec;
 	private Container c = jFrame.getContentPane();
 	//composition
 	private JLabel titre = new JLabel("Modifier Profil");
@@ -28,7 +26,6 @@ public class ModifierProfilView {
 
 	// background && font
 	private JLabel lblBackground = new JLabel();
-	private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
 	private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
 	private Font font=new Font("Arial",Font.BOLD,36);
 

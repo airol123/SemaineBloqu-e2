@@ -11,16 +11,15 @@ import com.reservationmachines.view.main.AdminMainView;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.net.URL;
 
 public class ConsulterCompte extends JFrame {
 
     //private static final long serialVersionUID = 1L;
 
-    private JPanel contentPane;
+   private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
     private JTable table;
 
-    private AdminControler controler;
     private JButton btnAjouter;
     private JButton btnModifier;
     private JButton btnSupprimer;
@@ -28,14 +27,12 @@ public class ConsulterCompte extends JFrame {
     private JLabel lbIMsgC = new JLabel();
     // background && font
     private JLabel lblBackground = new JLabel();
-    private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
     private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
 
 	/**
 	 * Create the frame.
 	 */
 	public ConsulterCompte(AdminControler controler) {
-		this.controler = controler;
 		this.setLayout(null);
 		this.setTitle("gestion de compte");
 		lblBackground.setIcon(icon); // Définir l'icône à afficher par le composant d'étiquette
