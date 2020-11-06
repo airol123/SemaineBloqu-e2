@@ -43,11 +43,15 @@ public abstract class AbstractModel {
 	public abstract Etudiant seConnecter(String ide) throws SQLException;
 	public abstract Admin seConnecterAdmin(String ida) throws SQLException;
 	public abstract ResponsableTP seConnecterResponsable(String idres) throws SQLException;
-	public abstract String[] getListeNomSalle() throws SQLException;
+	public abstract String[] getListeNomSalle();
 	public abstract boolean supprimerRservation(ReservationMachine reservationMachine);
 	public abstract ArrayList<Machine> trouverMDisponible(String salle, String dateD, String dateF);
 	public abstract Boolean affecterReservationM(Machine machine, Etudiant etudiant, String dateD, String dateF);
 	public abstract String[][] getSalles();
 	public abstract void supprimerSalle(String nomS);
 	public abstract boolean miseAJourcompteE(String identifiant, String nom, String prenom, String email, String rePwd);
-}
+	public abstract void setMachineSalle(Machine machine);
+	public abstract String[][] getMachines(String nomS);
+	public abstract void supprimerMachine(String nomM);
+	}
+
