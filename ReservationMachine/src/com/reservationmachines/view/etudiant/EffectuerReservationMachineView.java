@@ -137,13 +137,21 @@ public class EffectuerReservationMachineView {
             public void actionPerformed(ActionEvent e) {
                 btnDateD.getDateActuelle();
                 btnDateF.getDateActuelle();
-                System.out.println(btnDateD.getDateActuelle()+btnDateF.getDateActuelle());
-               if(controler.enregistrerReservation(comboBox.getSelectedItem().toString(),btnDateD.getDateActuelle(),btnDateF.getDateActuelle()))
-               {
-                   lbIMsgC.setText("Opération réussie!");
-               }else{
-                   lbIMsgC.setText("Non machine disponible");
-               }
+                int choix = controler.enregistrerReservation(comboBox.getSelectedItem().toString(), btnDateD.getDateActuelle(), btnDateF.getDateActuelle());
+                switch (choix) {
+                    case 1:
+                        lbIMsgC.setText("La salle a été réservée");
+                        break;
+                    case 2:
+                        lbIMsgC.setText("Opération réussie!");
+                        break;
+                    case 3:
+                        lbIMsgC.setText("Raison inconnue, l'opération a échoué");
+                        break;
+                    case 4:
+                        lbIMsgC.setText("Non machine disponible dans cette salle");
+                        break;
+                }
 
             }
         });
