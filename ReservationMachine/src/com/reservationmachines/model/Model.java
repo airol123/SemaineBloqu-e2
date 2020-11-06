@@ -20,85 +20,122 @@ import java.util.TimeZone;
 
 public class Model extends AbstractModel {
 
-    protected final static String HEURE_RESERVATION_SEPARATEUR = ":";
-    protected final static String HEURE_RESERVATION_SALLE_MIN = "08:00";
-    protected final static String HEURE_RESERVATION_SALLE_MAX = "20:00";
-    protected final static String FREQUENCE_RESERVATION_EN_HEURE = "01:30";
+	protected final static String HEURE_RESERVATION_SEPARATEUR = ":";
+	protected final static String HEURE_RESERVATION_SALLE_MIN = "08:00";
+	protected final static String HEURE_RESERVATION_SALLE_MAX = "20:00";
+	protected final static String FREQUENCE_RESERVATION_EN_HEURE = "01:30";
 
+	@Override
+	public String[] getEnteteReservationMachine() {
+		return new String[] {"Machine", "État de la machine", "Nom étudiant", "Prénom étudiant"};
+	}
+
+	@Override
+	public ArrayList<ReservationMachine> getValeursReservationMachine(String nomSalle, String date, String heureDebut, String heureFin) {
+		ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
+		String sqlreservationm =
+				"SELECT *\r\n" +
+						"FROM Salle S, Machine M, ReserverM RM, Etudiant E\r\n" +
+						"WHERE S.Noms = ?\r\n" +
+						"	AND S.IdS = M.IdS\r\n" +
+						"    AND M.IdM = RM.IdM\r\n" +
+						"    AND RM.IdE = E.IdE\r\n" +
+						"	AND (UNIX_TIMESTAMP(RM.HeureDebutM) < UNIX_TIMESTAMP(CAST(? AS TIME)) \r\n" +
+						"	AND UNIX_TIMESTAMP(RM.HeureFinM) > UNIX_TIMESTAMP(CAST(? AS TIME))) \r\n" +
+						"	AND UNIX_TIMESTAMP(RM.DateM) = UNIX_TIMESTAMP(CAST(? AS DATE))\r\n" +
+						";";
+
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
+			pstmt.setString(1, nomSalle);
+			pstmt.setString(2, heureFin);
+			pstmt.setString(3, heureDebut);
+			pstmt.setString(4, date);
+
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Etudiant etu=new Etudiant();
+				etu.setNom(rs.getString("nome"));
+				etu.setPrenom(rs.getString("prenome"));
+				etu.setEmail(rs.getString("emaile"));
+				etu.setIdentifiant(String.valueOf(rs.getInt("ide")));
+				etu.setMdp(rs.getString("mdpe"));
+				Salle salle =new Salle();
+				salle.setNomSalle(nomSalle);
+				Machine mac=new Machine(rs.getString("nomm"),EtatMachine.valueOf(rs.getString("etatm")),salle);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+				String sdd=rs.getString("datem")+" "+rs.getString("heuredebutm");
+				Timestamp d = null;
+				try {
+					d = new Timestamp(dateFormat.parse(sdd).getTime());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+
+				String sdf=rs.getString("datem")+" "+rs.getString("heurefinm");
+				Timestamp f = null;
+				try {
+					f = new Timestamp(dateFormat.parse(sdf).getTime());
+				} catch (ParseException e2) {
+					e2.printStackTrace();
+				}
+
+				reservations.add(new ReservationMachine(etu, mac, d, f));
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+
+		return reservations;
+	}
+
+
+	@Override
+	public void creerCompteEtudiant(Etudiant etudiant) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void creerCompteResponsableTP(ResponsableTP responsableTP) {
+		int n=0;
+		String sqlinsertetu="INSERT INTO resptp (ide,mdpe, emaile,nome, prenome) VALUES (?,?,?,?,?);";
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlinsertetu);
+
+			pstmt.setInt(1,Integer.parseInt(responsableTP.getIdentifiant()));
+			pstmt.setString(2, responsableTP.mdp);
+			pstmt.setString(3, responsableTP.email);
+			pstmt.setString(4, responsableTP.nom);
+			pstmt.setString(5, responsableTP.prenom);
+			n=pstmt.executeUpdate();
+		} catch (Exception e) {e.printStackTrace();}
+	}
+
+
+
+	// ajouter une nouvelle machine et l’affecter à une salle
     @Override
-    public String[] getEnteteReservationMachine() {
-        return new String[]{"Machine", "état de la machine", "Nom étudiant", "Prénom étudiant"};
-    }
-
-    @Override
-    public ArrayList<ReservationMachine> getValeursReservationMachine(String idSalle) {
-        ArrayList<ReservationMachine> reservations = new ArrayList<ReservationMachine>();
-        String sqlreservationm = "select * from salle,machine,reserverm,etudiant where noms=? and salle.IDS=machine.IDS and machine.IDM=reserverm.IDM and reserverm.IDE=etudiant.IDE ";
-
-        try {
-            Connection con = BD.getConnection();
-            PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
-            pstmt.setString(1, idSalle);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                Etudiant etu = new Etudiant();
-                etu.setNom(rs.getString("nome"));
-                etu.setPrenom(rs.getString("prenome"));
-                etu.setEmail(rs.getString("emaile"));
-                etu.setIdentifiant(String.valueOf(rs.getInt("ide")));
-                etu.setMdp(rs.getString("mdpe"));
-                Salle salle = new Salle();
-                salle.setNomSalle(idSalle);
-                Machine mac = new Machine(rs.getString("nomm"), EtatMachine.valueOf(rs.getString("etatm")), salle);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-                String sdd = rs.getString("datem") + " " + rs.getString("heuredebutm");
-                Timestamp d = null;
-                try {
-                    d = new Timestamp(dateFormat.parse(sdd).getTime());
-                } catch (ParseException e1) {
-                    e1.printStackTrace();
-                }
-
-                String sdf = rs.getString("datem") + " " + rs.getString("heurefinm");
-                Timestamp f = null;
-                try {
-                    f = new Timestamp(dateFormat.parse(sdf).getTime());
-                } catch (ParseException e2) {
-                    e2.printStackTrace();
-                }
-
-                reservations.add(new ReservationMachine(etu, mac, d, f));
-            }
-        } catch (Exception e3) {
-            e3.printStackTrace();
-        }
-
-        return reservations;
-    }
+	public void setMachineSalle(Machine machine){
+		Salle salle = machine.getSalle();
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement sql = con.prepareStatement( "INSERT INTO machine(IDM, IDS, NOMM, ETATM) VALUES (?, ?, ?, ?)");
+			sql.setInt(1, this.trouverMaxMachine());
+			sql.setInt(2, this.chercherIdSalle(salle));
+			sql.setString(3, machine.getNomMachine());
+			sql.setString(4, machine.getEtatMachine());
+			sql.executeUpdate();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+	};
 
 
-    @Override
-    public void creerCompteEtudiant(Etudiant etudiant) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void creerCompteResponsableTP(ResponsableTP responsableTP) {
-
-    }
-
-
-    // ajouter une nouvelle machine et l’affecter à une salle
-    @Override
-    public void setMachineSalle(String nomMachine, String nomSalle) {
-
-    }
-
-    ;
-
-    //Trouver une etudiant selon son identifiant
+	//Trouver une etudiant selon son identifiant
     @Override
     public Etudiant seConnecter(String ide) throws SQLException {
         Etudiant etu = null;
@@ -172,19 +209,25 @@ public class Model extends AbstractModel {
     }
 
     @Override
-    public String[] getListeNomSalle() throws SQLException {
-        ArrayList<String> listeNomSalle = new ArrayList<>();
-        String sqlnomSalle = "select noms from salle";
-        Connection con = BD.getConnection();
-        PreparedStatement pstmt = con.prepareStatement(sqlnomSalle);
-        ResultSet rs = pstmt.executeQuery();
-        while (rs.next()) {
-            listeNomSalle.add(rs.getString("noms"));
-        }
-        rs.close();
+	public String[] getListeNomSalle() {
+		ArrayList<String> listeNomSalle = new ArrayList<>();
+		String sqlnomSalle= "select noms from salle";
+		Connection con =BD.getConnection();
+		PreparedStatement pstmt;
+		try {
+			pstmt = con.prepareStatement(sqlnomSalle);
 
-        return listeNomSalle.toArray(new String[0]);
-    }
+			ResultSet rs=pstmt.executeQuery();
+			while (rs.next()) {
+				listeNomSalle.add(rs.getString("noms"));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listeNomSalle.toArray(new String[0]);
+	}
 
 	@Override
 	public boolean verifierMotDePasseEtudiant(String numEtudiant, String mdp) {
@@ -251,16 +294,16 @@ public class Model extends AbstractModel {
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
 			resultat.next();
-			
+
 			etudiant = new Etudiant(
-				resultat.getString("ide"),
-				resultat.getString("mdpe"),
-				resultat.getString("nome"),
-				resultat.getString("prenome"),
-				resultat.getString("emaile")
+					resultat.getString("ide"),
+					resultat.getString("mdpe"),
+					resultat.getString("nome"),
+					resultat.getString("prenome"),
+					resultat.getString("emaile")
 			);
 		} catch (Exception e) {e.printStackTrace();}
-		
+
 		return etudiant;
 	}
 
@@ -354,32 +397,32 @@ public class Model extends AbstractModel {
         }
     }
 
-    @Override
-    public String[] getReservationsSallesDates() {
-        // Initialisation � la date d'aujourd'hui
-        LocalDate day = LocalDate.now();
-        // Ex. mer. 04/11/2020
-        DateTimeFormatter date = DateTimeFormatter.ofPattern("EEE dd/MM/yyyy");
-        // Le num�ro du jour de la semaine (ex. 3 pour mercredi)
-        DateTimeFormatter dayName = DateTimeFormatter.ofPattern("e");
-        String[] result = new String[100];
+	@Override
+	public String[] getReservationsSallesDates() {
+		// Initialisation � la date d'aujourd'hui
+		LocalDate day = LocalDate.now();
+		// Ex. mer. 04/11/2020
+		DateTimeFormatter date = DateTimeFormatter.ofPattern("EEE dd/MM/yyyy");
+		// Le num�ro du jour de la semaine (ex. 3 pour mercredi)
+		DateTimeFormatter dayName = DateTimeFormatter.ofPattern("e");
+		String[] result = new String[100];
 
-        for (int i = 0; i < result.length; i++) {
-            // Si c'est samedi, on avance deux de jours
-            if (Integer.parseInt(day.format(dayName)) == 6)
-                day = day.plusDays(2);
-            // Si c'est dimanche, on avance de 1 jour
-            if (Integer.parseInt(day.format(dayName)) == 7)
-                day = day.plusDays(1);
+		for(int i = 0 ; i < result.length ; i++) {
+			// Si c'est samedi, on avance deux de jours
+			if(Integer.parseInt(day.format(dayName)) == 6)
+				day = day.plusDays(2);
+			// Si c'est dimanche, on avance de 1 jour
+			if(Integer.parseInt(day.format(dayName)) == 7)
+				day = day.plusDays(1);
 
-            result[i] = day.format(date);
+			result[i] = day.format(date);
 
-            // Jour suivant
-            day = day.plusDays(1);
-        }
+			// Jour suivant
+			day = day.plusDays(1);
+		}
 
-        return result;
-    }
+		return result;
+	}
 
     @Override
     public ArrayList<ReservationMachine> getReservationMachineE(String etudiant) {
@@ -457,16 +500,16 @@ public class Model extends AbstractModel {
 			statement = connection.createStatement();
 			ResultSet resultat = statement.executeQuery(querySQL);
 			resultat.next();
-			
-			admin = new Admin(
-				resultat.getString("ida"),
-				resultat.getString("mdpa"),
-				resultat.getString("emaila"),
-				resultat.getString("noma"),
-				resultat.getString("prenoma")
 
-			);
-			
+			admin = new Admin(
+					resultat.getString("ida"),
+					resultat.getString("mdpa"),
+					resultat.getString("emaila"),
+					resultat.getString("noma"),
+					resultat.getString("prenoma")
+
+					);
+
 		} catch (Exception e) {e.printStackTrace();}
 		
 		return admin;
@@ -474,122 +517,126 @@ public class Model extends AbstractModel {
 	
 	@Override
 	public ArrayList<Salle> getValeursSallesDisponibles(String date, String heureDebut, String heureFin) {
-		String querySQL = "SELECT NomS, COUNT(M.IdM) AS Capacite\r\n" + 
+		String querySQL = "SELECT S.NomS, COUNT(M.IdM) AS Capacite\r\n" +
 				"FROM Salle S, Machine M\r\n" + 
-				"WHERE S.IdS = M.IdS \r\n" + 
-				"	AND NOT EXISTS (\r\n" + 
-				"		SELECT *    \r\n" + 
-				"		FROM ReserverS RS1\r\n" + 
-				"        WHERE RS1.IdS = S.IdS\r\n" + 
-				"        AND NOT EXISTS (\r\n" + 
-				"			SELECT *       \r\n" + 
-				"			FROM ReserverS RS2\r\n" + 
-				"			WHERE (UNIX_TIMESTAMP(RS2.HeureDebuts) > UNIX_TIMESTAMP(CAST('09:30' AS TIME))   \r\n" + 
-				"				OR UNIX_TIMESTAMP(RS2.HeureFins) < UNIX_TIMESTAMP(CAST('08:00' AS TIME)))     \r\n" + 
-				"				AND UNIX_TIMESTAMP(RS2.Dates) = UNIX_TIMESTAMP(CAST('2020-11-05' AS DATE))\r\n" + 
-				"				AND RS1.Ids = RS2.IdS\r\n" + 
-				"		)\r\n" + 
-				"	)\r\n" + 
-				"GROUP BY NomS, S.IdS;\r\n" + 
-				";";
+				"WHERE M.IdS = S.IdS\r\n" +
+				"AND NOT EXISTS (\r\n" +
+				"    SELECT *\r\n" +
+				"    FROM ReserverS R1\r\n" +
+				"    WHERE (UNIX_TIMESTAMP(HeureDebuts) < UNIX_TIMESTAMP(CAST(? AS TIME))\r\n" +
+				"    AND UNIX_TIMESTAMP(HeureFins) > UNIX_TIMESTAMP(CAST(? AS TIME)))\r\n" +
+				"	 AND UNIX_TIMESTAMP(Dates) = UNIX_TIMESTAMP(CAST(? AS DATE))\r\n" +
+				"    AND NOT EXISTS (\r\n" +
+				"		SELECT *\r\n" +
+				"        FROM ReserverS R2\r\n" +
+				"        WHERE R2.IdS <> S.IdS\r\n" +
+				"        AND R2.HeureDebuts = R1.HeureDebuts\r\n" +
+				"        AND R2.Dates = R1.Dates\r\n" +
+				"        AND R2.IdResp = R1.IdResp\r\n" +
+				"        AND R2.Ids = R1.IdS\r\n" +
+				"    )\r\n" +
+				")\r\n" +
+				"GROUP BY S.Noms, S.IdS;\r\n";
 
+		System.out.println(querySQL);
+		System.out.println(heureFin + " " + heureDebut + " " + date);
 
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			PreparedStatement statement = connection.prepareStatement(querySQL);
+			statement.setString(1, heureFin);
+			statement.setString(2, heureDebut);
+			statement.setString(3, date);
+			ResultSet resultat = statement.executeQuery();
 
-        // V�rifier si la valeur existe dans la table
-        try {
-            Connection connection = BD.getConnection();
-            Statement statement;
-            statement = connection.createStatement();
-            ResultSet resultat = statement.executeQuery(querySQL);
+			ArrayList<Salle> salles = new ArrayList<Salle>();
 
-            ArrayList<Salle> salles = new ArrayList<Salle>();
-            while (resultat.next()) {
-                salles.add(new Salle(resultat.getString("NomS"), resultat.getInt("Capacite")));
-            }
+			while(resultat.next()) {
+				salles.add(new Salle(resultat.getString("NomS"), resultat.getInt("Capacite")));
+			}
 
-            return salles;
-        } catch (Exception e) {
-            return null;
-        }
-    }
+			return salles;
+		} catch (Exception e) {e.printStackTrace(); return null;}
+	}
 
-    @Override
-    public String[] getEnteteSallesDisponibles() {
-        return new String[]{"Salle", "Capacité"};
-    }
+	@Override
+	public String[] getEnteteSallesDisponibles() {
+		return new String[] {"Salle", "Capacité", "Réserver"};
+	}
 
-    @Override
-    public String[] getReservationsSallesHeuresDebuts(String heureFin) {
-        ArrayList<String> heuresDebuts = new ArrayList<String>();
-        int hDebut = Integer.parseInt(HEURE_RESERVATION_SALLE_MIN.split(HEURE_RESERVATION_SEPARATEUR)[0]);
-        int mDebut = Integer.parseInt(HEURE_RESERVATION_SALLE_MIN.split(HEURE_RESERVATION_SEPARATEUR)[1]);
-        int hFin = Integer.parseInt(heureFin.split(HEURE_RESERVATION_SEPARATEUR)[0]);
-        int mFin = Integer.parseInt(heureFin.split(HEURE_RESERVATION_SEPARATEUR)[1]);
-        int hFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[0]);
-        int mFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+	@Override
+	public String[] getReservationsSallesHeuresDebuts(String heureFin) {
+		ArrayList<String> heuresDebuts = new ArrayList<String>();
+		int hDebut = Integer.parseInt(HEURE_RESERVATION_SALLE_MIN.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mDebut = Integer.parseInt(HEURE_RESERVATION_SALLE_MIN.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		int hFin = Integer.parseInt(heureFin.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mFin = Integer.parseInt(heureFin.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		int hFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[1]);
 
-        do {
-            if (mDebut >= 60) {
-                mDebut = mDebut % 60;
-                hDebut++;
-            }
+		do {
+			if(mDebut >= 60) {
+				mDebut = mDebut % 60;
+				hDebut++;
+			}
 
-            String tmp = "";
-            // Si les heures sont inf�rieures � 10, alors on ajoute un z�ro
-            tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
-            tmp += HEURE_RESERVATION_SEPARATEUR;
-            // Si les minutes sont inf�rieures � 10, alors on ajoute un z�ro
-            tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
+			String tmp = "";
+			// Si les heures sont inf�rieures � 10, alors on ajoute un z�ro
+			tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
+			tmp += HEURE_RESERVATION_SEPARATEUR;
+			// Si les minutes sont inf�rieures � 10, alors on ajoute un z�ro
+			tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
 
-            heuresDebuts.add(tmp);
+			heuresDebuts.add(tmp);
 
-            hDebut = (hDebut + hFrequence) % 24;
-            mDebut = (mDebut + mFrequence);
-        } while (hDebut % 24 < hFin - hFrequence || mDebut % 60 < mFin - mFrequence);
+			hDebut = (hDebut + hFrequence) % 24;
+			mDebut = (mDebut + mFrequence);
+		} while(hDebut % 24 < hFin - hFrequence || mDebut % 60 < mFin - mFrequence);
 
-        String[] result = new String[heuresDebuts.size()];
-        for (int i = 0; i < heuresDebuts.size(); i++) result[i] = heuresDebuts.get(i);
+		String[] result = new String[heuresDebuts.size()];
+		for(int i = 0 ; i < heuresDebuts.size() ; i++) result[i] = heuresDebuts.get(i);
 
-        return result;
-    }
+		return result;
+	}
 
-    @Override
-    public String[] getReservationsSallesHeuresFins(String heureDebut) {
-        ArrayList<String> heuresDebuts = new ArrayList<String>();
-        int hDebut = Integer.parseInt(heureDebut.split(HEURE_RESERVATION_SEPARATEUR)[0]);
-        int mDebut = Integer.parseInt(heureDebut.split(HEURE_RESERVATION_SEPARATEUR)[1]);
-        int hFin = Integer.parseInt(HEURE_RESERVATION_SALLE_MAX.split(HEURE_RESERVATION_SEPARATEUR)[0]);
-        int mFin = Integer.parseInt(HEURE_RESERVATION_SALLE_MAX.split(HEURE_RESERVATION_SEPARATEUR)[1]);
-        int hFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[0]);
-        int mFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+	@Override
+	public String[] getReservationsSallesHeuresFins(String heureDebut) {
+		ArrayList<String> heuresDebuts = new ArrayList<String>();
+		int hDebut = Integer.parseInt(heureDebut.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mDebut = Integer.parseInt(heureDebut.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		int hFin = Integer.parseInt(HEURE_RESERVATION_SALLE_MAX.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mFin = Integer.parseInt(HEURE_RESERVATION_SALLE_MAX.split(HEURE_RESERVATION_SEPARATEUR)[1]);
+		int hFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[0]);
+		int mFrequence = Integer.parseInt(FREQUENCE_RESERVATION_EN_HEURE.split(HEURE_RESERVATION_SEPARATEUR)[1]);
 
-        hDebut += hFrequence;
-        mDebut += mFrequence;
+		hDebut += hFrequence;
+		mDebut += mFrequence;
 
-        do {
-            if (mDebut >= 60) {
-                mDebut = mDebut % 60;
-                hDebut++;
-            }
+		do {
+			if(mDebut >= 60) {
+				mDebut = mDebut % 60;
+				hDebut++;
+			}
 
-            String tmp = "";
-            // Si les heures sont inf�rieures � 10, alors on ajoute un z�ro
-            tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
-            tmp += HEURE_RESERVATION_SEPARATEUR;
-            // Si les minutes sont inf�rieures � 10, alors on ajoute un z�ro
-            tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
+			String tmp = "";
+			// Si les heures sont inf�rieures � 10, alors on ajoute un z�ro
+			tmp += (hDebut < 10) ? "0" + hDebut : "" + hDebut;
+			tmp += HEURE_RESERVATION_SEPARATEUR;
+			// Si les minutes sont inf�rieures � 10, alors on ajoute un z�ro
+			tmp += (mDebut < 10) ? "0" + mDebut : "" + mDebut;
 
-            heuresDebuts.add(tmp);
+			heuresDebuts.add(tmp);
 
-            hDebut = (hDebut + hFrequence) % 24;
-            mDebut = (mDebut + mFrequence);
-        } while (hDebut % 24 < hFin || mDebut % 60 <= mFin);
+			hDebut = (hDebut + hFrequence) % 24;
+			mDebut = (mDebut + mFrequence);
+		} while(hDebut % 24 < hFin || mDebut % 60 <= mFin);
 
-        String[] result = new String[heuresDebuts.size()];
-        for (int i = 0; i < heuresDebuts.size(); i++) result[i] = heuresDebuts.get(i);
+		String[] result = new String[heuresDebuts.size()];
+		for(int i = 0 ; i < heuresDebuts.size() ; i++) result[i] = heuresDebuts.get(i);
 
-        return result;
-    }
+		return result;
+	}
 
     @Override
     public String[] getReservationsSallesHeuresDebuts() {
@@ -601,202 +648,225 @@ public class Model extends AbstractModel {
         return getReservationsSallesHeuresFins(HEURE_RESERVATION_SALLE_MIN);
     }
 
-    @Override
-    public void reserverSalle(ReservationSalle reservationSalle) {
-        String querySQL = "SELECT IdS FROM Salle WHERE NomS LIKE '" + reservationSalle.getNomSalle() + "';";
+	@Override
+	public boolean reserverSalle(ReservationSalle reservationSalle) {
+		String querySQL = "INSERT INTO ReserverS VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-        // V�rifier si la valeur existe dans la table
-        try {
-            Connection connection = BD.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery(querySQL);
-            result.next();
 
-            querySQL = "INSERT INTO ReserverS ("
-                    + reservationSalle.getHeureDebut() + ", "
-                    + reservationSalle.getDate() + ", "
-                    + reservationSalle.getResponsableTP().identifiant + ", "
-                    + result.getString("IdS") + ", "
-                    + reservationSalle.getHeureFin() + ", "
-                    + reservationSalle.getNomCours() + ", "
-                    + ");";
 
-            statement.executeUpdate(querySQL);
-        } catch (Exception e) {
-        }
-    }
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			PreparedStatement statement = connection.prepareStatement(querySQL);
 
-    @Override
-    public String[] recupererNomTP(String id) {
-        String querySQL = "SELECT DISTINCT NomTP FROM ReserverS WHERE IdResp = '" + id + "';";
+			String heureDebut = reservationSalle.getHeureDebut();
+			String date = reservationSalle.getDate();
+			String idResp = reservationSalle.getResponsableTP().identifiant;
+			int idS = chercherIdSalle(new Salle(reservationSalle.getNomSalle()));
+			String heureFin = reservationSalle.getHeureFin();
+			String nomCours = reservationSalle.getNomCours();
+			int idG = chercherIdGroupeTP(reservationSalle.getGroupeTP());
 
-        // V�rifier si la valeur existe dans la table
-        try {
-            Connection connection = BD.getConnection();
-            Statement statement;
-            statement = connection.createStatement();
-            ResultSet resultat = statement.executeQuery(querySQL);
+			statement.setString(1, heureDebut);
+			statement.setString(2, date);
+			statement.setString(3, idResp);
+			statement.setInt(4, idS);
+			statement.setString(5, heureFin);
+			statement.setString(6, nomCours);
+			statement.setInt(7, idG);
 
-            ArrayList<String> nomsTP = new ArrayList<String>();
-            while (resultat.next()) {
-                nomsTP.add(resultat.getString(1));
-            }
+			int result = statement.executeUpdate();
+			return (result != 1) ? false : true;
+		} catch (Exception e) {e.printStackTrace(); return false;}
+	}
 
-            String[] result = new String[nomsTP.size()];
-            for (int i = 0; i < nomsTP.size(); i++) result[i] = nomsTP.get(i);
-            return result;
-        } catch (Exception e) {
-            return null;
-        }
-    }
+	@Override
+	public String[] recupererNomTP(String id) {
+		String querySQL = "SELECT DISTINCT NomTP FROM ReserverS WHERE IdResp = '" + id + "';";
 
-    @Override
-    public ArrayList<ReservationSalle> getValeursReservees(String id) {
-        String querySQL = "SELECT NomTP, NomF, NomG, Dates, HeureDebuts, HeureFins, NomS, COUNT(DISTINCT M.IdM) Capacite\n";
-        querySQL += "FROM ReserverS RS, Salle S, Groupe G, Formation F, Machine M\n";
-        querySQL += "WHERE S.IdS = RS.IdS\n";
-        querySQL += "	AND M.IdS = S.IdS\n";
-        querySQL += "	AND G.IdF = F.IdF\n";
-        querySQL += "	AND G.IdG = RS.IdG\n";
-        querySQL += "	AND RS.IdResp = '" + id + "'\n";
-        querySQL += "GROUP BY NomTP, NomF, NomG, Dates, HeureDebuts, HeureFins, NomS;";
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
 
-        // V�rifier si la valeur existe dans la table
-        try {
-            Connection connection = BD.getConnection();
-            Statement statement;
-            statement = connection.createStatement();
-            ResultSet resultat = statement.executeQuery(querySQL);
+			ArrayList<String> nomsTP = new ArrayList<String>();
+			while(resultat.next()) {
+				if(!nomsTP.contains(resultat.getString(1))) nomsTP.add(resultat.getString(1));
+			}
 
-            ArrayList<ReservationSalle> reservationsSalles = new ArrayList<ReservationSalle>();
+			String[] result = new String[nomsTP.size()];
+			for(int i = 0 ; i < nomsTP.size() ; i++) result[i] = nomsTP.get(i);
+			return result;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
-            while (resultat.next()) {
-                String nomCours = resultat.getString("NomTP");
-                ResponsableTP responsableTP = new ResponsableTP(id);
-                Salle salle = new Salle(resultat.getString("NomS"), resultat.getInt("Capacite"));
-                GroupeTP groupeTP = new GroupeTP(resultat.getString("NomG"));
-                String formation = resultat.getString("NomF");
-                Date date = resultat.getDate("Dates", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
-                Timestamp heureDebut = resultat.getTimestamp("HeureDebuts", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
-                Timestamp heureFin = resultat.getTimestamp("HeureFins", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
+	@Override
+	public ArrayList<ReservationSalle> getValeursReservees(String id) {
+		String querySQL = "SELECT NomTP, NomF, NomG, Dates, HeureDebuts, HeureFins, NomS, COUNT(DISTINCT M.IdM) Capacite\n";
+		querySQL += "FROM ReserverS RS, Salle S, Groupe G, Formation F, Machine M\n";
+		querySQL += "WHERE S.IdS = RS.IdS\n";
+		querySQL += "	AND M.IdS = S.IdS\n";
+		querySQL += "	AND G.IdF = F.IdF\n";
+		querySQL += "	AND G.IdG = RS.IdG\n";
+		querySQL += "	AND RS.IdResp = '" + id + "'\n";
+		querySQL += "GROUP BY NomTP, NomF, NomG, Dates, HeureDebuts, HeureFins, NomS;";
 
-                ReservationSalle reservation = new ReservationSalle(nomCours, responsableTP, salle, groupeTP, formation, date, heureDebut, heureFin);
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
 
-                reservationsSalles.add(reservation);
-            }
+			ArrayList<ReservationSalle> reservationsSalles = new ArrayList<ReservationSalle>();
 
-            return reservationsSalles;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			while(resultat.next()) {
+				String nomCours = resultat.getString("NomTP");
+				ResponsableTP responsableTP = new ResponsableTP(id);
+				Salle salle = new Salle(resultat.getString("NomS"), resultat.getInt("Capacite"));
+				GroupeTP groupeTP = new GroupeTP(resultat.getString("NomG"));
+				String formation = resultat.getString("NomF");
+				Date date = resultat.getDate("Dates", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
+				Timestamp heureDebut = resultat.getTimestamp("HeureDebuts", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
+				Timestamp heureFin = resultat.getTimestamp("HeureFins", Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris")));
 
-        return null;
-    }
+				ReservationSalle reservation = new ReservationSalle(nomCours, responsableTP, salle, groupeTP, formation, date, heureDebut, heureFin);
 
-    @Override
-    public String[] getEnteteSallesReservees() {
-        return new String[]{"Cours", "Formation", "Groupe de TP", "Date", "Heure début", "Heure Fin", "Nom de la salle", "Capacite", "Réservations machines", "Annuler une réservation"};
-    }
+				reservationsSalles.add(reservation);
+			}
 
-    @Override
-    public String getPrenomResponsableTP(String idResponsableTP) {
-        String querySQL = "SELECT PrenomR FROM RespTP WHERE IdResp = '" + idResponsableTP + "';";
+			return reservationsSalles;
+		} catch (Exception e) {e.printStackTrace();}
 
-        // V�rifier si la valeur existe dans la table
-        try {
-            Connection connection = BD.getConnection();
-            Statement statement;
-            statement = connection.createStatement();
-            ResultSet resultat = statement.executeQuery(querySQL);
-            resultat.next();
-            return resultat.getString(1);
-        } catch (SQLException e) {
-            return "";
-        }
-    }
+		return null;
+	}
 
-    // Retirer la réservation de la salle "idSalle" (NomS)
-    @Override
-    public boolean annulerReservationSalle(ReservationSalle reservationSalle) {
-        String querySQL =
-                "DELETE FROM ReserverS\r\n" +
-                        "WHERE UNIX_TIMESTAMP(HeureDebuts) = UNIX_TIMESTAMP(CAST(? AS TIME))\r\n" +
-                        "	AND UNIX_TIMESTAMP(Dates) = UNIX_TIMESTAMP(CAST(? AS DATE))\r\n" +
-                        "    AND IdResp = ?\r\n" +
-                        "    AND IdS = ?\r\n" +
-                        "    AND IdG = ?\r\n" +
-                        ";";
+	@Override
+	public String[] getEnteteSallesReservees() {
+		return new String[] {"Cours", "Formation", "Groupe de TP", "Date", "Heure début", "Heure Fin", "Nom de la salle", "Capacite", "Réservations machines", "Annuler une réservation"};
+	}
 
-        try {
-            String idResp = reservationSalle.getResponsableTP().identifiant;
-            int idS = chercherIdSalle(reservationSalle.getSalle());
-            int idG = chercherIdGroupeTP(reservationSalle.getGroupeTP());
+	@Override
+	public String getPrenomResponsableTP(String idResponsableTP) {
+		String querySQL = "SELECT PrenomR FROM RespTP WHERE IdResp = '" + idResponsableTP + "';";
 
-            Connection connection = BD.getConnection();
-            PreparedStatement statement = connection.prepareStatement(querySQL);
-            statement.setString(1, reservationSalle.getHeureDebut());
-            statement.setString(2, reservationSalle.getDate());
-            statement.setString(3, idResp);
-            statement.setInt(4, idS);
-            statement.setInt(5, idG);
+		// V�rifier si la valeur existe dans la table
+		try {
+			Connection connection = BD.getConnection();
+			Statement statement;
+			statement = connection.createStatement();
+			ResultSet resultat = statement.executeQuery(querySQL);
+			resultat.next();
+			return resultat.getString(1);
+		} catch (SQLException e) {
+			return "";
+		}
+	}
 
-            return (statement.executeUpdate() == 1) ? true : false;
-        } catch (SQLException e) {
-            return false;
-        }
-    }
+	// Retirer la réservation de la salle "idSalle" (NomS)
+	@Override
+	public boolean annulerReservationSalle(ReservationSalle reservationSalle) {
+		String querySQL = 
+				"DELETE FROM ReserverS\r\n" +
+						"WHERE UNIX_TIMESTAMP(HeureDebuts) = UNIX_TIMESTAMP(CAST(? AS TIME))\r\n" +
+						"	AND UNIX_TIMESTAMP(Dates) = UNIX_TIMESTAMP(CAST(? AS DATE))\r\n" +
+						"    AND IdResp = ?\r\n" +
+						"    AND IdS = ?\r\n" +
+						"    AND IdG = ?\r\n" +
+						";";
 
-    private int chercherIdGroupeTP(GroupeTP groupeTP) {
-        String querySQL =
-                "SELECT IdG\r\n" +
-                        "FROM Groupe G, Formation F\r\n" +
-                        "WHERE G.NomG LIKE ?\r\n" +
-                        "	AND F.NomF LIKE ?\r\n" +
-                        "    AND G.IdF = F.IdF\r\n" +
-                        ";";
+		try {
+			String idResp = reservationSalle.getResponsableTP().identifiant;
+			int idS = chercherIdSalle(reservationSalle.getSalle());
+			int idG = chercherIdGroupeTP(reservationSalle.getGroupeTP());
 
-        try {
-            Connection connection = BD.getConnection();
-            PreparedStatement statement = connection.prepareStatement(querySQL);
-            statement.setString(1, groupeTP.getNomGroupe());
-            statement.setString(2, groupeTP.getNomFormation());
+			Connection connection = BD.getConnection();
+			PreparedStatement statement = connection.prepareStatement(querySQL);
+			statement.setString(1, reservationSalle.getHeureDebut());
+			statement.setString(2, reservationSalle.getDate());
+			statement.setString(3, idResp);
+			statement.setInt(4, idS);
+			statement.setInt(5, idG);
 
-            ResultSet result = statement.executeQuery();
-            result.next();
+			return (statement.executeUpdate() == 1) ? true : false;
+		} catch (SQLException e) {return false;}
+	}
 
-            return result.getInt("IdG");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
-    }
+	private int chercherIdGroupeTP(GroupeTP groupeTP) {
+		String querySQL = 
+				"SELECT IdG\r\n" +
+						"FROM Groupe G, Formation F\r\n" +
+						"WHERE G.NomG LIKE ?\r\n" +
+						"	AND F.NomF LIKE ?\r\n" +
+						"    AND G.IdF = F.IdF\r\n" +
+						";";
 
-    private int chercherIdSalle(Salle salle) {
-        String querySQL =
-                "SELECT IdS\r\n" +
-                        "FROM Salle\r\n" +
-                        "WHERE NomS LIKE ?;";
+		System.out.println(groupeTP.getNomGroupe() + " " + groupeTP.getNomFormation());
 
-        try {
-            Connection connection = BD.getConnection();
-            PreparedStatement statement = connection.prepareStatement(querySQL);
-            statement.setString(1, salle.getNomSalle());
+		try {
+			Connection connection = BD.getConnection();
+			PreparedStatement statement = connection.prepareStatement(querySQL);
+			statement.setString(1, groupeTP.getNomGroupe());
+			statement.setString(2, groupeTP.getNomFormation());
 
-            ResultSet result = statement.executeQuery();
-            result.next();
+			ResultSet result = statement.executeQuery();
 
-            return result.getInt("IdS");
-        } catch (SQLException e) {
-            return -1;
-        }
-    }
+			if(result.next()) {
+				return result.getInt("IdG");
+			} else return -1;
+		} catch (SQLException e) {e.printStackTrace(); return -1;}
+	}
 
-    // Retirer toutes les réservations machine pour la salle "idSalle" (NomS)
-    @Override
-    public boolean annulerToutesReservationsMachinesSalle(ReservationSalle reservationSalle) {
-        return false;
-    }
-	
+	private int chercherIdSalle(Salle salle) {
+		String querySQL = 
+				"SELECT IdS\r\n" +
+						"FROM Salle\r\n" +
+						"WHERE NomS LIKE ?;";
+
+		try {
+			Connection connection = BD.getConnection();
+			PreparedStatement statement = connection.prepareStatement(querySQL);
+			statement.setString(1, salle.getNomSalle());
+
+			ResultSet result = statement.executeQuery();
+			result.next();
+
+			return result.getInt("IdS");
+		} catch (SQLException e) {return -1;}
+	}
+
+	// Retirer toutes les réservations machine pour la salle "idSalle" (NomS)
+	@Override
+	public int annulerToutesReservationsMachinesSalle(ReservationSalle reservationSalle) {
+		String querySQL =
+				"DELETE FROM ReserverM\r\n" +
+						"WHERE IdM IN (\r\n" +
+						"	SELECT M.IdM\r\n" +
+						"    FROM Machine M, Salle S\r\n" +
+						"    WHERE M.IdS = S.IdS\r\n" +
+						"    AND S.NomS LIKE ?\r\n" +
+						")\r\n" +
+						"AND (UNIX_TIMESTAMP(HeureDebutM) < UNIX_TIMESTAMP(CAST(? AS TIME))\r\n" +
+						"AND UNIX_TIMESTAMP(HeureFinM) > UNIX_TIMESTAMP(CAST(? AS TIME)))\r\n" +
+						"AND UNIX_TIMESTAMP(DateM) = UNIX_TIMESTAMP(CAST(? AS DATE));";
+
+		PreparedStatement statement;
+		try {
+			Connection connection = BD.getConnection();
+			statement = connection.prepareStatement(querySQL);
+			statement.setString(1, reservationSalle.getNomSalle());
+			statement.setString(2, reservationSalle.getHeureFin());
+			statement.setString(3, reservationSalle.getHeureDebut());
+			statement.setString(4, reservationSalle.getDate());
+
+			return statement.executeUpdate();
+		} catch (SQLException e) {return 0;}
+	}
+
 	/*
 	@Override
 	public String getPrenomAdmin(String idAdmin) {
@@ -814,56 +884,56 @@ public class Model extends AbstractModel {
 			return "";
 		}
 	}
-	
-	*/
 
-    // get liste des reclamations qui sont traitees par un admin
-    @Override
-    public String[][] getReclamations(String identifiant) {
-        String[][] strings = null;
-        String sqlreservationm = "select ide,idm,typer,descriptionr from concerner,reclamation,traiter "
-                + "where traiter.ida=? and traiter.idr=reclamation.idr "
-                + "and reclamation.idr=concerner.idr "
-                + "and reclamation.etatr='EN_COURS'";
-        try {
-            Connection con = BD.getConnection();
-            PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
-            pstmt.setInt(1, Integer.parseInt(identifiant));
-            ResultSet rs = pstmt.executeQuery();
-            rs.last();
-            int nbLignes = rs.getRow();
-            rs.absolute(0);
-            int nbColonnes = 4;
-            strings = new String[nbLignes][nbColonnes];
-            int i = 0;
-            while (rs.next()) {
-                strings[i][0] = rs.getString("ide");
-                strings[i][1] = rs.getString("idm");
-                strings[i][2] = rs.getString("typer");
-                strings[i][3] = rs.getString("descriptionr");
-                i++;
-            }
-        } catch (Exception e3) {
-            e3.printStackTrace();
-        }
+	 */
 
-        return strings;
-    }
+	// get liste des reclamations qui sont traitees par un admin
+	@Override
+	public String[][] getReclamations(String identifiant) {
+		String[][] strings = null;
+		String sqlreservationm = "select ide,idm,typer,descriptionr from concerner,reclamation,traiter "
+				+ "where traiter.ida=? and traiter.idr=reclamation.idr "
+				+ "and reclamation.idr=concerner.idr "
+				+ "and reclamation.etatr='EN_COURS'"; 
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sqlreservationm);
+			pstmt.setInt(1, Integer.parseInt(identifiant));
+			ResultSet rs=pstmt.executeQuery();
+			rs.last();
+			int nbLignes = rs.getRow();
+			rs.absolute(0);
+			int nbColonnes = 4;
+			strings = new String[nbLignes][nbColonnes];
+			int i = 0;
+			while(rs.next()) {
+				strings[i][0] = rs.getString("ide");
+				strings[i][1] = rs.getString("idm");
+				strings[i][2] = rs.getString("typer");
+				strings[i][3] = rs.getString("descriptionr");
+				i++;
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
 
-    // changer l'etat d'une reclamation de 'EN_COURS' a 'TRAITEE'
-    @Override
-    public void traiterReclamation(String description) {
+		return strings;
+	}
 
-        String sql = "UPDATE reclamation SET ETATR = 'TRAITEE' WHERE reclamation.descriptionr=\"" + description + "\"";
-        try {
-            Connection con = BD.getConnection();
-            PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.executeUpdate();
-        } catch (Exception e3) {
-            e3.printStackTrace();
-        }
+	// changer l'etat d'une reclamation de 'EN_COURS' a 'TRAITEE'
+	@Override
+	public void traiterReclamation(String description) {
 
-    }
+		String sql = "UPDATE reclamation SET ETATR = 'TRAITEE' WHERE reclamation.descriptionr=\""+description+"\"";
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+
+	}
 
     @Override
     public boolean stockerReclamation(Reclamation re) {
@@ -1096,66 +1166,64 @@ public class Model extends AbstractModel {
     }
 
 
-    // get tableau des salles
-    @Override
-    public String[][] getSalles() {
-        String[][] strings = null;
-        try {
-            Connection con = BD.getConnection();
-            PreparedStatement pstmt = con.prepareStatement(
-                    "SELECT noms, count(m.idm) as capacite " +
-                            "FROM reservationmachine.salle s left outer join reservationmachine.machine m " +
-                            "on s.ids = m.ids " +
-                            "group by s.ids, s.noms;");
-            ResultSet rs = pstmt.executeQuery();
-            rs.last();
-            int nbLignes = rs.getRow();
-            rs.absolute(0);
-            int nbColonnes = 2;
-            strings = new String[nbLignes][nbColonnes];
-            int i = 0;
-            while (rs.next()) {
-                strings[i][0] = rs.getString("noms");
-                strings[i][1] = rs.getString("capacite");
-                i++;
-            }
-        } catch (Exception e3) {
-            e3.printStackTrace();
-        }
-        return strings;
-    }
+	// get tableau des salles 
+	@Override
+	public String[][] getSalles() {
+		String[][] strings = null;
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(
+					"SELECT noms, count(m.idm) as capacite "+
+							"FROM reservationmachine.salle s left outer join reservationmachine.machine m "+
+							"on s.ids = m.ids "+
+					"group by s.ids, s.noms;");
+			ResultSet rs=pstmt.executeQuery();
+			rs.last();
+			int nbLignes = rs.getRow();
+			rs.absolute(0);
+			int nbColonnes = 2;
+			strings = new String[nbLignes][nbColonnes];
+			int i = 0;
+			while(rs.next()) {
+				strings[i][0] = rs.getString("noms");
+				strings[i][1] = rs.getString("capacite");
+				i++;
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}		
+		return strings;
+	}
 
-    // ajouter une nouvelle salle
-    @Override
-    public void ajoutSalle(String nomSalle) {
-        try {
-            Connection con = BD.getConnection();
-            PreparedStatement sql = con.prepareStatement("select max(ids) from salle;");
-            ResultSet res = sql.executeQuery();
-            res.next();
-            int idSalle = res.getInt(1) + 1;
-            PreparedStatement sql1 = con.prepareStatement("insert into salle(ids,noms) values(?,?);");
-            sql1.setInt(1, idSalle);
-            sql1.setString(2, nomSalle);
-            sql1.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+	// ajouter une nouvelle salle
+	@Override
+	public void ajoutSalle(String nomSalle){
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement sql = con.prepareStatement( "select max(ids) from salle;");
+			ResultSet res = sql.executeQuery();
+			res.next();
+			int idSalle = res.getInt(1)+1;
+			PreparedStatement sql1 = con.prepareStatement( "insert into salle(ids,noms) values(?,?);");
+			sql1.setInt(1, idSalle);
+			sql1.setString(2, nomSalle);
+			sql1.executeUpdate();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}		
+	};
 
-    ;
-
-    @Override
-    public void supprimerSalle(String nomSalle) {
-        try {
-            Connection con = BD.getConnection();
-            PreparedStatement sql = con.prepareStatement("DELETE FROM salle WHERE noms=?;");
-            sql.setString(1, nomSalle);
-            sql.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
+	@Override
+	public void supprimerSalle(String nomSalle) {
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement sql = con.prepareStatement( "DELETE FROM salle WHERE noms=?;");
+			sql.setString(1, nomSalle);
+			sql.executeUpdate();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+	}
 
 	@Override
 	public boolean miseAJourcompteE(String identifiant, String nom, String prenom, String email, String rePwd) {
@@ -1205,6 +1273,23 @@ public class Model extends AbstractModel {
 		}
 	}
 
+	private int trouverMaxMachine() {
+		String sql="SELECT max(idm) FROM machine";
+		int nbIDM=0;
+		try {
+			Connection con = BD.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rs =pstmt.executeQuery(sql);
+			while (rs.next()) {
+				nbIDM=rs.getInt(1);
+				nbIDM++;
+			}
+			rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return nbIDM;
+	}
 
 	@Override
 	public ArrayList<Etudiant> getTousLesEtudiant() {
@@ -1228,12 +1313,67 @@ public class Model extends AbstractModel {
 		}
 		return etudiants;
 	}
+	// get tableau des machines
+	@Override
+	public String[][] getMachines(String nomS) {
+		String[][] strings = null;
+		try{
+			Connection con =BD.getConnection();
+			PreparedStatement pstmt;
+			if (nomS==null) {
+				pstmt = con.prepareStatement(
+						"select s.noms, m.nomm, m.etatm "
+								+ "from salle s, machine m "
+								+ "where s.ids = m.ids;");
+			} else {
+				pstmt = con.prepareStatement(
+						"select s.noms, m.nomm, m.etatm "
+								+ "from salle s, machine m "
+								+ "where s.ids = m.ids "
+								+ "and s.noms = ?;");
+				pstmt.setString(1, nomS);
+			}
+			ResultSet rs=pstmt.executeQuery();
+			rs.last();
+			int nbLignes = rs.getRow();
+			rs.absolute(0);
+			int nbColonnes = 3;
+			strings = new String[nbLignes][nbColonnes];
+			int i = 0;
+			while(rs.next()) {
+				strings[i][0] = rs.getString("noms");
+				strings[i][1] = rs.getString("nomm");
+				strings[i][2] = rs.getString("etatm");
+				i++;
+			}
+		}catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		return strings;
+	}
 
+	@Override
+	public void supprimerMachine(String nomM) {
+		try {
+			Connection con =BD.getConnection();
+			PreparedStatement sql = con.prepareStatement( "select idm from machine where nomm=?;");
+			sql.setString(1, nomM);
+			ResultSet res = sql.executeQuery();
+			res.next();
+			int idM = res.getInt(1);
+
+			sql = con.prepareStatement( "UPDATE machine SET IDS=null,ETATM = 'INDISPONIBLE' WHERE IDM=?;");
+			sql.setInt(1, idM);
+			sql.executeUpdate();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
+	}
 	@Override
 	public ArrayList<ResponsableTP> getTousLesRespTP() {
 		ArrayList<ResponsableTP> respTPs = new ArrayList<ResponsableTP>();
 		String sqlrespTPs = "select * from resptp ";
-		
+
 		try{
 			Connection con =BD.getConnection();
 			PreparedStatement pstmt = con.prepareStatement(sqlrespTPs);
@@ -1294,7 +1434,7 @@ public class Model extends AbstractModel {
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             ArrayList<String> salles = new ArrayList<String>();
-            
+
             while (rs.next()) {
                 salles.add(rs.getString("NOMS"));
             }
@@ -1316,6 +1456,7 @@ public class Model extends AbstractModel {
         }
         return dispo;
 	}
+
 
 
 

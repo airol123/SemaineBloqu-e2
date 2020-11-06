@@ -7,36 +7,46 @@ import javax.swing.JOptionPane;
 import com.reservationmachines.controler.ResponsableTPControler;
 
 public class AnnulerReservationSalleView {
-	
+
 	private ConsulterReservationSalleView view;
-	
+
 	public AnnulerReservationSalleView(HashMap<String, String> values, ConsulterReservationSalleView view, String idSalle, ResponsableTPControler controler) {
 		this.view = view;
-		
-		// Si le responsable TP a confirmÈ l'annulation,
+		boolean annulation1 = false;
+
+		// Si le responsable TP a confirmÔøΩ l'annulation,
 		if(JOptionPane.showConfirmDialog(
-				null,
-				"Vous Ítes sur le point d'annuler votre rÈservation !\n" +
-				"Souhaitez-vous confirmer ?", 
-				"Annulation de la rÈservation de la salle " + idSalle,
-				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				view,
+				"Vous ÔøΩtes sur le point d'annuler votre rÔøΩservation !\n" +
+						"Souhaitez-vous confirmer ?", 
+						"Annulation de la rÔøΩservation de la salle " + idSalle,
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-			// alors on annule la rÈservation de la salle
-			controler.annulerReservationSalle(values);
+			// alors on annule la rÔøΩservation de la salle
+			annulation1 = controler.annulerReservationSalle(values);
 
-			// et on lui demande s'il souhaite Ègalement annuler 
-			// les rÈservations machines des Ètudiants de son TP pour la mÍme salle
+			// et on lui demande s'il souhaite ÔøΩgalement annuler 
+			// les rÔøΩservations machines des ÔøΩtudiants de son TP pour la mÔøΩme salle
 			if(JOptionPane.showConfirmDialog(
-				null,
-				"Souhaitez-vous Ègalement annuler les rÈservations des Ètudiants " +
-				"de votre TP ?", 
-				"Annulation des rÈservations des machines de la salle " + idSalle,
-				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				
-				// S'il confirme, alors on annule toutes les rÈservations machines
-				controler.annulerToutesReservationsMachinesSalle(values);
+					view,
+					"Souhaitez-vous ÔøΩgalement annuler les rÔøΩservations des ÔøΩtudiants " +
+							"de votre TP ?", 
+							"Annulation des rÔøΩservations des machines de la salle " + idSalle,
+							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+				// S'il confirme, alors on annule toutes les rÔøΩservations machines
+				int i = controler.annulerToutesReservationsMachinesSalle(values);
+
+				String message = (annulation1) ? "L'annulation de votre r√©servation a bien √©t√© effectu√©e !" : "Une erreur s'est produite lors de la tentative d'annulation !";
+				message += "\r\n";
+				message += (i > 0) ? "Il y a eu " + i + " annulation(s) de r√©servation machine !" : "Pas d'annulation de r√©servation machine !";
+				JOptionPane.showMessageDialog(view, message);
+			} else if(annulation1) {
+				JOptionPane.showMessageDialog(view, "L'annulation de votre r√©servation a bien √©t√© effectu√©e !", "Confirmation d'annulation", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(view, "Une erreur s'est produite lors de la tentative d'annulation !", "Erreur", JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 			this.view.updateTable();
 		}
 	}

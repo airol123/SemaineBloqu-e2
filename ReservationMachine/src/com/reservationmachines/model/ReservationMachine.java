@@ -8,15 +8,15 @@ public class ReservationMachine extends Reservation {
 	private Machine machine;
 	private Timestamp heureDebut;
 	private Timestamp heureFin;
-	
+
 	public ReservationMachine(Etudiant etudiant, Machine machine,
-		Timestamp heureDebut, Timestamp heureFin) {
+			Timestamp heureDebut, Timestamp heureFin) {
 		this.etudiant = etudiant;
 		this.machine = machine;
 		this.heureDebut = heureDebut;
 		this.heureFin = heureFin;
 	}
-	
+
 	// Revoie le nom de la machine qui correspond � la r�servation
 	public String getNomMachine() {
 		return this.machine.getNomMachine();

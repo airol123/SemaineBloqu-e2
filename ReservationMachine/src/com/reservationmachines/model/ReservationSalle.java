@@ -12,7 +12,7 @@ public class ReservationSalle extends Reservation {
 	private Timestamp heureDebut;
 	private Timestamp heureFin;
 	private String formation;
-	
+
 	public ReservationSalle(String nomCours, ResponsableTP responsableTP, Salle salle, GroupeTP groupeTP, String formation, Date date, Timestamp heureDebut, Timestamp heureFin) {
 		this.formation = formation;
 		this.nomCours = nomCours;
@@ -23,13 +23,22 @@ public class ReservationSalle extends Reservation {
 		this.heureDebut = heureDebut;
 		this.heureFin = heureFin;
 	}
-	
+
 	public ReservationSalle(ResponsableTP respTP, Salle salle, GroupeTP groupe, Date date, Timestamp heureDebut) {
 		this.responsableTP = respTP;
 		this.salle = salle;
 		this.groupeTP = groupe;
 		this.date = date;
 		this.heureDebut = heureDebut;
+	}
+
+	public ReservationSalle(ResponsableTP respTP, Salle salle, GroupeTP groupe, Date date, Timestamp heureDebut, Timestamp heureFin) {
+		this.responsableTP = respTP;
+		this.salle = salle;
+		this.groupeTP = groupe;
+		this.date = date;
+		this.heureDebut = heureDebut;
+		this.heureFin = heureFin;
 	}
 
 	public String getNomCours() {

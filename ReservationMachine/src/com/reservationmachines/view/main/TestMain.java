@@ -1,15 +1,15 @@
 package com.reservationmachines.view.main;
 
 public class TestMain {
-    // il consiste a tester les interfaces
-    public static void main(String[] args) throws Exception {
-        //SeConnecterView connexion = new SeConnecterView();
-        // ConsulterReservationView con=new ConsulterReservationView();
-        // ConsulterMonProfil c =new ConsulterMonProfil();
-        //PageGuacamole pg=new PageGuacamole();
-        //FaireReclamationView re= new FaireReclamationView();
+	// il consiste a tester les interfaces
+	public static void main(String[] args) throws Exception {
+		//SeConnecterView connexion = new SeConnecterView();
+		// ConsulterReservationView con=new ConsulterReservationView();
+		// ConsulterMonProfil c =new ConsulterMonProfil();
+		//PageGuacamole pg=new PageGuacamole();
+		//FaireReclamationView re= new FaireReclamationView();
 
-    }
+	}
 
 
 

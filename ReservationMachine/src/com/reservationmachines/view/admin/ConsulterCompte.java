@@ -14,6 +14,9 @@ import java.awt.event.ActionEvent;
 import java.net.URL;
 
 public class ConsulterCompte extends JFrame {
+
+    //private static final long serialVersionUID = 1L;
+
     private JPanel contentPane;
     private JTable table;
 
@@ -27,22 +30,22 @@ public class ConsulterCompte extends JFrame {
     private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
     private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
 
-    /**
-     * Create the frame.
-     */
-    public ConsulterCompte(AdminControler controler) {
-        this.controler = controler;
-        this.setLayout(null);
-        this.setTitle("gestion de compte");
-        lblBackground.setIcon(icon); // Définir l'icône à afficher par le composant d'étiquette
-        lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 700, 500);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
+	/**
+	 * Create the frame.
+	 */
+	public ConsulterCompte(AdminControler controler) {
+		this.controler = controler;
+		this.setLayout(null);
+		this.setTitle("gestion de compte");
+		lblBackground.setIcon(icon); // Définir l'icône à afficher par le composant d'étiquette
+		lblBackground.setBounds(0, 0, icon.getIconWidth(), icon.getIconHeight());
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 700, 500);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 
         JLabel lblNewLabel = new JLabel("Consultation des Comptes");
         lblNewLabel.setBounds(50, 10, 220, 15);
@@ -52,7 +55,25 @@ public class ConsulterCompte extends JFrame {
         scrollPane.setBounds(50, 42, 566, 350);
         contentPane.add(scrollPane);
 
-        table = new JTable();
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+				controler.getCompteE(),
+				new String[] {
+						"Tpye", "Identifiant", "Nom", "Prenom"
+				}
+				));
+		scrollPane.setViewportView(table);
+
+		btnAjouter = new JButton("Ajouter");
+		btnAjouter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CreerCompteView am = new CreerCompteView(controler);
+				am.setVisible(true);
+			}
+		});
+		btnAjouter.setBounds(50, 400, 100, 23);
+		contentPane.add(btnAjouter);
+        /*table = new JTable();
         table.setModel(new DefaultTableModel(
                 controler.getCompteE(),
                 new String[] {
@@ -60,7 +81,7 @@ public class ConsulterCompte extends JFrame {
                 }
         ));
         scrollPane.setViewportView(table);
-        
+
         btnAjouter = new JButton("Ajouter");
         btnAjouter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
@@ -70,7 +91,7 @@ public class ConsulterCompte extends JFrame {
             }
         });
         btnAjouter.setBounds(50, 400, 100, 23);
-        contentPane.add(btnAjouter);
+        contentPane.add(btnAjouter);*/
 
 
         btnModifier = new JButton("Modifier");

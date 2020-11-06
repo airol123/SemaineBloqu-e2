@@ -16,7 +16,7 @@ public class AppMain {
 		AdminControler c3 = new AdminControler(model);
 		new SeConnecterView(c1, c2, c3);
 	}
-	
+
 	public static void main(String[] args) {
 		new AppMain();
 	}
