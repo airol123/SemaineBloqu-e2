@@ -25,6 +25,7 @@ public class ConsulterCompte extends JFrame {
     private JButton btnModifier;
     private JButton btnSupprimer;
     private JButton btnRetour;
+    private JLabel lbIMsgC = new JLabel();
     // background && font
     private JLabel lblBackground = new JLabel();
     private URL resource = this.getClass().getResource("ReservationMachine/images/background2.jpg");
@@ -50,7 +51,9 @@ public class ConsulterCompte extends JFrame {
         JLabel lblNewLabel = new JLabel("Consultation des Comptes");
         lblNewLabel.setBounds(50, 10, 220, 15);
         contentPane.add(lblNewLabel);
-
+        lbIMsgC.setForeground(Color.RED);
+        lbIMsgC.setBounds(450, 85, 200, 25);
+        contentPane.add(lbIMsgC);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(50, 42, 566, 350);
         contentPane.add(scrollPane);
@@ -67,6 +70,7 @@ public class ConsulterCompte extends JFrame {
 		btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			    dispose();
 				CreerCompteView am = new CreerCompteView(controler);
 				am.setVisible(true);
 			}
@@ -103,7 +107,7 @@ public class ConsulterCompte extends JFrame {
         		String type=table.getValueAt(count,0).toString();
                 controler.id(id);
                 controler.type(type);
-                ModifierCompteView mce = new ModifierCompteView(controler);
+                ModifierCompteEtudiantView mce = new ModifierCompteEtudiantView(controler);
                 mce.getjFrame().setVisible(true);
 
             }

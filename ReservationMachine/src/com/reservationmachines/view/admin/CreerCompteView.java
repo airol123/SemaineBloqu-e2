@@ -34,7 +34,7 @@ public class CreerCompteView extends JFrame implements ActionListener {
 	private JTextField email;
 	private JTextField nom;
 	private JTextField prenom;
-
+	private JLabel lbIMsgC = new JLabel();
 	private AdminControler controler;
 	private JRadioButton btnE = new JRadioButton("Etudiant");
 	private JRadioButton btnR = new JRadioButton("RésponsableTP");
@@ -80,7 +80,9 @@ public class CreerCompteView extends JFrame implements ActionListener {
 		lblMotDePasse = new JLabel("Mot de passe");
 		lblMotDePasse.setBounds(20, 97, 173, 15);
 		contentPane.add(lblMotDePasse);
-
+		lbIMsgC.setForeground(Color.RED);
+		lbIMsgC.setBounds(450, 85, 200, 25);
+		contentPane.add(lbIMsgC);
 		lblEmail = new JLabel("Email");
 		lblEmail.setBounds(20, 122, 173, 15);
 		contentPane.add(lblEmail);
@@ -151,6 +153,8 @@ public class CreerCompteView extends JFrame implements ActionListener {
 						prenom.getText()
 						);
 			}
+			this.dispose();
+			ConsulterCompte cp= new ConsulterCompte(controler);
 		}
 	}
 }
