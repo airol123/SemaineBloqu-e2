@@ -26,7 +26,7 @@ public class ResponsableTPMainView extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private JButton btnConsulterLesSalles;
 	private JButton btnReserverUneNouvelle;
-	
+
 	private ResponsableTPControler controler;
 	private JButton btnDeconnexion;
 	private JLabel lblBonjour;
@@ -36,7 +36,7 @@ public class ResponsableTPMainView extends JFrame implements ActionListener {
 	 */
 	public ResponsableTPMainView(ResponsableTPControler controler) {
 		this.controler = controler;
-		
+
 		setTitle("Interface principale - ResponsableTP");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 584, 382);
@@ -49,7 +49,7 @@ public class ResponsableTPMainView extends JFrame implements ActionListener {
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
-		
+
 		JLabel lblNewLabel = new JLabel("Responsable de TP");
 		lblNewLabel.setFont(new Font("Segoe UI Symbol", Font.BOLD, 18));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -59,7 +59,7 @@ public class ResponsableTPMainView extends JFrame implements ActionListener {
 		gbc_lblNewLabel.gridx = 2;
 		gbc_lblNewLabel.gridy = 0;
 		contentPane.add(lblNewLabel, gbc_lblNewLabel);
-		
+
 		btnReserverUneNouvelle = new JButton("R\u00E9server une nouvelle salle");
 		GridBagConstraints gbc_btnRserverUneNouvelle = new GridBagConstraints();
 		gbc_btnRserverUneNouvelle.fill = GridBagConstraints.BOTH;
@@ -67,7 +67,7 @@ public class ResponsableTPMainView extends JFrame implements ActionListener {
 		gbc_btnRserverUneNouvelle.gridx = 2;
 		gbc_btnRserverUneNouvelle.gridy = 6;
 		btnReserverUneNouvelle.addActionListener(this);
-		
+
 		lblBonjour = new JLabel("Bonjour " + this.controler.getPrenom() + " !");
 		lblBonjour.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GridBagConstraints gbc_lblBonjour = new GridBagConstraints();
@@ -76,7 +76,7 @@ public class ResponsableTPMainView extends JFrame implements ActionListener {
 		gbc_lblBonjour.gridx = 0;
 		gbc_lblBonjour.gridy = 1;
 		contentPane.add(lblBonjour, gbc_lblBonjour);
-		
+
 		btnConsulterLesSalles = new JButton("Consulter les salles r\u00E9serv\u00E9es");
 		GridBagConstraints gbc_btnConsulterLesSalles = new GridBagConstraints();
 		gbc_btnConsulterLesSalles.fill = GridBagConstraints.BOTH;
@@ -86,7 +86,7 @@ public class ResponsableTPMainView extends JFrame implements ActionListener {
 		contentPane.add(btnConsulterLesSalles, gbc_btnConsulterLesSalles);
 		btnConsulterLesSalles.addActionListener(this);
 		contentPane.add(btnReserverUneNouvelle, gbc_btnRserverUneNouvelle);
-		
+
 		btnDeconnexion = new JButton("D\u00E9connexion");
 		GridBagConstraints gbc_btnDconnexion = new GridBagConstraints();
 		gbc_btnDconnexion.insets = new Insets(0, 0, 5, 5);
