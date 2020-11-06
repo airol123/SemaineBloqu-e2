@@ -16,7 +16,7 @@ public class BD {
         try {
             // bd driver
             Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Succ�s driver");
+            System.out.println("Succ\u00E9s driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("pb: Class.forName");
@@ -24,7 +24,7 @@ public class BD {
 
         try {
             con = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Succ�s Connexion");
+            System.out.println("Succ\u00E9s Connexion");
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("pb:JDBC ");

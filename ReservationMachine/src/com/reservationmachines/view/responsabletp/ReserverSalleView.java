@@ -262,7 +262,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		String heureDebut = cbHeureDebut.getSelectedItem().toString();
 		String heureFin = cbHeureFin.getSelectedItem().toString();
 		
-		// Si toutes les valeurs sont renseign�es
+		// Si toutes les valeurs sont renseignées
 		if(!(date.equals("") && heureDebut.equals("") && heureFin.equals(""))) {
 			Object[][] objects = controler.getValeursSallesDisponibles(date, heureDebut, heureFin);
 			this.table.setModel(new DefaultTableModel(objects, controler.getEnteteSallesDisponibles()));
@@ -278,7 +278,7 @@ public class ReserverSalleView extends JFrame implements ActionListener {
 		// Suppression du jour
 		date = date.substring(5);
 		
-		// R�cup�ration des donn�es de la date
+		// Récupération des données de la date
 		String jour = date.split("/")[0];
 		String mois = date.split("/")[1];
 		String annee = date.split("/")[2];

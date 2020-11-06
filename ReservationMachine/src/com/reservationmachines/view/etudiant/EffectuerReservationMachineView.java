@@ -29,8 +29,8 @@ public class EffectuerReservationMachineView {
     private JLabel lbFin = new JLabel();
     private JButton btnRetour = new JButton("Retourner");
     private JButton btnValider = new JButton("Valider");
-    private DateChooserJButton btnDateD=new DateChooserJButton();
-    private DateChooserJButton btnDateF=new DateChooserJButton();
+    private DateChooserJButton btnDateD = new DateChooserJButton();
+    private DateChooserJButton btnDateF = new DateChooserJButton();
 
 
     // background && font
@@ -39,12 +39,11 @@ public class EffectuerReservationMachineView {
     private ImageIcon icon = new ImageIcon("ReservationMachine/images/background2.jpg");
     private Font font = new Font("Arial", Font.BOLD, 36);
 
-    String[] listData ;//= new String[]{"ME403","ME405",  "ME407", "ME410"};
+    String[] listData;//= new String[]{"ME403","ME405",  "ME407", "ME410"};
 
-   
-    
+
     private EtudiantControler controler;
-    
+
     public EffectuerReservationMachineView(EtudiantControler controler) {
 
         this.controler = controler;
@@ -65,10 +64,10 @@ public class EffectuerReservationMachineView {
     }
 
     public void init() {
-    	
-        listData= new String[controler.trouverToutesLesSalles().size()];
-        for (int i = 0; i <controler.trouverToutesLesSalles().size() ; i++) {
-            listData[i]=controler.trouverToutesLesSalles().get(i).getNomSalle();
+
+        listData = new String[controler.trouverToutesLesSalles().size()];
+        for (int i = 0; i < controler.trouverToutesLesSalles().size(); i++) {
+            listData[i] = controler.trouverToutesLesSalles().get(i).getNomSalle();
         }
         final JComboBox<String> comboBox = new JComboBox<String>(listData);
 
@@ -79,7 +78,7 @@ public class EffectuerReservationMachineView {
         fieldPanel.setLayout(null);
         lbNom.setText(controler.getPrenom());
         lbIMsgC.setForeground(Color.RED);
-        lbIMsgC.setBounds(450, 300, 200, 25);
+        lbIMsgC.setBounds(450, 300, 300, 25);
         lbSal.setBounds(360, 150, 100, 30);
         comboBox.setBounds(500, 150, 220, 30);
         lbDeb.setBounds(360, 190, 100, 30);
@@ -92,8 +91,8 @@ public class EffectuerReservationMachineView {
         btnValider.setBounds(360, 400, 180, 30);
         btnRetour.setBounds(540, 400, 180, 30);
         btnDateD.setBounds(500, 190, 220, 30);
-        btnDateD.setBackground(new java.awt.Color(176,196,222));
-        btnDateF.setBackground(new java.awt.Color(176,196,222));
+        btnDateD.setBackground(new java.awt.Color(176, 196, 222));
+        btnDateF.setBackground(new java.awt.Color(176, 196, 222));
         btnDateF.setBounds(500, 230, 220, 30);
 
         // Définit l'élément sélectionné par défaut
@@ -137,7 +136,30 @@ public class EffectuerReservationMachineView {
             public void actionPerformed(ActionEvent e) {
                 btnDateD.getDateActuelle();
                 btnDateF.getDateActuelle();
+              /*  int choix = controler.enregistrerReservation(comboBox.getSelectedItem().toString(), btnDateD.getDateActuelle(), btnDateF.getDateActuelle())
+                switch (choix) {
+                    case 1:
+                        lbIMsgC.setText("La salle a été réservée");
+                        break;
+                    case 2:
+                        lbIMsgC.setText("Opération réussie!");
+                        break;
+                    case 3:
+                        lbIMsgC.setText("Raison inconnue, l'opération a échoué");
+                        break;
+                    case 4:
+                        lbIMsgC.setText("Non machine disponible dans cette salle");
+                        break;
+                }*/
+
+
+               /* if (controler.enregistrerReservation(comboBox.getSelectedItem().toString(), btnDateD.getDateActuelle(), btnDateF.getDateActuelle())) {
+                    lbIMsgC.setText("Opération réussie!");
+                } else {
+                    lbIMsgC.setText("Non machine disponible");
+                }*/
                 int choix = controler.enregistrerReservation(comboBox.getSelectedItem().toString(), btnDateD.getDateActuelle(), btnDateF.getDateActuelle());
+                System.out.println(choix);
                 switch (choix) {
                     case 1:
                         lbIMsgC.setText("La salle a été réservée");

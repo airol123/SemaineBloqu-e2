@@ -1299,14 +1299,13 @@ public class Model extends AbstractModel {
                 salles.add(rs.getString("NOMS"));
             }
             rs.close();
-            
+
             int i=0;
             boolean trouve=false;
-            while(i<salles.size()&& trouve==false) {
-            	System.out.println("salle:"+salles.get(i).toString());
-            	if(salle.equals(salles.get(i).toString())) {
+            while(i<salles.size()&&(trouve==false)) {
+            	if(salles.get(i).equals(salle)) {
+            	    trouve=true;
             		dispo=false;
-            		trouve=true;
             	}else {
             		dispo=true;
             	}
