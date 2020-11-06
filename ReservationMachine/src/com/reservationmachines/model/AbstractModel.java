@@ -57,5 +57,7 @@ public abstract class AbstractModel {
 	public abstract boolean miseAJourcompteR(String identifiant, String nom, String prenom, String email,
 			String rePwd);
 	public abstract Boolean estDisponibleSalle(String salle, String dateD, String dateF);
+	public abstract boolean supprimerCompteR(String id);
+	public abstract boolean supprimerCompteE(String id);
 }
 
