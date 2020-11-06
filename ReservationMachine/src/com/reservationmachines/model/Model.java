@@ -890,8 +890,8 @@ public class Model extends AbstractModel {
 	@Override
 	public String[][] getReclamations(String identifiant) {
 		String[][] strings = null;
-		String sqlreservationm = "select ide,idm,typer,descriptionr from concerner,reclamation,traiter "
-				+ "where traiter.ida=? and traiter.idr=reclamation.idr "
+		String sqlreservationm = "select distinct ide,idm,typer,descriptionr from concerner,reclamation,traiter "
+				+ "where traiter.ida=? "
 				+ "and reclamation.idr=concerner.idr "
 				+ "and reclamation.etatr='EN_COURS'"; 
 		try{
